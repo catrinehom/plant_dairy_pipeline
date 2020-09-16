@@ -7,10 +7,11 @@ Version: 1.0
 Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## download_genes.py [-f <file>] [-n <name>] [-e <email>]
+    ## download_genes.py [-f <file with gene names>] [-n <name of pathway/genes>] [-e <your personal email>] [-p <path to dairy pipeline>]
     ## -f, file with gene names (str)
     ## -n, name of pathway/genes, e.g. b12 (str)
     ## -e, your personal email, for NCBI (str)
+    ## -p, path to dairy pipeline, (str)
 
 # Output:
     ## Multifasta files with all search results for each gene
@@ -23,26 +24,33 @@ Author: Catrine Høm and Line Andresen
 # Import libraries
 from Bio import Entrez
 import re
+import os
 
-###########################################################################
+################################################################################
 # GET INPUT
-###########################################################################
+################################################################################
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Parse input from command line
     parser = ArgumentParser()
-    parser.add_argument("-f", dest="f", help="file with gene names")
-    parser.add_argument("-n", dest="n", help="name of pathway/genes")
-    parser.add_argument("-e", dest="e", help="your personal email")
+    parser.add_argument("-f", dest="f", help="file with gene names", type=str)
+    parser.add_argument("-n", dest="n", help="name of pathway/genes", type=str)
+    parser.add_argument("-e", dest="e", help="your personal email", type=str)
+    parser.add_argument("-o", dest="p", help="path to dairy pipeline", type=str)
     args = parser.parse_args()
 
     # Define input as variables
     gene_file = args.f
     pathway_name = args.n
     email = args.e
+    main_path = args.p
 
-    # Directory to output to (relative path to script or absolute path)
-    outdir = '../data/{}_db'.format(pathway_name)
+    # Directory to output to
+    outdir = "{}/data/mydbfinder_db".format(main_path)
+
+    # Make output directory if it doesn't exists
+    if not os.path.exists(outdir):
+        os.makedirs(outdir)
 
     # Search term after gene for on NCBI (can be "").
     search_info = "[gene name] AND (Fungi[Organism] OR Bacteria[Organism]) AND (alive[prop] OR replaced[Properties] OR discontinued[Properties]) "
@@ -58,9 +66,9 @@ if __name__ == '__main__':
     gene_file.close()
 
 
-###########################################################################
+################################################################################
 # DOWNLOAD GENES
-###########################################################################
+################################################################################
 
     # For all genes in gene_list
     for gene in gene_list:
@@ -68,7 +76,7 @@ if __name__ == '__main__':
         search_term = gene + search_info
 
         ### Search on NCBI for gene
-        print('Searching on NCBI for: {}'.format(search_term))
+        print("Searching on NCBI for: {}".format(search_term))
         Entrez.email = email  # Always tell NCBI who you are
         search_handle = Entrez.esearch(db="gene",
                                        term=search_term,
@@ -85,10 +93,10 @@ if __name__ == '__main__':
 
 
         # Print basic statistics
-        print('No. of records found: {}'.format(count))
-        print('No. of records retreived: {}'.format(retrieved))
-        print('All records retreived?: {}'.format(all_records))
-        print('(Maximum no. of records set to retrieve is: {})\n'.format(retmax))
+        print("No. of records found: {}".format(count))
+        print("No. of records retreived: {}".format(retrieved))
+        print("All records retreived?: {}".format(all_records))
+        print("(Maximum no. of records set to retrieve is: {})\n".format(retmax))
 
 
         # Change here, if you only want a subset of the results (mainly for testing)
@@ -97,18 +105,18 @@ if __name__ == '__main__':
 
 
         ### Find gene information
-        print('Downloading gene information...')
+        print("Downloading gene information...")
         handle = Entrez.efetch(db="gene", id=idlist, rettype="fasta", retmode="text")
         records = str(handle.read())
-        splitrecord=(re.split('\n\d*\.\ ', records))
-        print('Done.')
+        splitrecord=(re.split("\n\d*\.\ ", records))
+        print("Done.")
 
 
         # Find patterns
-        print('Finding accesion number and start/stop in genome...')
+        print("Finding accesion number and start/stop in genome...")
 
         # Define vartiables
-        acc_pattern = '([A-Za-z_0-9]*\.?[0-9]*) \(([0-9]*)\.\.([0-9]*)'
+        acc_pattern = "([A-Za-z_0-9]*\.?[0-9]*) \(([0-9]*)\.\.([0-9]*)"
         info = list()
 
         # Find accession number, start and stop.
@@ -117,21 +125,21 @@ if __name__ == '__main__':
             pat_res = re.search(acc_pattern,record)
             if pat_res != None:
                 info.append([pat_res.group(1),pat_res.group(2),pat_res.group(3)])
-        print('Done.')
+        print("Done.")
 
         # Did everything got downloaded as fasta?
         to_downloaded = len(info)
         all_to_download = retrieved == len(info)
 
-        print('No. of records to download: {}'.format(to_downloaded))
-        print('All records that was retrieved is ready to download?: {}\n'.format(all_to_download))
+        print("No. of records to download: {}".format(to_downloaded))
+        print("All records that was retrieved is ready to download?: {}\n".format(all_to_download))
 
 
         ### Download and write result to file
-        print('Downloading records and writing to file...')
+        print("Downloading records and writing to file...")
 
         # Open output file
-        out_handle = open("{}/{}.fasta".format(outdir,gene.split(' ')[0]), "w")
+        out_handle = open("{}/{}.fasta".format(outdir,gene.split(" ")[0]), "w")
 
         # Define variable
         fastas = str()
@@ -144,5 +152,5 @@ if __name__ == '__main__':
             out_handle.write(handle.read()[:-1])
 
         out_handle.close()
-        print('All done.\n')
+        print("All done.\n")
 

@@ -67,9 +67,13 @@ done
 path=$(echo `realpath $0` | rev | cut -d'/' -f4- | rev)
 echo -e  "\nRoot path is: ${path}\n"
 
+# Giving permissions
+echo -e "Giving permissions to folder ${p} recursively\n"
+chmod -R 774 ${path}
+
 # Making project folders
 echo -e "Creating folders:\n"
-mkdir -p ${path}/data/${n}/
+#mkdir -p ${path}/data/${n}/
 mkdir -p ${path}/results/${n}${date}/summary
 mkdir -p ${path}/doc/${n}
 echo -e "\nCreated project folders.\n"
@@ -79,33 +83,33 @@ echo -e "\nCreated project folders.\n"
 ################################################################################
 
 # Unzip compressed raw data
-tar -zxvf ${path}/${n}/data/raw.tar.gz
+#tar -zxvf ${path}/${n}/data/raw.tar.gz
 # Run foodQCpipeline and collect results in results/${n}/summary
-${path}/src/foodqcpipeline/run_foodqcpipeline.sh -p ${path} -n ${n}${date}      
-${path}/src/foodqcpipeline/collect_foodqcpipeline.py -p ${path} -n ${n}${date}
+#${path}/src/foodqcpipeline/run_foodqcpipeline.sh -p ${path} -n ${n}${date}      
+#${path}/src/foodqcpipeline/collect_foodqcpipeline.py -p ${path} -n ${n}${date}
 # Compress raw data
-tar -xcvf raw.tar.gz raw
+#tar -xcvf raw.tar.gz raw
 
 ################################################################################
 # RUNNING KMERFINDER 
 ################################################################################
 
-${path}/src/kmerfinder/run_kmerfinder.sh -p ${path} -n ${n}${date}
-${path}/src/kmerfinder/collect_kmerfinder.sh -p ${path} -n ${n}${date}
+#${path}/src/kmerfinder/run_kmerfinder.sh -p ${path} -n ${n}${date}
+#${path}/src/kmerfinder/collect_kmerfinder.sh -p ${path} -n ${n}${date}
 
 ################################################################################
 # RUNNING RESFINDER
 ################################################################################
 
-${path}/src/resfinder/run_resfinder.sh -p ${path} -n ${n}${date}
-${path}/src/resfinder/collect_resfinder.sh -p ${path} -n ${n}${date}
+#${path}/src/resfinder/run_resfinder.sh -p ${path} -n ${n}${date}
+#${path}/src/resfinder/collect_resfinder.sh -p ${path} -n ${n}${date}
 
 ################################################################################
 # RUNNING GENEFINDER
 ################################################################################
 
-${path}/src/genefinder/run_genefinder.sh -p ${path} -n ${n}${date}
-${path}/src/genefinder/collect_genefinder.sh -p ${path} -n ${n}${date}
+#${path}/src/genefinder/run_genefinder.sh -p ${path} -n ${n}${date}
+#${path}/src/genefinder/collect_genefinder.sh -p ${path} -n ${n}${date}
 
 ################################################################################
 # GOODBYE

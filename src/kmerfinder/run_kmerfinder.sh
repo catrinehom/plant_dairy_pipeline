@@ -64,12 +64,12 @@ fi
 date=$(date "+%Y-%m-%d %H:%M:%S")
 echo "Starting kmerfinder_run.sh ($date)"
 echo "-----------------------------------------------"
-echo -e "kmerfinder_run is a tool to run kmerfinder.\n"
+echo -e "kmerfinder_run is a script to run kmerfinder.\n"
 echo "Get input is done."
 
 # Print files used
-echo "Name of project used is ${n}"
-echo "Path used is ${p}"
+echo "Name of project used is: ${n}"
+echo "Path used is: ${p}"
 
 echo -e "Time stamp: $SECONDS seconds.\n"
 
@@ -100,15 +100,15 @@ count=$((1))
 for sample in $samples
   do
   echo  "Starting with: $sample ($count/$total)"
-  cd ${p}/results/${n}/${tool_name}
-  mkdir ${sample}
+  cd ${outputfolder}
+  [ -d $sample ] && echo "Output directory: ${sample} already exists. Files will be overwritten." || mkdir $sample
   cd ${sample}
 
   for database in $databases
     do
       # Define tool inputs
-      i=${p}/data/${n}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
-      o=${p}/results/${n}/kmerfinder/${sample}
+      i=${p}/data/${n}/foodqcpipeline/${sample}/Trimmed/*.fq.gz
+      o=${outputfolder}/${sample}
       t=$(echo $database | cut -f1 -d'.')
       tax=${t}.tax
 

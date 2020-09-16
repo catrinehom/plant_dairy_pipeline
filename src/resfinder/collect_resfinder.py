@@ -1,13 +1,13 @@
-"#!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Program: collect_kmerfinder.py
-Description: This program collect the results from all samples made from KmerFinder
+Program: collect_resfinder.py
+Description: This program collect the results from all samples made from ResFinder
 Version: 1.0
 Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## collect_kmerfinder.py [-p <path to dairy pipeline>] [-n <name of project>]
+    ## collect_resfinder.py [-p <path to dairy pipeline>] [-n <name of project>]
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
 
@@ -46,7 +46,7 @@ if __name__ == "__main__":
     # Define variables
     samples = [f for f in listdir(main_path + "/data/" + project_name + "/foodqcpipeline")]
     raw_results_outfolder = main_path + "/results/" + project_name + "/summary/"
-    raw_results_outfile = raw_results_outfolder + "kmerfinder_results.txt"
+    raw_results_outfile = "resfinder_results.txt"
     lines = list()
     header_made = False
 
@@ -58,14 +58,14 @@ if __name__ == "__main__":
     print("Start collecting results in one common file for all samples...")
     for sample in samples:
         # Define path for each sample
-        sample_path = main_path + "/results/" + project_name + "/kmerfinder/" + sample + "/"
+        sample_path = main_path + "/results/" + project_name + "/resfinder/" + sample + "/"
 
         # Find file in path
         kmerfinder_files = [f for f in listdir(sample_path) if isfile(join(sample_path, f))]
 
 
         for file in kmerfinder_files:
-            if file.endswith("_results.txt"):
+            if file == ("results_tab.txt"):
 
                 # Define path for each sample
                 sample_result = sample_path + file
@@ -95,7 +95,7 @@ if __name__ == "__main__":
                 outfile.write(line)
         outfile.close()
     except IOError as error:
-            sys.exit("Can't write to file: {}".format(error))
+            sys.exit("Can"t write to file: {}".format(error))
 
     print("Results can be found in: {}.".format(raw_results_outfile))
 

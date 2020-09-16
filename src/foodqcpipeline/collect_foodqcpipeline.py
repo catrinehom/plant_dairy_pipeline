@@ -29,11 +29,11 @@ from os.path import isfile, join
 # GET INPUT
 ################################################################################
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     # Parse input from command line
     parser = ArgumentParser()
-    parser.add_argument("-p", dest="p", help="path to main", required=True)
-    parser.add_argument("-n", dest="n", help="name of project", required=True)
+    parser.add_argument("-p", dest="p", help="path to main", required=True, type=str)
+    parser.add_argument("-n", dest="n", help="name of project", required=True, type=str)
     args = parser.parse_args()
 
     # Define input as variables
@@ -45,49 +45,49 @@ if __name__ == '__main__':
 ################################################################################
 
     # Define variables
-    samples = [f for f in listdir(main_path + '/data/' + project_name + '/foodqcpipeline')]
-    raw_results_outfile = main_path + '/results/' + project_name + '/summary/QC_results.txt'
+    samples = [f for f in listdir(main_path + "/data/" + project_name + "/foodqcpipeline")]
+    raw_results_outfile = main_path + "/results/" + project_name + "/summary/QC_results.txt"
     lines = list()
     header_made = False
 
     # Loop through samples
-    print('Start collecting results in one common file for all samples...')
+    print("Start collecting results in one common file for all samples...")
     for sample in samples:
             # Define path for each sample
-            sample_path = main_path + '/data/' + project_name + '/foodqcpipeline/' + sample + '/QC/'
+            sample_path = main_path + "/data/" + project_name + "/foodqcpipeline/" + sample + "/QC/"
 
             # Find files in path
             qc_files = [f for f in listdir(sample_path) if isfile(join(sample_path, f))]
 
             # Find qc result files
             for file in qc_files:
-                if file.endswith('.qc.txt'):
-                    sample_result = main_path + '/data/' + project_name + '/foodqcpipeline/' + sample + '/QC/' + file
+                if file.endswith(".qc.txt"):
+                    sample_result = main_path + "/data/" + project_name + "/foodqcpipeline/" + sample + "/QC/" + file
                 else:
                     print("Error: couldnt find qc file for {}.".format(sample))
 
             # Open file
-            with open(sample_result, 'r') as f:
+            with open(sample_result, "r") as f:
                 # If this is the first sample, we want to create a header
                 if header_made == False:
-                        lines.append('Sample_name\t'+f.readline())
+                        lines.append("Sample_name\t"+f.readline())
                         header_made = True
 
                         # Collect results in first sample
                         for line in f:
-                                lines.append(sample+'\t'+line)
+                                lines.append(sample+"\t"+line)
                 else:
                     # Skip header in rest of the samples
                     next(f)
                     # Collect results
                     for line in f:
-                            lines.append(sample+'\t'+line)
+                            lines.append(sample+"\t"+line)
 
     print("Done")
 
     # Write raw results to file
     try:
-        outfile = open(raw_results_outfile, 'w')
+        outfile = open(raw_results_outfile, "w")
         for line in lines:
                 outfile.write(line)
         outfile.close()

@@ -1,4 +1,4 @@
-"#!/usr/bin/env python3
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Program: collect_kmerfinder.py
@@ -7,9 +7,10 @@ Version: 1.0
 Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## collect_kmerfinder.py [-p <path to dairy pipeline>] [-n <name of project>]
+    ## collect_kmerfinder.py [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run>]
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
+    ## -d, date of run (str)
 
 # Output:
     ## XXXOutputfile 1
@@ -33,37 +34,39 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("-p", dest="p", help="path to main folder", required=True, type=str)
     parser.add_argument("-n", dest="n", help="name of project", required=True, type=str)
+    parser.add_argument("-d", dest="d", help="date of run", required=True)
     args = parser.parse_args()
 
     # Define input as variables
     main_path = args.p
     project_name = args.n
+    date = str(args.d)
 
 ################################################################################
 # STEP 1:  COLLECT RESULTS
 ################################################################################
 
     # Define variables
-    samples = [f for f in listdir(main_path + "/data/" + project_name + "/foodqcpipeline")]
-    raw_results_outfolder = main_path + "/results/" + project_name + "/summary/"
+    samples = [f for f in os.listdir(main_path + "/results/" + project_name + date + "/foodqcpipeline")]
+    raw_results_outfolder = main_path + "/results/" + project_name  + date + "/summary/"
     raw_results_outfile = raw_results_outfolder + "kmerfinder_results.txt"
     lines = list()
     header_made = False
 
     # Create outputfolder if it doesn't exist
     if not os.path.exists(raw_results_outfolder):
-    os.makedirs(raw_results_outfolder)
+        os.makedirs(raw_results_outfolder)
 
     # Loop through samples
     print("Start collecting results in one common file for all samples...")
     for sample in samples:
         # Define path for each sample
-        sample_path = main_path + "/results/" + project_name + "/kmerfinder/" + sample + "/"
+        sample_path = main_path + "/results/" + project_name + date + "/kmerfinder/" + sample + "/"
 
         # Find file in path
-        kmerfinder_files = [f for f in listdir(sample_path) if isfile(join(sample_path, f))]
+        kmerfinder_files = [f for f in os.listdir(sample_path) if os.path.isfile(os.path.join(sample_path, f))]
 
-
+        # Find kmerfinder result files
         for file in kmerfinder_files:
             if file.endswith("_results.txt"):
 

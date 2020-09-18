@@ -7,9 +7,10 @@ Version: 1.0
 Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## collect_foodqcpipeline.py [-p <path>] [-n <name>]
+    ## collect_foodqcpipeline.py [-p <path>] [-n <name>] [-d <date of run>]
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
+    ## -d, date of run (str)
 
 # Output:
     ## QC_results.txt, summary of QC for all samples
@@ -22,8 +23,7 @@ Author: Catrine Høm and Line Andresen
 # Import libraries
 import sys
 from argparse import ArgumentParser
-from os import listdir
-from os.path import isfile, join
+import os
 
 ################################################################################
 # GET INPUT
@@ -34,35 +34,43 @@ if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument("-p", dest="p", help="path to main", required=True, type=str)
     parser.add_argument("-n", dest="n", help="name of project", required=True, type=str)
+    parser.add_argument("-d", dest="d", help="date of run", required=True)
     args = parser.parse_args()
 
     # Define input as variables
     main_path = args.p
     project_name = args.n
+    date = str(args.d)
 
 ################################################################################
 # STEP 1:  COLLECT RESULTS
 ################################################################################
 
     # Define variables
-    samples = [f for f in listdir(main_path + "/data/" + project_name + "/foodqcpipeline")]
-    raw_results_outfile = main_path + "/results/" + project_name + "/summary/QC_results.txt"
+    foodqcpipeline_path = main_path + "/results/" + project_name + date + "/foodqcpipeline"
+    samples = [f for f in os.listdir(foodqcpipeline_path)]
+    raw_results_outfolder = main_path + "/results/" + project_name + date
+    raw_results_outfile = raw_results_outfolder + "/summary/QC_results.txt"
     lines = list()
     header_made = False
+
+    # Create outputfolder if it doesn't exist
+    if not os.path.exists(raw_results_outfolder):
+        os.makedirs(raw_results_outfolder)
 
     # Loop through samples
     print("Start collecting results in one common file for all samples...")
     for sample in samples:
             # Define path for each sample
-            sample_path = main_path + "/data/" + project_name + "/foodqcpipeline/" + sample + "/QC/"
+            sample_path = foodqcpipeline_path + "/" + sample + "/QC/"
 
             # Find files in path
-            qc_files = [f for f in listdir(sample_path) if isfile(join(sample_path, f))]
+            qc_files = [f for f in os.listdir(sample_path) if os.path.isfile(os.path.join(sample_path, f))]
 
             # Find qc result files
             for file in qc_files:
                 if file.endswith(".qc.txt"):
-                    sample_result = main_path + "/data/" + project_name + "/foodqcpipeline/" + sample + "/QC/" + file
+                    sample_result = sample_path + file
                 else:
                     print("Error: couldnt find qc file for {}.".format(sample))
 
@@ -70,18 +78,18 @@ if __name__ == "__main__":
             with open(sample_result, "r") as f:
                 # If this is the first sample, we want to create a header
                 if header_made == False:
-                        lines.append("Sample_name\t"+f.readline())
+                        lines.append(f.readline())
                         header_made = True
 
                         # Collect results in first sample
                         for line in f:
-                                lines.append(sample+"\t"+line)
+                                lines.append(line)
                 else:
                     # Skip header in rest of the samples
                     next(f)
                     # Collect results
                     for line in f:
-                            lines.append(sample+"\t"+line)
+                            lines.append(line)
 
     print("Done")
 

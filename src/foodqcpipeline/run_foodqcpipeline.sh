@@ -6,10 +6,10 @@
 # Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## run_foodqcpipeline.sh [-p <path to dairy pipeline>] [-n <name of project>] [-f <folder name>]
+    ## run_foodqcpipeline.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run>]
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
-    ## -f, folder name with raw files
+    ## -d, date of run (str)
 
 # Output:
     ## Trimmed directory: For each sample there exists 2 trimmed fastq files
@@ -32,10 +32,13 @@
 SECONDS=0
 
 # How to use program
-usage() { echo "Usage: $0 [-p <path to main>] [-n <name of project>] [-f <folder name>]"; exit 1; }
+usage() { echo "Usage: $0 [-p <path to main>] [-n <name of project>] [-d <date of run>]"; exit 1; }
+
+# Default values
+d=$(date "+_%Y%m%d_%H%M%S")
 
 # Parse flags
-while getopts ":p:n:f:h" opt; do
+while getopts ":p:n:d:h" opt; do
     case "${opt}" in
         p)
             p=${OPTARG}
@@ -43,8 +46,8 @@ while getopts ":p:n:f:h" opt; do
         n)
             n=${OPTARG}
             ;;
-        f)
-            f=${OPTARG}
+        d)
+            d=${OPTARG}
             ;;
         h)
             usage
@@ -83,13 +86,14 @@ echo "Starting STEP 1: Run foodqcpipeline"
 
 # Define variables
 t=foodqcpipeline
-o=${p}/data/${n}/${t}
+outputfolder=${p}/results/${n}${d}/${t}
 
 # Make output directory
-[ -d $o ] && echo "Output directory: ${o} already exists. Files will be overwritten." || mkdir $o
+[ -d $outputfolder ] && echo "Output directory: $outputfolder already exists. Files will be overwritten." || mkdir $outputfolder
 
 # Define variables
-samples=$(ls ${p}/data/${n}/raw/${f})
+raw=${p}/data/${n}/raw
+samples=$(ls ${raw})
 count=$((1))
 total=$(wc -w <<<$samples)
 
@@ -100,36 +104,47 @@ tool=${p}/tools/foodqcpipeline/FoodQCPipeline.py
 for sample in $samples
   do
     echo "Starting with: $sample ($count/$total)"
-    cd ${p}/data/${n}/foodqcpipeline
-    mkdir ${sample}
-    cd ${sample}
-    input=${p}/data/${n}/raw/${f}/${sample}/*.gz
-    assembly_output=${p}/data/${n}/foodqcpipeline/${sample}/Assemblies
-    qc_output=${p}/data/${n}/foodqcpipeline/${sample}/QC
-    trim_output=${p}/data/${n}/foodqcpipeline/${sample}/Trimmed
-    python3 $tool $input --clean_tmp --assembly_output $assembly_output --qc_output $qc_output --trim_output $trim_output --spades
+
+    # Create sample output folder
+    sample_path=${outputfolder}/${sample}
+    [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
+
+    # Define tool inputs
+    input=${raw}/${sample}/*.gz
+    assembly_output=${sample_path}/Assemblies
+    qc_output=${sample_path}/QC
+    trim_output=${sample_path}/Trimmed
+    tmp_dir=${sample_path}/tmp
+
+    # Run tool
+    python3 $tool $input --clean_tmp --assembly_output $assembly_output --qc_output $qc_output --trim_output $trim_output --tmp_dir $tmp_dir --spades
     count=$(($count+1))
   done
 
 # TODO: lav så den slutter på et tidspunkt ved evt. fejl
 # Check of all assemblies are done
-jobs_no=$(echo $samples | wc -w)
+jobs_no=$(echo ${samples} | wc -w)
 files_no=0
 while [ $jobs_no -ne $files_no ]
   do
     sleep 60s
     #files_no=$(ls -1 ${p}/data/${n}/foodqcpipeline | wc -l)q
-    files_no=$(ls ${p}/data/${n}/foodqcpipeline/*/Assemblies/*.fa  2> /dev/null  | wc -l)
+    files_no=$(ls ${outputfolder}/*/QC/*.qc.txt  2> /dev/null  | wc -l)
     # if SECONDS2 > inf, runtime error
   done
 
+# Insert header and sample name
 for sample in $samples
   do
-    qc_output=${p}/data/${n}/foodqcpipeline/${sample}/QC
-    # Insert header in file
-    sed -i '1s/^/Sample\tBases_(MB)\tQual_Bases(MB)\tQual_bases(%)\tReads\tQual_reads(no)\tQual_reads(%)\tMost_common_adapter_(count)\t2._Most_common_adapter_(count)\tOther_adapters_(count)\tinsert_size\tN50\tno_ctgs\tlongest_size(bp)\ttotal_bps\n/' ${qc_output}/*.qc.txt
-    echo "Finished with: $sample"
+    # Define paths
+    sample_path=${outputfolder}/${sample}
+    qc_output=${sample_path}/QC
+    # Add sample name to result
+    sed -i "1s/^/${sample}\t/" ${qc_output}/*.qc.txt
+    # Insert header in files
+    sed -i "1s/^/Sample_name\tRead_name\tBases_(MB)\tQual_Bases(MB)\tQual_bases(%)\tReads\tQual_reads(no)\tQual_reads(%)\tMost_common_adapter_(count)\t2._Most_common_adapter_(count)\tOther_adapters_(count)\tinsert_size\tN50\tno_ctgs\tlongest_size(bp)\ttotal_bps\n/" ${qc_output}/*.qc.txt
   done
+
 
 echo "Results of foodqcpipeline were succesfully made."
 echo "Time stamp: $SECONDS seconds."

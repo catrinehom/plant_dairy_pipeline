@@ -6,7 +6,7 @@
 # Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## run_kmerfinder.sh [-p <path to dairy pipeline>] [-n <name of project>]
+    ## run_kmerfinder.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run>]
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
 
@@ -34,16 +34,22 @@ module load kma/1.2.11
 SECONDS=0
 
 # How to use program
-usage() { echo "Usage: $0 [-p <path to main>] [-n <name of project>]"; exit 1; }
+usage() { echo "Usage: $0 [-p <path to main>] [-n <name of project>] [-d <date of run>]"; exit 1; }
+
+# Default values
+d=$(date "+_%Y%m%d_%H%M%S")
 
 # Parse flags
-while getopts ":p:n:h" opt; do
+while getopts ":p:n:d:h" opt; do
     case "${opt}" in
         p)
             p=${OPTARG}
             ;;
         n)
             n=${OPTARG}
+            ;;
+        d)
+            d=${OPTARG}
             ;;
         h)
             usage
@@ -65,7 +71,6 @@ date=$(date "+%Y-%m-%d %H:%M:%S")
 echo "Starting kmerfinder_run.sh ($date)"
 echo "-----------------------------------------------"
 echo -e "kmerfinder_run is a script to run kmerfinder.\n"
-echo "Get input is done."
 
 # Print files used
 echo "Name of project used is: ${n}"
@@ -82,41 +87,39 @@ echo "Starting STEP 1: Run KmerFinder"
 
 # Define variables
 tool_name=kmerfinder
-outputfolder=${p}/results/${n}/${tool_name}
+outputfolder=${p}/results/${n}${d}/${tool_name}
 
 # Make output directory
 [ -d $outputfolder ] && echo "Output directory: ${outputfolder} already exists. Files will be overwritten." || mkdir $outputfolder
 
 # Define variables
-samples=$(ls ${p}/data/${n}/foodqcpipeline)
+samples=$(ls ${p}/results/${n}${d}/foodqcpipeline)
 count=$((1))
 total=$(wc -w <<<$samples)
 tool=${p}/tools/${tool_name}/kmerfinder.py
 databases=$(ls ${p}/data/db/kmerfinder_db/*/* | grep .name | sed -e 's/\.name$//')
 
-
-count=$((1))
-
+# Run tool on all samples
 for sample in $samples
   do
   echo  "Starting with: $sample ($count/$total)"
-  cd ${outputfolder}
-  [ -d $sample ] && echo "Output directory: ${sample} already exists. Files will be overwritten." || mkdir $sample
-  cd ${sample}
+
+  # Create sample output folder
+  sample_path=${outputfolder}/${sample}
+  [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
 
   for database in $databases
     do
       # Define tool inputs
-      i=${p}/data/${n}/foodqcpipeline/${sample}/Trimmed/*.fq.gz
-      o=${outputfolder}/${sample}
+      i=$p/results/${n}${d}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
       t=$(echo $database | cut -f1 -d'.')
       tax=${t}.tax
 
       # Run tool
-      $tool -db $database -i $i -o $o -tax $tax -x -q
+      $tool -db $database -i $i -o $sample_path -tax $tax -x -q
       db_name=$(basename $t)
       # Move result for each database, so it wont overwrite it
-      mv ${p}/results/${n}/kmerfinder/${sample}/results.txt ${p}/results/${n}/kmerfinder/${sample}/${db_name}_results.txt
+      mv ${sample_path}/results.txt ${sample_path}/${db_name}_results.txt
     done
   echo -e "Finished with $sample.\n"
   count=$(($count+1))

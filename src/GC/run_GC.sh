@@ -6,7 +6,7 @@
 # Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## rh run_GC [-p <path to dairy pipeline>] [-n <name of project>]
+    ## rh run_GC [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run (optional)>]
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
 
@@ -24,14 +24,14 @@
 
 # Load all required modules for the job
 module load tools
-module load python36 
+module load python36
 module load anaconda3/4.4.0
 
 # Start timer for logfile
 SECONDS=0
 
 # How to use program
-usage() { echo "Usage: $0 [-p <path to main>] [-n <name of project>]"; exit 1; }
+usage() { echo "Usage: $0 [-p <path to main>] [-n <name of project>] [-d <date of run (optional)>]"; exit 1; }
 
 # Parse flags
 while getopts ":p:n:h" opt; do
@@ -41,6 +41,9 @@ while getopts ":p:n:h" opt; do
             ;;
         n)
             n=${OPTARG}
+            ;;
+        d)
+            d=${OPTARG}
             ;;
         h)
             usage
@@ -59,9 +62,8 @@ if [ -z "${p}" ] || [ -z "${n}" ]; then
 fi
 
 date=$(date "+%Y-%m-%d %H:%M:%S")
-echo "Starting RunToolTemplate ($date)"
-echo "-----------------------------------------------"
-echo -e "RunToolTemplate is a script to run tool.\n"
+echo "Starting run_GC.sh ($date)"
+echo "--------------------------------------------------------------------------------"
 
 # Print files used
 echo "Name of project used is: ${n}"
@@ -77,16 +79,16 @@ echo "Starting STEP 1: Run GC"
 
 # Define variables
 tool_name=GC
-outputfolder=${p}/results/${n}/${tool_name}
+outputfolder=${p}/results/${n}${d}/${tool_name}
 
 # Make output directory
 [ -d $outputfolder ] && echo "Output directory: ${outputfolder} already exists. Files will be overwritten." || mkdir $outputfolder
 
 # Define variables
-samples=$(ls ${p}/data/${n}/foodqcpipeline)
+samples=$(ls ${p}/results/${n}${d}/foodqcpipeline)
 count=$((1))
 total=$(wc -w <<<$samples)
-tool=${p}/src/misc/calculate_GC_content
+tool=${p}/src/misc/calculate_GC_content.py
 databases=$(ls ${p}/data/db/tool_db/*/* | grep .name | sed -e "s/\.name$//")
 
 for sample in $samples
@@ -95,8 +97,8 @@ for sample in $samples
     cd ${outputfolder}
 
     # Define tool inputs
-    i=${p}/results/foodqcpipeline/${sample}/Assemblies/*.fa 
-    s=$sample 
+    i=${p}/results/${n}${d}/foodqcpipeline/${sample}/Assemblies/*.fa
+    s=$sample
     o=${outputfolder}/GC_content.txt
 
     # Run tool
@@ -107,5 +109,4 @@ for sample in $samples
 
 echo "Results of GC content were succesfully made."
 echo "Time stamp: $SECONDS seconds."
-
 

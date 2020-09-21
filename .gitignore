@@ -1,5 +1,7 @@
-/home/projects/cge/people/cathom/data/DTU-LAB
-/home/projects/cge/people/cathom/data/test1
-/home/projects/cge/people/cathom/src/old
-/home/projects/cge/people/cathom/src/templates
+/home/projects/cge/people/cathom/data/
+/home/projects/cge/people/cathom/data/results/
+/home/projects/cge/people/cathom/src/old/
+/home/projects/cge/people/cathom/src/templates/
+/home/projects/cge/people/cathom/src/*/qsub_*.sh
 
+src/templates

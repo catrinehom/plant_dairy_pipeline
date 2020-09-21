@@ -29,36 +29,23 @@ The pipeline is written to be executed on Computerome at DTU. It could be modifi
 
 ### QC and assembly ###
 
-fastqcpipeline
-
-### Output ###
+## Output ##
 
 Structure and files
 
 
-## Run default pipeline ##
-
-
-```
-./main -option1 option1 -option2 option2
-```
-
-
-## Advanced options ##
-
-Use the -h flag to see all the possible options.
+## Run pipeline ##
 
 ```
-python main.sh -h
-usage: main.sh [-h] [-option1 option1] 
-                    [-option1 option1]
-
-
-
-detailed arguments:
-  -h, --help            show this help message and exit
-  --option1 option1   helping text
-
+/src/main.sh -p [path] -n [n]
 ```
 
+Detailed arguments:
+
+```
+  -h, show help message and exits program
+  -p, path to dairy pipeline
+  -n, name of project
+  -d, date of run (optional)
+```
 

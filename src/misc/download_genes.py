@@ -8,7 +8,6 @@ Author: Catrine Høm and Line Andresen
 
 # Usage:
     ## download_genes.py [-f <file with gene names>] [-n <name of pathway/genes>] [-e <your personal email>] [-p <path to dairy pipeline>]
-    ## -f, file with gene names (str)
     ## -n, name of pathway/genes, e.g. b12 (str)
     ## -e, your personal email, for NCBI (str)
     ## -p, path to dairy pipeline, (str)
@@ -25,6 +24,7 @@ Author: Catrine Høm and Line Andresen
 from Bio import Entrez
 import re
 import os
+from argparse import ArgumentParser
 
 ################################################################################
 # GET INPUT
@@ -33,20 +33,19 @@ import os
 if __name__ == "__main__":
     # Parse input from command line
     parser = ArgumentParser()
-    parser.add_argument("-f", dest="f", help="file with gene names", type=str)
-    parser.add_argument("-n", dest="n", help="name of pathway/genes", type=str)
+    parser.add_argument("-p", dest="p", help="path to dairy pipeline", type=str)
+    parser.add_argument("-b", dest="b", help="name of pathway/genes", type=str)
     parser.add_argument("-e", dest="e", help="your personal email", type=str)
-    parser.add_argument("-o", dest="p", help="path to dairy pipeline", type=str)
     args = parser.parse_args()
 
     # Define input as variables
-    gene_file = args.f
-    pathway_name = args.n
-    email = args.e
     main_path = args.p
+    pathway_name = args.b
+    email = args.e
+
 
     # Directory to output to
-    outdir = "{}/data/mydbfinder_db".format(main_path)
+    outdir = "{}/data/db/mydbfinder/{}".format(main_path, pathway_name)
 
     # Make output directory if it doesn't exists
     if not os.path.exists(outdir):
@@ -59,11 +58,14 @@ if __name__ == "__main__":
     retmax = 5000
 
     # Extract genes from file
-    genes = list()
+    gene_file = "/{}/data/gene_names/{}.txt".format(main_path, pathway_name)
+
+    genes = set()
     f = open(gene_file, "r")
-    for line in gene_file:
+    for line in f:
         genes.add(line.strip())
-    gene_file.close()
+    f.close()
+    gene_list=list(genes)
 
 
 ################################################################################

@@ -43,7 +43,7 @@ if __name__ == "__main__":
     # Define input as variables
     main_path = args.p
     project_name = args.n
-    date = str(args.d)
+    date = "_" + str(args.d)
     database_name = args.b
 
 
@@ -154,4 +154,5 @@ if __name__ == "__main__":
 
     print("Transformed results can be found in: {}.".format(transformed_results_outfile))
     print("If a gene is not found in any of the samples, it will not be added as a column to this file.")
+
 

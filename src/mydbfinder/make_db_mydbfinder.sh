@@ -6,10 +6,9 @@
 # Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## run_mydbfinder.sh [-p <path to dairy pipeline>] [-n <name of project>] [-g <gene file path>] [-d <database name (common name for pathway/gene-set with "_db", e.g. "b12_db")>]
+    ## run_mydbfinder.sh [-p <path to dairy pipeline>] [-b <database name (common name for pathway/gene-set)>]
     ## -p, path to dairy pipeline folder (str)
-    ## -n, name of project (str)
-    ## -d, database name (common name for pathway/gene-set with "_db", e.g. "b12_db") (str)
+    ## -b, database name (common name for pathway/gene-set) (str)
     ## -g, gene file, path to a txt file with gene names, one gene per line.
 
 # Output:
@@ -36,22 +35,16 @@ module load kma/1.2.11
 SECONDS=0
 
 # How to use program
-usage() { echo "Usage: $0 [-p <path to dairy pipeline>] [-n <name of project>] [-g <gene file (placed in data folder)>] [-d <database name (common name for pathway/gene-set)>]"; exit 1; }
+usage() { echo "Usage: $0 [-p <path to dairy pipeline>] [-b <database name (common name for pathway/gene-set)>]"; exit 1; }
 
 # Parse flags
-while getopts ":p:n:d:h" opt; do
+while getopts ":p:b:h" opt; do
     case "${opt}" in
         p)
             p=${OPTARG}
             ;;
-        n)
-            n=${OPTARG}
-            ;;
-        g)
-            g=${OPTARG}
-            ;;
-        d)
-            d=${OPTARG}
+        b)
+            b=${OPTARG}
             ;;
         h)
             usage
@@ -64,23 +57,28 @@ while getopts ":p:n:d:h" opt; do
 done
 
 # Check if required flags are empty
-if [ -z "${p}" ] || [ -z "${n}" ] || [ -z "${g}" ] || [ -z "${d}" ]; then
-    echo "p, n and d are required flags"
+if [ -z "${p}" ] || [ -z "${b}" ]; then
+    echo "p and b are required flags"
     usage
 fi
 
 date=$(date "+%Y-%m-%d %H:%M:%S")
 echo "Starting make_db_mydbfinder.sh ($date)"
-echo "-----------------------------------------------"
-echo -e "run_mydbfinder is a script to make a database for MyDbFinder.\n"
+echo "--------------------------------------------------------------------------------"
 
 # Print files used
-echo "Name of project used is: $n"
 echo "Path used is: $p"
-echo "Gene list used is: $p/data/$g"
-echo "Database name used is: $d"
+echo "Gene list used is: $p/data/${b}.txt"
+echo "Database name used is: $b"
 
 echo -e "Time stamp: $SECONDS seconds.\n"
+
+# Define variables
+tool_name=mydbfinder
+
+# Make output directory
+outputfolder=${p}/data/db/${tool_name}/${b}
+[ -d $outputfolder ] && echo "Output directory: ${outputfolder} already exists. Files will be overwritten." || mkdir -p $outputfolder
 
 ################################################################################
 # STEP 1: DOWNLOAD GENES
@@ -88,50 +86,46 @@ echo -e "Time stamp: $SECONDS seconds.\n"
 # TODO: change so it is not hardcoded
 e=s136574@student.dtu.dk
 
-# Go to path
-cd $p/data/mydbfinder_db
-
 # Download genes
-${p}/src/misc/download_genes.py -f $g -n $d -e $e -p $p
+${p}/src/misc/download_genes.py -p $p -b $b -e $e
 
 ################################################################################
 # STEP 2: MAKE DATABASE
 ################################################################################
-
-cd ${p}/data/${d}/mydbfinder_db
+genes=$(ls ${outputfolder})
 
 # Insert gene name in each file
-for gene in $g
+for gene in $genes
   do
-    sed "s/>/>$gene/g" $gene > with_gene_name_${gene}
-    echo "Gene name inserted in ${gene}.fasta"
+    sed "s/>/>$gene/g" ${outputfolder}/$gene > ${outputfolder}/with_gene_name_${gene}
+    echo "Gene name inserted in ${gene}"
   done
 
 # Collect all genes in one file
-cat with_gene_name_*.fasta > ${d}_db_spaces.fsa
+cat ${outputfolder}/with_gene_name_*.fasta > ${outputfolder}/${b}_spaces.fsa
 
 # Remove spaces from headers in file
-sed 's/ /_/g' ${d}_db_spaces.fsa > ${d}_db.fsa
+sed 's/ /_/g' ${outputfolder}/${b}_spaces.fsa > ${outputfolder}/${b}.fsa
 
 # Clean up
-for gene in $g
+for gene in $genes
   do
-    rm $gene.fasta
-    rm with_gene_name_${gene}.fasta
+    rm ${outputfolder}/${gene}
+    rm ${outputfolder}/with_gene_name_${gene}
   done
 
-rm ${d}_db_spaces.fsa
+rm ${outputfolder}/${b}_spaces.fsa
 
 ################################################################################
 # STEP 3: INDEX DATABASE
 ################################################################################
 
-python ${p}/tools/mydbfinder/curate_database.py -i $p/data/mydbfinder_db/${d}_db.fsa -o $p/data/mydbfinder_db/
+python ${p}/tools/${tool_name}/curate_database.py -i ${outputfolder}/${b}.fsa -o ${outputfolder}/
 
-gzip $p/data/mydbfinder_db/${d}_db.fsa
+gzip -f ${outputfolder}/${b}.fsa
 
-kma index -i $p/data/mydbfinder_db/${d}_db.fsa.gz -o ${d}_db
+kma index -i ${outputfolder}/${b}.fsa.gz -o ${outputfolder}/${b}
 
 
-echo "Database created: ${p}/data/$d"
+echo "Database created: ${outputfolder}/$b"
 

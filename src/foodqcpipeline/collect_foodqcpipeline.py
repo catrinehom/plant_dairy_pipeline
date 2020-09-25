@@ -40,7 +40,7 @@ if __name__ == "__main__":
     # Define input as variables
     main_path = args.p
     project_name = args.n
-    date = str(args.d)
+    date = "_" + str(args.d)
 
 ################################################################################
 # STEP 1:  COLLECT RESULTS
@@ -49,8 +49,8 @@ if __name__ == "__main__":
     # Define variables
     foodqcpipeline_path = main_path + "/results/" + project_name + date + "/foodqcpipeline"
     samples = [f for f in os.listdir(foodqcpipeline_path)]
-    raw_results_outfolder = main_path + "/results/" + project_name + date
-    raw_results_outfile = raw_results_outfolder + "/summary/QC_results.txt"
+    raw_results_outfolder = main_path + "/results/" + project_name + date + "/summary/"
+    raw_results_outfile = raw_results_outfolder + "QC_results.txt"
     lines = list()
     header_made = False
 

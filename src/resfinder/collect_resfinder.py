@@ -40,7 +40,7 @@ if __name__ == "__main__":
     # Define input as variables
     main_path = args.p
     project_name = args.n
-    date = str(args.d)
+    date = "_" + str(args.d)
 
 ################################################################################
 # STEP 1:  COLLECT RESULTS

@@ -40,7 +40,7 @@ if __name__ == "__main__":
     # Define input as variables
     main_path = args.p
     project_name = args.n
-    date = str(args.d)
+    date = "_" + str(args.d)
 
 ################################################################################
 # STEP 1:  COLLECT RESULTS
@@ -48,7 +48,7 @@ if __name__ == "__main__":
 
     # Define variables
     samples = [f for f in os.listdir(main_path + "/results/" + project_name + date + "/foodqcpipeline")]
-    raw_results_outfolder = main_path + "/results/" + project_name  + date + "/summary/"
+    raw_results_outfolder = main_path + "/results/" + project_name + date + "/summary/"
     raw_results_outfile = raw_results_outfolder + "kmerfinder_results.txt"
     lines = list()
     header_made = False
@@ -101,4 +101,5 @@ if __name__ == "__main__":
             sys.exit("Can't write to file: {}".format(error))
 
     print("Results can be found in: {}.".format(raw_results_outfile))
+
 

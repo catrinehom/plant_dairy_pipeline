@@ -47,7 +47,7 @@ while getopts ":p:n:d:h" opt; do
             n=${OPTARG}
             ;;
         d)
-            d=${OPTARG}
+            d=_${OPTARG}
             ;;
         h)
             usage

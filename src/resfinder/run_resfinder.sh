@@ -6,7 +6,7 @@
 # Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## run_resfinder.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run>]
+    ## run_resfinder.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run (optional)>]
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
     ## -d, date of run (str or int)
@@ -28,8 +28,6 @@ module load tools
 module load anaconda3/4.4.0
 module load anaconda2/2.2.0
 module load kma/1.2.11
-module unload mgmapper metabat fastqc
-module unload ncbi-blast perl
 source /home/projects/cge/apps/env/rf4_env/bin/activate
 module load perl
 module load ncbi-blast/2.8.1+
@@ -50,7 +48,7 @@ while getopts ":p:n:d:h" opt; do
             n=${OPTARG}
             ;;
         d)
-            d=${OPTARG}
+            d=_${OPTARG}
             ;;
         h)
             usage
@@ -70,12 +68,11 @@ fi
 
 date=$(date "+%Y-%m-%d %H:%M:%S")
 echo "Starting run_resfinder ($date)"
-echo "-----------------------------------------------"
-echo -e "run_resfinder is a script to run ResFinder.\n"
+echo "--------------------------------------------------------------------------------"
 
 # Print files used
-echo "Name of project used is: ${n}"
 echo "Path used is: ${p}"
+echo "Results will be saved: ${n}${d}"
 
 echo -e "Time stamp: $SECONDS seconds.\n"
 
@@ -87,6 +84,9 @@ echo "Starting STEP 1: Run ResFinder"
 
 # Define variables
 tool_name=resfinder
+#tool=${p}/tools/${tool_name}/run_resfinder.py
+tool=/home/projects/cge/apps/resfinder/resfinder/run_resfinder.py
+db=${p}/data/db/resfinder
 outputfolder=${p}/results/${n}${d}/${tool_name}
 
 # Make output directory
@@ -94,16 +94,11 @@ outputfolder=${p}/results/${n}${d}/${tool_name}
 
 # Define variables
 samples=$(ls ${p}/results/${n}${d}/foodqcpipeline)
-count=$((1))
-total=$(wc -w <<<$samples)
-#tool=${p}/tools/${tool_name}/run_resfinder.py
-tool=/home/projects/cge/apps/resfinder/resfinder/run_resfinder.py
-db_res=${p}/data/db/resfinder_db
-#db_point=${p}/data/db/pointfinder_db
+count=$((1)) #First sample
+total=$(wc -w <<<$samples) #Total number of samples
 
 # Run tool on all samples
-for sample in $samples
-  do
+for sample in $samples; do
   echo  "Starting with: $sample ($count/$total)"
 
   # Create sample output folder
@@ -115,8 +110,7 @@ for sample in $samples
   #ifa=${sample_path}/Assemblies/*.fa
 
   # Run tool
-  $tool -ifq $ifq -o $sample_path -db_res $db_res -acq
-  #$tool -ifa $ifa -o $sample_path -db_res $db_res -acq
+  $tool -ifq $ifq -o $sample_path -db_res $db -acq
 
   echo -e "Finished with $sample.\n"
   count=$(($count+1))

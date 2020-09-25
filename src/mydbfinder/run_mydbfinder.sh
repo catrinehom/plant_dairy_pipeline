@@ -6,11 +6,11 @@
 # Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## run_mydbfinder.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run>] [-d <database name (common name for pathway/gene-set with "_db", e.g. "b12_db")>]
+    ## run_mydbfinder.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run (optional)>] [-d <database name (common name for pathway/gene-set")>]
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
     ## -d, date of run (str)
-    ## -b, database name (common name for pathway/gene-set with "_db", e.g. "b12_db") (str)
+    ## -b, database name (common name for pathway/gene-set") (str)
 
 # Output:
     ## Outputfile 1
@@ -49,7 +49,7 @@ while getopts ":p:n:d:b:h" opt; do
             n=${OPTARG}
             ;;
         d)
-            d=${OPTARG}
+            d=_${OPTARG}
             ;;
         b)
             b=${OPTARG}
@@ -72,13 +72,12 @@ fi
 
 date=$(date "+%Y-%m-%d %H:%M:%S")
 echo "Starting run_mydbfinder.sh ($date)"
-echo "-----------------------------------------------"
-echo -e "run_mydbfinder is a script to run MyDbFinder.\n"
+echo "--------------------------------------------------------------------------------"
 
 # Print files used
-echo "Name of project used is: ${n}"
 echo "Path used is: ${p}"
-echo "Database used is: ${p}/data/$b"
+echo "Results will be saved: ${n}${d}"
+echo "Database used is: ${p}/data/db/$b"
 
 echo -e "Time stamp: $SECONDS seconds.\n"
 
@@ -97,7 +96,7 @@ mkdir -p $mydbfolder
 
 # Make output directory
 outputfolder=${mydbfolder}/${b}
-[ -d $outputfolder ] && echo "Output directory: ${outputfolder} already exists. Files will be overwritten." || mkdir $outputfolder
+[ -d $outputfolder ] && echo "Output directory: ${outputfolder} already exists. Files will be overwritten." || mkdir -p $outputfolder
 
 # Define variables
 samples=$(ls ${p}/results/${n}${d}/foodqcpipeline)
@@ -117,7 +116,7 @@ for sample in $samples
     # Define tool inputs
     i=$p/results/${n}${d}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
     o=${outputfolder}/${sample}
-    database=${p}/data/db/$b
+    database=${p}/data/db/${tool_name}/$b
 
     # Run tool
     $tool -i $i -o $o -p $database

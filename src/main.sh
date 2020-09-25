@@ -6,9 +6,8 @@
 # Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## main [-n name of project>] [-q <qc>]
+    ## main [-n name of project>]
     ## -n, name of project
-    ## -q, flag to run qc
 
 # Output:
     ## Quality control of data
@@ -26,18 +25,12 @@
 ################################################################################
 
 module load tools
-module load anaconda3/4.0.0
+module load anaconda3/4.4.0
 
 ################################################################################
-# WELCOME
+# GET INPUT
 ################################################################################
 
-date=$(date "+_%Y%m%d_%H%M%S")
-echo -e "\nWelcome to this amazing program. Your time stamp is ${date}\n"
-
-################################################################################
-# PARSING
-################################################################################
 usage() { echo "Usage: $0 [-n <name of project>] [-h <help>]"; }
 exit_abnormal() { usage; exit 1; }
 
@@ -59,6 +52,12 @@ while getopts ":n:h" opt; do
 done
 
 ################################################################################
+# WELCOME
+################################################################################
+
+#date=$(date "+_%Y%m%d_%H%M%S")
+date=20200825_110300
+echo -e "\nWelcome to this amazing program. Your time stamp is ${date}\n"#############################################################################
 # SETUP THE DIRECTORIES
 ################################################################################
 
@@ -77,45 +76,50 @@ mkdir -p ${path}/docs/${n}
 echo -e "Created project folders.\n"
 
 ################################################################################
-# RUNNING QC
+# RUN FOODQCPIPELINE
 ################################################################################
 
 # Unzip compressed raw data
-echo -e "Extracting raw data\n"
-tar -zxvf ${path}/data/${n}/raw.tar.gz -C ${path}/data/${n}/
+#echo -e "Extracting raw data\n"
+#tar -zxvf ${path}/data/${n}/raw.tar.gz -C ${path}/data/${n}/
 # Run foodQCpipeline and collect results in results/${n}/summary
-echo -e "Running foodQCPipeline\n"
-${path}/src/foodqcpipeline/run_foodqcpipeline.sh -p ${path} -n ${n} -d $date
-${path}/src/foodqcpipeline/collect_foodqcpipeline.py -p $path -n $n -d $date
+#echo -e "Running foodQCPipeline\n"
+#${path}/src/foodqcpipeline/run_foodqcpipeline.sh -p ${path} -n ${n} -d $date
+#${path}/src/foodqcpipeline/collect_foodqcpipeline.py -p $path -n $n -d $date
 # Remove extracted raw data
-echo -e "Removing extracted data\n"
-rm -rf ${path}/data/${n}/raw
+#echo -e "Removing extracted data\n"
+#rm -rf ${path}/data/${n}/raw
 
 ################################################################################
-# RUNNING KMERFINDER
+# RUN BANDAGE
 ################################################################################
 
-${path}/src/kmerfinder/run_kmerfinder.sh -p ${path} -n ${n} -d ${date}
+#${path}/src/bandage/run_bandage.sh -p ${path} -n ${n} -d ${date}
+
+################################################################################
+# RUN KMERFINDER
+################################################################################
+
+#${path}/src/kmerfinder/run_kmerfinder.sh -p ${path} -n ${n} -d ${date}
 ${path}/src/kmerfinder/collect_kmerfinder.py -p ${path} -n ${n} -d ${date}
 
 ################################################################################
-# RUNNING RESFINDER
+# RUN RESFINDER
 ################################################################################
 
-#${path}/src/resfinder/run_resfinder.sh -p ${path} -n ${n}${date}
-#${path}/src/resfinder/collect_resfinder.sh -p ${path} -n ${n}${date}
+#${path}/src/resfinder/run_resfinder.sh -p ${path} -n ${n} -d ${date}
+${path}/src/resfinder/collect_resfinder.py -p ${path} -n ${n} -d ${date}
 
 ################################################################################
-# RUNNING MYDBFINDER
+# RUN MYDBFINDER
 ################################################################################
 
 ### lav til loop?
 
-# databases = b12_db, glutamate_db
+# databases = b12, glutamate
 # for database in $databases:
 #   do
 #   if ${p}/data/db/$database not exist:
-#       g = database cut _db
 #       /home/projects/cge/people/cathom/src/mydbfinder/make_db_mydbfinder.sh -p $path -n $n -g $g -d $database
 #
 #   ${path}/src/mydbfinder/run_mydbfinder.sh -p ${path} -n ${n} -d ${date} -b $databases
@@ -123,12 +127,16 @@ ${path}/src/kmerfinder/collect_kmerfinder.py -p ${path} -n ${n} -d ${date}
 #   done
 
 ## b12
-${path}/src/mydbfinder/run_mydbfinder.sh -p ${path} -n ${n} -d ${date} -b b12_db
-${path}/src/mydbfinder/collect_mydbfinder.py -p ${path} -n ${n} -d ${date} -b b12_db
+${path}/src/mydbfinder/run_mydbfinder.sh -p ${path} -n ${n} -d ${date} -b b12
+${path}/src/mydbfinder/collect_mydbfinder.py -p ${path} -n ${n} -d ${date} -b b12
 
 ## glutamate
-${path}/src/mydbfinder/run_mydbfinder.sh -p ${path} -n ${n} -d ${date} -b glutamate_db
-${path}/src/mydbfinder/collect_mydbfinder.py -p ${path} -n ${n} -d ${date} -b glutamate_db
+${path}/src/mydbfinder/run_mydbfinder.sh -p ${path} -n ${n} -d ${date} -b glutamate
+${path}/src/mydbfinder/collect_mydbfinder.py -p ${path} -n ${n} -d ${date} -b glutamate
+
+## iron transporters
+${path}/src/mydbfinder/run_mydbfinder.sh -p ${path} -n ${n} -d ${date} -b iron_transporter
+${path}/src/mydbfinder/collect_mydbfinder.py -p ${path} -n ${n} -d ${date} -b iron_transporter
 
 ################################################################################
 # GOODBYE

@@ -6,7 +6,7 @@
 # Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## run_kmerfinder.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run>]
+    ## run_kmerfinder.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run (optional)>]
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
 
@@ -49,7 +49,7 @@ while getopts ":p:n:d:h" opt; do
             n=${OPTARG}
             ;;
         d)
-            d=${OPTARG}
+            d=_${OPTARG}
             ;;
         h)
             usage
@@ -69,12 +69,11 @@ fi
 
 date=$(date "+%Y-%m-%d %H:%M:%S")
 echo "Starting kmerfinder_run.sh ($date)"
-echo "-----------------------------------------------"
-echo -e "kmerfinder_run is a script to run kmerfinder.\n"
+echo "--------------------------------------------------------------------------------"
 
 # Print files used
-echo "Name of project used is: ${n}"
 echo "Path used is: ${p}"
+echo "Results will be saved: ${n}${d}"
 
 echo -e "Time stamp: $SECONDS seconds.\n"
 
@@ -97,7 +96,7 @@ samples=$(ls ${p}/results/${n}${d}/foodqcpipeline)
 count=$((1))
 total=$(wc -w <<<$samples)
 tool=${p}/tools/${tool_name}/kmerfinder.py
-databases=$(ls ${p}/data/db/kmerfinder_db/*/* | grep .name | sed -e 's/\.name$//')
+databases=$(ls ${p}/data/db/${tool_name}/*/* | grep .name | sed -e 's/\.name$//')
 
 # Run tool on all samples
 for sample in $samples
@@ -127,4 +126,5 @@ for sample in $samples
 
 echo "Results of KmerFinder were succesfully made."
 echo "Time stamp: $SECONDS seconds."
+
 

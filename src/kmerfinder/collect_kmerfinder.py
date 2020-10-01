@@ -22,6 +22,8 @@ Author: Catrine Høm and Line Andresen
 # Import libraries
 import sys
 import os
+import pandas as pd
+import numpy as np
 from argparse import ArgumentParser
 
 
@@ -77,7 +79,8 @@ if __name__ == "__main__":
                 with open(sample_result, "r") as f:
                     # If this is the first sample, we want to create a header
                     if header_made == False:
-                            lines.append("Sample_name\t"+f.readline())
+                            header = "Sample_name\t"+f.readline()
+                            lines.append(header)
                             header_made = True
 
                             # Collect results in first sample
@@ -102,4 +105,41 @@ if __name__ == "__main__":
 
     print("Results can be found in: {}.".format(raw_results_outfile))
 
+################################################################################
+# STEP 2:  TRANSFORM RESULTS
+################################################################################
+    print("Starting transformation of results...")
+
+    transformed_results_outfile = raw_results_outfolder + "kmerfinder_results_transformed.txt"
+
+    df = pd.read_csv(raw_results_outfile, sep="\t") # make into pandas
+    data = df.values  # make into numpy
+
+    # Get unique list of sample names
+    samples = np.unique(data[:,0])
+
+    tophits = list()
+
+    # collect tophit for each sample
+    for sample in samples:
+        sample_m = data[data[:,0]==sample]
+
+        tophit = sample_m[sample_m[:,3].argsort()[::-1]][0]
+        tophits.append(tophit)
+
+
+
+    print("Transformation is done.")
+
+    # Write transformed result file
+    try:
+            outfile = open(transformed_results_outfile, "w")
+            outfile.write(header)
+            for record in tophits:
+                outfile.write('\t'.join([str(elem) for elem in record.tolist()]) + '\n')
+            outfile.close()
+    except IOError as error:
+            sys.exit("Can't write to file: {}".format(error))
+
+    print("Transformed results can be found in: {}.".format(transformed_results_outfile))
 

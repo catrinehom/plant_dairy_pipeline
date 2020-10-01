@@ -95,22 +95,28 @@ count=$((1)) #First sample
 total=$(wc -w <<<$samples) #Total number of samples
 
 # Run tool on all samples
-for sample in $samples; do
-  echo  "Starting with: $sample ($count/$total)"
+for sample in $samples;
+  do
+    sample_path=${outputfolder}/${sample}
+    if [ -d $sample_path ]
+      then
+        echo "Directory exists."
+      else
+        echo  "Starting with: $sample ($count/$total)"
 
-  # Create sample output folder
-  sample_path=${outputfolder}/${sample}
-  [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
+        # Create sample output folder
+        sample_path=${outputfolder}/${sample}
+        [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
 
-  # Define tool inputs
-  #i=$p/results/${n}${d}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
-  i=${samples_path}/${sample}/Assemblies/*_trimmed.fa
+        # Define tool inputs
+        i=$p/results/${n}${d}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
 
-  # Run tool
-  $tool -i $i -o $sample_path -p $db
+        # Run tool
+        $tool -i $i -o $sample_path -p $db
 
-  echo -e "Finished with $sample.\n"
-  count=$(($count+1))
+        echo -e "Finished with $sample.\n"
+    count=$(($count+1))
+    fi
   done
 
 echo "Results of PlasmidFinder were succesfully made."

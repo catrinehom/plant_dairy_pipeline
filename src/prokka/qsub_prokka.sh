@@ -34,5 +34,5 @@ path=/home/projects/cge/people/cathom
 n=DTU_LAB
 date=20200825_110300
 
-${path}/src/prokka/run_prokka.sh -p ${path} -n ${n} -d ${date}
+${path}/src/prokka/run_prokka_nodup.sh -p ${path} -n ${n} -d ${date}
 

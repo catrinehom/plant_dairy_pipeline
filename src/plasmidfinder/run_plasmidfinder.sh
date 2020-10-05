@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# Program: run_resfinder.sh
+# Program: run_plasmidfinder.sh
 # Description: This program run PlasmidFinder which is a part of the dairy pipeline
 # Version: 1.0
 # Author: Catrine Høm and Line Andresen
@@ -103,11 +103,12 @@ for sample in $samples; do
   [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
 
   # Define tool inputs
-  i=$p/results/${n}${d}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
+  #i=$p/results/${n}${d}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
+  i=${samples_path}/${sample}/Assemblies/*_trimmed.fa
 
   # Run tool
   $tool -i $i -o $sample_path -p $db
-  
+
   echo -e "Finished with $sample.\n"
   count=$(($count+1))
   done

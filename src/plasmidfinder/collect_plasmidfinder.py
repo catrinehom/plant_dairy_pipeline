@@ -1,118 +1,104 @@
-#!/usr/bin/env bash
-
-# Program: run_resfinder.sh
-# Description: This program run PlasmidFinder which is a part of the dairy pipeline
-# Version: 1.0
-# Author: Catrine Høm and Line Andresen
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Program: collect_plasmidfinder.py
+Description: This program collect the results from all samples made from plasmidfinder
+Version: 1.0
+Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## run_plasmidfinder.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run (optional)>]
+    ## collect_plasmidfinder [-p <path to dairy pipeline>] [-n <name of project>]  [-d <date of run>]
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
-    ## -d, date of run (str or int)
 
 # Output:
-    ## Outputfile 1
-    ## Outputfile 2
+    ## XXXOutputfile 1
+    ## XXXOutputfile 2
 
 # This pipeline consists of 1 steps:
-    ## STEP 1:  Run ResFinder
+    ## STEP 1:  Collect results
+"""
 
+# Import libraries
+import sys
+import os
+from argparse import ArgumentParser
+import json
 
 ################################################################################
 # GET INPUT
 ################################################################################
 
-# Load all required modules for the job
-module load tools
-module load anaconda3/4.4.0
-module load anaconda2/2.2.0
-module load kma/1.2.11
+if __name__ ==  "__main__":
+    # Parse input from command line
+    parser = ArgumentParser()
+    parser.add_argument("-p", dest="p", help="path to main folder", required=True, type=str)
+    parser.add_argument("-n", dest="n", help="name of project", required=True, type=str)
+    parser.add_argument("-d", dest="d", help="date of run", required=True)
+    args = parser.parse_args()
 
-# Start timer for logfile
-SECONDS=0
-
-# How to use program
-usage() { echo "Usage: $0 [-p <path to main>] [-n <name of project>] [-d <date of run>]"; exit 1; }
-
-# Parse flags
-while getopts ":p:n:d:h" opt; do
-    case "${opt}" in
-        p)
-            p=${OPTARG}
-            ;;
-        n)
-            n=${OPTARG}
-            ;;
-        d)
-            d=_${OPTARG}
-            ;;
-        h)
-            usage
-            ;;
-        *)
-            echo "Invalid option: ${OPTARG}"
-            usage
-            ;;
-    esac
-done
-
-# Check if required flags are empty
-if [ -z "${p}" ] || [ -z "${n}" ]; then
-    echo "p and n are required flags"
-    usage
-fi
-
-date=$(date "+%Y-%m-%d %H:%M:%S")
-echo "Starting run_plasmidfinder.sh ($date)"
-echo "--------------------------------------------------------------------------------"
-
-# Print files used
-echo "Path used is: ${p}"
-echo "Results will be saved: ${n}${d}"
-
-echo -e "Time stamp: $SECONDS seconds.\n"
+    # Define input as variables
+    main_path = args.p
+    project_name = args.n
+    date = "_" + str(args.d)
 
 ################################################################################
-# STEP 1: RUN PLASMIDFINDER
+# STEP 1:  COLLECT RESULTS
 ################################################################################
 
-echo "Starting STEP 1: Run PlasmidFinder"
+    # Define variables
+    samples = [f for f in os.listdir(main_path +  "/results/" + project_name + date + "/foodqcpipeline")]
+    raw_results_outfolder = main_path + "/results/" + project_name + date + "/summary/"
+    raw_results_outfile = raw_results_outfolder + "plasmidfinder_results.txt"
+    lines = list()
+    header = "sample\tplasmid_type\tplasmid\tidentity\tHSP_length\ttemplate_length\tposition_in_ref\tcontig_name\tpositions_in_contig\tnote\taccession\tcoverage\thit_id\n"
+    lines.append(header)
 
-# Define variables
-tool_name=plasmidfinder
-#tool=${p}/tools/${tool_name}/run_resfinder.py
-tool=/home/projects/cge/apps/plasmidfinder/plasmidfinder.py
-db=${p}/data/db/${tool_name}/
-outputfolder=${p}/results/${n}${d}/${tool_name}
+    # Create outputfolder if it doesn't exist
+    if not os.path.exists(raw_results_outfolder):
+        os.makedirs(raw_results_outfolder)
 
-# Make output directory
-[ -d $outputfolder ] && echo "Output directory: ${outputfolder} already exists. Files will be overwritten." || mkdir $outputfolder
+    # Loop through samples
+    print("Start collecting results in one common file for all samples...")
+    for sample in samples:
+            # Define path for each sample
+            sample_path = main_path + "/results/" + project_name + date + "/plasmidfinder/" + sample + "/"
 
-# Define variables
-samples=$(ls ${p}/results/${n}${d}/foodqcpipeline)
-count=$((1)) #First sample
-total=$(wc -w <<<$samples) #Total number of samples
+            # Find file in path
+            tool_files = [f for f in os.listdir(sample_path) if os.path.isfile(os.path.join(sample_path, f))]
 
-# Run tool on all samples
-for sample in $samples; do
-  echo  "Starting with: $sample ($count/$total)"
+            # Collect results
+            for file in tool_files:
+                if file == "data.json":
+                    sample_result = sample_path + file
 
-  # Create sample output folder
-  sample_path=${outputfolder}/${sample}
-  [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
+                    # Open file
+                    with open(sample_result, "r") as json_file:
+                        data = json.load(json_file)
+                        for types in data["plasmidfinder"]["results"]:
+                            result = data["plasmidfinder"]["results"][types]
+                            for plasmidtypes in result:
+                                hits = result[plasmidtypes]
+                                if hits !=  "No hit found":
+                                    for hit in hits:
+                                        hitline = ""
+                                        for variable in hits[hit]:
 
-  # Define tool inputs
-  #i=$p/results/${n}${d}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
-  i=${samples_path}/${sample}/Assemblies/*_trimmed.fa
+                                            hitline += "\t" + str(hits[hit][variable])
 
-  # Run tool
-  $tool -i $i -o $sample_path -p $db
+                                        outline = sample + "\t" + plasmidtypes + hitline + "\n"
+                                        lines.append(outline)
 
-  echo -e "Finished with $sample.\n"
-  count=$(($count+1))
-  done
+    print("Done")
 
-echo "Results of PlasmidFinder were succesfully made."
-echo "Time stamp: $SECONDS seconds."
+    # Write raw results to file
+    try:
+        outfile = open(raw_results_outfile, "w")
+        for line in lines:
+                outfile.write(line)
+        outfile.close()
+    except IOError as error:
+            sys.exit("Can't write to file: {}".format(error))
+
+    print("Results can be found in: {}.".format(raw_results_outfile))
 

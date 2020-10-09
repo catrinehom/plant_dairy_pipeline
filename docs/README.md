@@ -1,8 +1,6 @@
 # Catrine and Lines plant_dairy_pipeline #
 
-<div class="text-red">
-  UNDER CONSTRUCTION
-</div>
+:warning: **UNDER CONSTRUCTION **
 
 
 ## Introduction ##

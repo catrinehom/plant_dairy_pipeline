@@ -81,8 +81,7 @@ echo "Starting STEP 1: Run PlasmidFinder"
 
 # Define variables
 tool_name=plasmidfinder
-#tool=${p}/tools/${tool_name}/run_resfinder.py
-tool=/home/projects/cge/apps/plasmidfinder/plasmidfinder.py
+tool=/home/projects/cge/apps/${tool_name}/plasmidfinder.py
 db=${p}/data/db/${tool_name}/
 outputfolder=${p}/results/${n}${d}/${tool_name}
 
@@ -104,7 +103,7 @@ for sample in $samples; do
 
   # Define tool inputs
   #i=$p/results/${n}${d}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
-  i=${samples_path}/${sample}/Assemblies/*_trimmed.fa
+  i=$p/results/${n}${d}/foodqcpipeline/${sample}/Assemblies/*_trimmed.fa
 
   # Run tool
   $tool -i $i -o $sample_path -p $db

@@ -22,6 +22,7 @@
 ###########################################################################
 
 # Load all required modules for the job
+module purge
 module load tools
 module load anaconda2/4.0.0
 module load SPAdes/3.9.0
@@ -110,7 +111,7 @@ for sample in $samples
   for database in $databases
     do
       # Define tool inputs
-      i=$p/results/${n}${d}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
+      i=$p/results/${n}${d}/foodqcpipeline/${sample}/Assemblies/*_trimmed/*.fa
       t=$(echo $database | cut -f1 -d'.')
       tax=${t}.tax
 
@@ -126,5 +127,4 @@ for sample in $samples
 
 echo "Results of KmerFinder were succesfully made."
 echo "Time stamp: $SECONDS seconds."
-
 

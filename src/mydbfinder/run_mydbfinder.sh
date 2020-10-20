@@ -2,7 +2,7 @@
 
 # Program: run_mydbfinder.sh
 # Description: This program run MyDbFinder which is a part of the dairy pipeline
-# Version: 1.0
+# Version: 1.1
 # Author: Catrine Høm and Line Andresen
 
 # Usage:
@@ -25,6 +25,7 @@
 ################################################################################
 
 # Load all required modules for the job
+module purge
 module load tools
 module load anaconda3/4.4.0
 module load anaconda2/2.2.0
@@ -114,7 +115,7 @@ for sample in $samples
     [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
 
     # Define tool inputs
-    i=$p/results/${n}${d}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
+    i=$p/results/${n}${d}/foodqcpipeline/${sample}/Assemblies/*_trimmed/*.fa
     o=${outputfolder}/${sample}
     database=${p}/data/db/${tool_name}/$b
 

@@ -74,6 +74,7 @@ echo -e "Time stamp: $SECONDS seconds.\n"
 ################################################################################
 
 # Load modules
+module purge
 module load tools
 module load bandage/0.8.1
 
@@ -99,11 +100,11 @@ for sample in $samples
     echo "Starting with: $sample ($count/$total)"
 
     # Define tool inputs
-    input_gfa=${samples_path}/${sample}/Assemblies/*_trimmed/*assembly_graph_with_scaffolds.gfa
+    input_gfa=${samples_path}/${sample}/Assemblies/*_trimmed/assembly_graph_with_scaffolds.gfa
     output_png=$outputfolder/${sample}.png
 
     # Run tool
-    Bandage image $input_gfa $output_png --colour uniform
+    Bandage image $input_gfa $output_png --colour depth
 
     count=$(($count+1))
   done

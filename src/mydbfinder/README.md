@@ -23,9 +23,9 @@ A summary for all samples can be seen in your main path -> results -> your proje
 ## Run pipeline ##
 
 ```
-/src/kmerfinder/make_db_mydbfinder -p [path] -n [n]
-/src/kmerfinder/run_mydbfinder.sh -p [path] -n [n] -d [date]
-/src/kmerfinder/collect_mydbfinder.py -p [path] -n [n] -d [date]
+/src/mydbfinder/make_db_mydbfinder -p [path] -n [n]
+/src/mydbfinder/run_mydbfinder.sh -p [path] -n [n] -d [date]
+/src/mydbfinder/collect_mydbfinder.py -p [path] -n [n] -d [date]
 ```
 
 Detailed arguments:

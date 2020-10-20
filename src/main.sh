@@ -55,9 +55,11 @@ done
 # WELCOME
 ################################################################################
 
-#date=$(date "+_%Y%m%d_%H%M%S")
-date=20200825_110300
-echo -e "\nWelcome to this amazing program. Your time stamp is ${date}\n"#############################################################################
+#date=$(date "+%Y%m%d_%H%M%S")
+date=20201012_142944
+echo -e "\nWelcome to this amazing program. Your time stamp is ${date}\n"
+
+#############################################################################
 # SETUP THE DIRECTORIES
 ################################################################################
 
@@ -66,14 +68,14 @@ path=$(echo `realpath $0` | rev | cut -d'/' -f3- | rev)
 echo -e  "\nRoot path is: ${path}\n"
 
 # Giving permissions
-echo -e "Giving permissions to folder ${path} recursively\n"
+#echo -e "Giving permissions to folder ${path} recursively\n"
 #chmod -f -R 774 ${path} || 2>/dev/null
 
 # Making project folders
-echo -e "Creating folders\n"
-mkdir -p ${path}/results/${n}${date}/summary
-mkdir -p ${path}/docs/${n}
-echo -e "Created project folders.\n"
+#echo -e "Creating folders\n"
+#mkdir -p ${path}/results/${n}_${date}/summary
+#mkdir -p ${path}/docs/${n}
+#echo -e "Created project folders.\n"
 
 ################################################################################
 # RUN FOODQCPIPELINE
@@ -85,29 +87,35 @@ echo -e "Created project folders.\n"
 # Run foodQCpipeline and collect results in results/${n}/summary
 #echo -e "Running foodQCPipeline\n"
 #${path}/src/foodqcpipeline/run_foodqcpipeline.sh -p ${path} -n ${n} -d $date
-#${path}/src/foodqcpipeline/collect_foodqcpipeline.py -p $path -n $n -d $date
+${path}/src/foodqcpipeline/collect_foodqcpipeline.py -p $path -n $n -d $date
 # Remove extracted raw data
 #echo -e "Removing extracted data\n"
 #rm -rf ${path}/data/${n}/raw
 
 ################################################################################
+# RUN GC CONTENT CALCULATOR
+################################################################################
+
+${path}/src/GC/run_GC.sh -p ${path} -n ${n} -d ${date}
+
+################################################################################
 # RUN BANDAGE
 ################################################################################
 
-#${path}/src/bandage/run_bandage.sh -p ${path} -n ${n} -d ${date}
+${path}/src/bandage/run_bandage.sh -p ${path} -n ${n} -d ${date}
 
 ################################################################################
 # RUN KMERFINDER
 ################################################################################
 
-#${path}/src/kmerfinder/run_kmerfinder.sh -p ${path} -n ${n} -d ${date}
+${path}/src/kmerfinder/run_kmerfinder.sh -p ${path} -n ${n} -d ${date}
 ${path}/src/kmerfinder/collect_kmerfinder.py -p ${path} -n ${n} -d ${date}
 
 ################################################################################
 # RUN RESFINDER
 ################################################################################
 
-#${path}/src/resfinder/run_resfinder.sh -p ${path} -n ${n} -d ${date}
+${path}/src/resfinder/run_resfinder.sh -p ${path} -n ${n} -d ${date}
 ${path}/src/resfinder/collect_resfinder.py -p ${path} -n ${n} -d ${date}
 
 ################################################################################
@@ -139,8 +147,15 @@ ${path}/src/mydbfinder/run_mydbfinder.sh -p ${path} -n ${n} -d ${date} -b iron_t
 ${path}/src/mydbfinder/collect_mydbfinder.py -p ${path} -n ${n} -d ${date} -b iron_transporter
 
 ################################################################################
+# RUN PROKKA
+################################################################################
+
+${path}/src/prokka/run_prokka.sh -p ${path} -n ${n} -d ${date}
+${path}/src/prokka/collect_prokka.py -p ${path} -n ${n} -d ${date}
+
+################################################################################
 # GOODBYE
 ################################################################################
 
-echo -e "Dairy pipeline completed. Results saved in ${n}${date}"
+echo -e "Dairy pipeline completed. Results saved in ${n}_${date}"
 

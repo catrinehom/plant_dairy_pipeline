@@ -1,0 +1,1618 @@
+Starting run_mydbfinder.sh (2020-10-19 18:21:14)
+--------------------------------------------------------------------------------
+Path used is: /home/projects/cge/people/cathom
+Results will be saved: DTU_LAB_20200825_110300
+Database used is: /home/projects/cge/people/cathom/data/db/adhesins
+Time stamp: 0 seconds.
+
+Starting STEP 1: Run MyDbFinder
+Output directory: /home/projects/cge/people/cathom/results/DTU_LAB_20200825_110300/mydbfinder/adhesins already exists. Files will be overwritten.
+Starting with: EFB1C4ZNK7 (1/399)
+Finished with: EFB1C4ZNK7
+Starting with: EFB1C4ZNK8 (2/399)
+Finished with: EFB1C4ZNK8
+Starting with: EFB1C4ZNK9 (3/399)
+Finished with: EFB1C4ZNK9
+Starting with: EFB1C4ZNKB (4/399)
+Finished with: EFB1C4ZNKB
+Starting with: EFB1C4ZNKD (5/399)
+Finished with: EFB1C4ZNKD
+Starting with: EFB1C4ZNKF (6/399)
+Finished with: EFB1C4ZNKF
+Starting with: EFB1C4ZNKG (7/399)
+Finished with: EFB1C4ZNKG
+Starting with: EFB1C4ZNKH (8/399)
+Finished with: EFB1C4ZNKH
+Starting with: EFB1C4ZNKJ (9/399)
+Finished with: EFB1C4ZNKJ
+Starting with: EFB1C4ZNKK (10/399)
+Finished with: EFB1C4ZNKK
+Starting with: EFB1C4ZNKM (11/399)
+Finished with: EFB1C4ZNKM
+Starting with: EFB1C4ZNKN (12/399)
+Finished with: EFB1C4ZNKN
+Starting with: EFB1C4ZNKP (13/399)
+Finished with: EFB1C4ZNKP
+Starting with: EFB1C4ZNKQ (14/399)
+Finished with: EFB1C4ZNKQ
+Starting with: EFB1C4ZNKS (15/399)
+Finished with: EFB1C4ZNKS
+Starting with: EFB1C4ZNKT (16/399)
+Finished with: EFB1C4ZNKT
+Starting with: EFB1C4ZNKV (17/399)
+Finished with: EFB1C4ZNKV
+Starting with: EFB1C4ZNKW (18/399)
+Finished with: EFB1C4ZNKW
+Starting with: EFB1C4ZNKX (19/399)
+Finished with: EFB1C4ZNKX
+Starting with: EFB1C4ZNKZ (20/399)
+Finished with: EFB1C4ZNKZ
+Starting with: EFB1C4ZNL0 (21/399)
+Finished with: EFB1C4ZNL0
+Starting with: EFB1C4ZNL1 (22/399)
+Finished with: EFB1C4ZNL1
+Starting with: EFB1C4ZNL2 (23/399)
+Finished with: EFB1C4ZNL2
+Starting with: EFB1C4ZNL3 (24/399)
+Finished with: EFB1C4ZNL3
+Starting with: EFB1C4ZNL4 (25/399)
+Finished with: EFB1C4ZNL4
+Starting with: EFB1C4ZNL6 (26/399)
+Finished with: EFB1C4ZNL6
+Starting with: EFB1C4ZNL7 (27/399)
+Finished with: EFB1C4ZNL7
+Starting with: EFB1C4ZNL8 (28/399)
+Finished with: EFB1C4ZNL8
+Starting with: EFB1C4ZNL9 (29/399)
+Finished with: EFB1C4ZNL9
+Starting with: EFB1C4ZNLB (30/399)
+Finished with: EFB1C4ZNLB
+Starting with: EFB1C4ZNLC (31/399)
+Finished with: EFB1C4ZNLC
+Starting with: EFB1C4ZNLD (32/399)
+Finished with: EFB1C4ZNLD
+Starting with: EFB1C4ZNLF (33/399)
+Finished with: EFB1C4ZNLF
+Starting with: EFB1C4ZNLG (34/399)
+Finished with: EFB1C4ZNLG
+Starting with: EFB1C4ZNLH (35/399)
+Finished with: EFB1C4ZNLH
+Starting with: EFB1C4ZNLJ (36/399)
+Finished with: EFB1C4ZNLJ
+Starting with: EFB1C4ZNLK (37/399)
+Finished with: EFB1C4ZNLK
+Starting with: EFB1C4ZNLL (38/399)
+Finished with: EFB1C4ZNLL
+Starting with: EFB1C4ZNLM (39/399)
+Finished with: EFB1C4ZNLM
+Starting with: EFB1C4ZNLN (40/399)
+Finished with: EFB1C4ZNLN
+Starting with: EFB1C4ZNLP (41/399)
+Finished with: EFB1C4ZNLP
+Starting with: EFB1C4ZNLQ (42/399)
+Finished with: EFB1C4ZNLQ
+Starting with: EFB1C4ZNLR (43/399)
+Finished with: EFB1C4ZNLR
+Starting with: EFB1C4ZNLS (44/399)
+Finished with: EFB1C4ZNLS
+Starting with: EFB1C4ZNLT (45/399)
+Finished with: EFB1C4ZNLT
+Starting with: EFB1C4ZNLV (46/399)
+Finished with: EFB1C4ZNLV
+Starting with: EFB1C4ZNLW (47/399)
+Finished with: EFB1C4ZNLW
+Starting with: EFB1C4ZNLX (48/399)
+Finished with: EFB1C4ZNLX
+Starting with: EFB1C4ZNLZ (49/399)
+Finished with: EFB1C4ZNLZ
+Starting with: EFB1C4ZNM0 (50/399)
+Finished with: EFB1C4ZNM0
+Starting with: EFB1C4ZNM1 (51/399)
+Finished with: EFB1C4ZNM1
+Starting with: EFB1C4ZNM2 (52/399)
+Finished with: EFB1C4ZNM2
+Starting with: EFB1C4ZNM3 (53/399)
+Finished with: EFB1C4ZNM3
+Starting with: EFB1C4ZNM4 (54/399)
+Finished with: EFB1C4ZNM4
+Starting with: EFB1C4ZNM5 (55/399)
+Finished with: EFB1C4ZNM5
+Starting with: EFB1C4ZNM6 (56/399)
+Finished with: EFB1C4ZNM6
+Starting with: EFB1C4ZNM7 (57/399)
+Finished with: EFB1C4ZNM7
+Starting with: EFB1C4ZNM8 (58/399)
+Finished with: EFB1C4ZNM8
+Starting with: EFB1C4ZNM9 (59/399)
+Finished with: EFB1C4ZNM9
+Starting with: EFB1C4ZNMB (60/399)
+Finished with: EFB1C4ZNMB
+Starting with: EFB1C4ZNMC (61/399)
+Finished with: EFB1C4ZNMC
+Starting with: EFB1C4ZNMD (62/399)
+Finished with: EFB1C4ZNMD
+Starting with: EFB1C4ZNMF (63/399)
+Finished with: EFB1C4ZNMF
+Starting with: EFB1C4ZNMG (64/399)
+Finished with: EFB1C4ZNMG
+Starting with: EFB1C4ZNMH (65/399)
+Finished with: EFB1C4ZNMH
+Starting with: EFB1C4ZNMJ (66/399)
+Finished with: EFB1C4ZNMJ
+Starting with: EFB1C4ZNMK (67/399)
+Finished with: EFB1C4ZNMK
+Starting with: EFB1C4ZNML (68/399)
+Finished with: EFB1C4ZNML
+Starting with: EFB1C4ZNMM (69/399)
+Finished with: EFB1C4ZNMM
+Starting with: EFB1C4ZNMN (70/399)
+Finished with: EFB1C4ZNMN
+Starting with: EFB1C4ZNMP (71/399)
+Finished with: EFB1C4ZNMP
+Starting with: EFB1C4ZNMQ (72/399)
+Finished with: EFB1C4ZNMQ
+Starting with: EFB1C4ZNMR (73/399)
+Finished with: EFB1C4ZNMR
+Starting with: EFB1C4ZNMS (74/399)
+Finished with: EFB1C4ZNMS
+Starting with: EFB1C4ZNMT (75/399)
+Finished with: EFB1C4ZNMT
+Starting with: EFB1C4ZNMV (76/399)
+Finished with: EFB1C4ZNMV
+Starting with: EFB1C4ZNMW (77/399)
+Finished with: EFB1C4ZNMW
+Starting with: EFB1C4ZNMX (78/399)
+Finished with: EFB1C4ZNMX
+Starting with: EFB1C4ZNMZ (79/399)
+Finished with: EFB1C4ZNMZ
+Starting with: EFB1C4ZNN0 (80/399)
+Finished with: EFB1C4ZNN0
+Starting with: EFB1C4ZNN1 (81/399)
+Finished with: EFB1C4ZNN1
+Starting with: EFB1C4ZNN2 (82/399)
+Finished with: EFB1C4ZNN2
+Starting with: EFB1C4ZNN3 (83/399)
+Finished with: EFB1C4ZNN3
+Starting with: EFB1C4ZNN5 (84/399)
+Finished with: EFB1C4ZNN5
+Starting with: EFB1C4ZNN6 (85/399)
+Finished with: EFB1C4ZNN6
+Starting with: EFB1C4ZNN7 (86/399)
+Finished with: EFB1C4ZNN7
+Starting with: EFB1C4ZNN8 (87/399)
+Finished with: EFB1C4ZNN8
+Starting with: EFB1C4ZNN9 (88/399)
+Finished with: EFB1C4ZNN9
+Starting with: EFB1C4ZNNB (89/399)
+Finished with: EFB1C4ZNNB
+Starting with: EFB1C4ZNNC (90/399)
+Finished with: EFB1C4ZNNC
+Starting with: EFB1C4ZNND (91/399)
+Finished with: EFB1C4ZNND
+Starting with: EFB1C4ZNNF (92/399)
+Finished with: EFB1C4ZNNF
+Starting with: EFB1C4ZNNG (93/399)
+Finished with: EFB1C4ZNNG
+Starting with: EFB1C4ZNNH (94/399)
+Finished with: EFB1C4ZNNH
+Starting with: EFB1C4ZNNJ (95/399)
+Finished with: EFB1C4ZNNJ
+Starting with: EFB1C4ZNNK (96/399)
+Finished with: EFB1C4ZNNK
+Starting with: EFB1C4ZNNL (97/399)
+Finished with: EFB1C4ZNNL
+Starting with: EFB1C4ZNNM (98/399)
+Finished with: EFB1C4ZNNM
+Starting with: EFB1C4ZNNN (99/399)
+Finished with: EFB1C4ZNNN
+Starting with: EFB1C4ZNNP (100/399)
+Finished with: EFB1C4ZNNP
+Starting with: EFB1C4ZNNQ (101/399)
+Finished with: EFB1C4ZNNQ
+Starting with: EFB1C4ZNNR (102/399)
+Finished with: EFB1C4ZNNR
+Starting with: EFB1C4ZNNS (103/399)
+Finished with: EFB1C4ZNNS
+Starting with: EFB1C4ZNNT (104/399)
+Finished with: EFB1C4ZNNT
+Starting with: EFB1C4ZNNV (105/399)
+Finished with: EFB1C4ZNNV
+Starting with: EFB1C4ZNNW (106/399)
+Finished with: EFB1C4ZNNW
+Starting with: EFB1C4ZNNX (107/399)
+Finished with: EFB1C4ZNNX
+Starting with: EFB1C4ZNNZ (108/399)
+Finished with: EFB1C4ZNNZ
+Starting with: EFB1C4ZNP0 (109/399)
+Finished with: EFB1C4ZNP0
+Starting with: EFB1C4ZNP1 (110/399)
+Finished with: EFB1C4ZNP1
+Starting with: EFB1C4ZNP2 (111/399)
+Finished with: EFB1C4ZNP2
+Starting with: EFB1C4ZNP3 (112/399)
+Finished with: EFB1C4ZNP3
+Starting with: EFB1C4ZNP4 (113/399)
+Finished with: EFB1C4ZNP4
+Starting with: EFB1C4ZNP5 (114/399)
+Finished with: EFB1C4ZNP5
+Starting with: EFB1C4ZNP6 (115/399)
+Finished with: EFB1C4ZNP6
+Starting with: EFB1C4ZNP7 (116/399)
+Finished with: EFB1C4ZNP7
+Starting with: EFB1C4ZNP8 (117/399)
+Finished with: EFB1C4ZNP8
+Starting with: EFB1C4ZNP9 (118/399)
+Finished with: EFB1C4ZNP9
+Starting with: EFB1C4ZNPB (119/399)
+Finished with: EFB1C4ZNPB
+Starting with: EFB1C4ZNPC (120/399)
+Finished with: EFB1C4ZNPC
+Starting with: EFB1C4ZNPD (121/399)
+Finished with: EFB1C4ZNPD
+Starting with: EFB1C4ZNPF (122/399)
+Finished with: EFB1C4ZNPF
+Starting with: EFB1C4ZNPG (123/399)
+Finished with: EFB1C4ZNPG
+Starting with: EFB1C4ZNPH (124/399)
+Finished with: EFB1C4ZNPH
+Starting with: EFB1C4ZNPJ (125/399)
+Finished with: EFB1C4ZNPJ
+Starting with: EFB1C4ZNPK (126/399)
+Finished with: EFB1C4ZNPK
+Starting with: EFB1C4ZNPL (127/399)
+Finished with: EFB1C4ZNPL
+Starting with: EFB1C4ZNPM (128/399)
+Finished with: EFB1C4ZNPM
+Starting with: EFB1C4ZNPN (129/399)
+Finished with: EFB1C4ZNPN
+Starting with: EFB1C4ZNPP (130/399)
+Finished with: EFB1C4ZNPP
+Starting with: EFB1C4ZNPQ (131/399)
+Finished with: EFB1C4ZNPQ
+Starting with: EFB1C4ZNPR (132/399)
+Finished with: EFB1C4ZNPR
+Starting with: EFB1C4ZNPS (133/399)
+Finished with: EFB1C4ZNPS
+Starting with: EFB1C4ZNPT (134/399)
+Finished with: EFB1C4ZNPT
+Starting with: EFB1C4ZNPV (135/399)
+Finished with: EFB1C4ZNPV
+Starting with: EFB1C4ZNPW (136/399)
+Finished with: EFB1C4ZNPW
+Starting with: EFB1C4ZNPX (137/399)
+Finished with: EFB1C4ZNPX
+Starting with: EFB1C4ZNPZ (138/399)
+Finished with: EFB1C4ZNPZ
+Starting with: EFB1C4ZNQ0 (139/399)
+Finished with: EFB1C4ZNQ0
+Starting with: EFB1C4ZNQ1 (140/399)
+Finished with: EFB1C4ZNQ1
+Starting with: EFB1C4ZNQ2 (141/399)
+Finished with: EFB1C4ZNQ2
+Starting with: EFB1C4ZNQ3 (142/399)
+Finished with: EFB1C4ZNQ3
+Starting with: EFB1C4ZNQ4 (143/399)
+Finished with: EFB1C4ZNQ4
+Starting with: EFB1C4ZNQ5 (144/399)
+Finished with: EFB1C4ZNQ5
+Starting with: EFB1C4ZNQ6 (145/399)
+Finished with: EFB1C4ZNQ6
+Starting with: EFB1C4ZNQ7 (146/399)
+Finished with: EFB1C4ZNQ7
+Starting with: EFB1C4ZNQ9 (147/399)
+Finished with: EFB1C4ZNQ9
+Starting with: EFB1C4ZNQB (148/399)
+Finished with: EFB1C4ZNQB
+Starting with: EFB1C4ZNQC (149/399)
+Finished with: EFB1C4ZNQC
+Starting with: EFB1C4ZNQD (150/399)
+Finished with: EFB1C4ZNQD
+Starting with: EFB1C4ZNQF (151/399)
+Finished with: EFB1C4ZNQF
+Starting with: EFB1C4ZNQG (152/399)
+Finished with: EFB1C4ZNQG
+Starting with: EFB1C4ZNQH (153/399)
+Finished with: EFB1C4ZNQH
+Starting with: EFB1C4ZNQJ (154/399)
+Finished with: EFB1C4ZNQJ
+Starting with: EFB1C4ZNQL (155/399)
+Finished with: EFB1C4ZNQL
+Starting with: EFB1C4ZNQM (156/399)
+Finished with: EFB1C4ZNQM
+Starting with: EFB1C4ZNQN (157/399)
+Finished with: EFB1C4ZNQN
+Starting with: EFB1C4ZNQP (158/399)
+Finished with: EFB1C4ZNQP
+Starting with: EFB1C4ZNQQ (159/399)
+Finished with: EFB1C4ZNQQ
+Starting with: EFB1C4ZNQR (160/399)
+Finished with: EFB1C4ZNQR
+Starting with: EFB1C4ZNQS (161/399)
+Finished with: EFB1C4ZNQS
+Starting with: EFB1C4ZNQT (162/399)
+Finished with: EFB1C4ZNQT
+Starting with: EFB1C4ZNQV (163/399)
+Finished with: EFB1C4ZNQV
+Starting with: EFB1C4ZNQW (164/399)
+Finished with: EFB1C4ZNQW
+Starting with: EFB1C4ZNQX (165/399)
+Finished with: EFB1C4ZNQX
+Starting with: EFB1C4ZNQZ (166/399)
+Finished with: EFB1C4ZNQZ
+Starting with: EFB1C4ZNR0 (167/399)
+Finished with: EFB1C4ZNR0
+Starting with: EFB1C4ZNR1 (168/399)
+Finished with: EFB1C4ZNR1
+Starting with: EFB1C4ZNR2 (169/399)
+Finished with: EFB1C4ZNR2
+Starting with: EFB1C4ZNR3 (170/399)
+Finished with: EFB1C4ZNR3
+Starting with: EFB1C4ZNR4 (171/399)
+Finished with: EFB1C4ZNR4
+Starting with: EFB1C4ZNR5 (172/399)
+Finished with: EFB1C4ZNR5
+Starting with: EFB1C4ZNR6 (173/399)
+Finished with: EFB1C4ZNR6
+Starting with: EFB1C4ZNR7 (174/399)
+Finished with: EFB1C4ZNR7
+Starting with: EFB1C4ZNR8 (175/399)
+Finished with: EFB1C4ZNR8
+Starting with: EFB1C4ZNR9 (176/399)
+Finished with: EFB1C4ZNR9
+Starting with: EFB1C4ZNRC (177/399)
+Finished with: EFB1C4ZNRC
+Starting with: EFB1C4ZNRD (178/399)
+Finished with: EFB1C4ZNRD
+Starting with: EFB1C4ZNRF (179/399)
+Finished with: EFB1C4ZNRF
+Starting with: EFB1C4ZNRG (180/399)
+Finished with: EFB1C4ZNRG
+Starting with: EFB1C4ZNRH (181/399)
+Finished with: EFB1C4ZNRH
+Starting with: EFB1C4ZNRJ (182/399)
+Finished with: EFB1C4ZNRJ
+Starting with: EFB1C4ZNRK (183/399)
+Finished with: EFB1C4ZNRK
+Starting with: EFB1C4ZNRL (184/399)
+Finished with: EFB1C4ZNRL
+Starting with: EFB1C4ZNRM (185/399)
+Finished with: EFB1C4ZNRM
+Starting with: EFB1C4ZNRN (186/399)
+Finished with: EFB1C4ZNRN
+Starting with: EFB1C4ZNRP (187/399)
+Finished with: EFB1C4ZNRP
+Starting with: EFB1C4ZNRQ (188/399)
+Finished with: EFB1C4ZNRQ
+Starting with: EFB1C4ZNRR (189/399)
+Finished with: EFB1C4ZNRR
+Starting with: EFB1C4ZNRS (190/399)
+Finished with: EFB1C4ZNRS
+Starting with: EFB1C4ZNRT (191/399)
+Finished with: EFB1C4ZNRT
+Starting with: EFB1C4ZNRV (192/399)
+Finished with: EFB1C4ZNRV
+Starting with: EFB1C4ZNRW (193/399)
+Finished with: EFB1C4ZNRW
+Starting with: EFB1C4ZNRX (194/399)
+Finished with: EFB1C4ZNRX
+Starting with: EFB1C4ZNS1 (195/399)
+Finished with: EFB1C4ZNS1
+Starting with: EFB1C4ZNS2 (196/399)
+Finished with: EFB1C4ZNS2
+Starting with: EFB1C4ZNS3 (197/399)
+Finished with: EFB1C4ZNS3
+Starting with: EFB1C4ZNS4 (198/399)
+Finished with: EFB1C4ZNS4
+Starting with: EFB1C4ZNS5 (199/399)
+Finished with: EFB1C4ZNS5
+Starting with: EFB1C4ZNS6 (200/399)
+Finished with: EFB1C4ZNS6
+Starting with: EFB1C4ZNS7 (201/399)
+Finished with: EFB1C4ZNS7
+Starting with: EFB1C4ZNS8 (202/399)
+Finished with: EFB1C4ZNS8
+Starting with: EFB1C4ZNS9 (203/399)
+Finished with: EFB1C4ZNS9
+Starting with: EFB1C4ZNSB (204/399)
+Finished with: EFB1C4ZNSB
+Starting with: EFB1C4ZNSC (205/399)
+Finished with: EFB1C4ZNSC
+Starting with: EFB1C4ZNSD (206/399)
+Finished with: EFB1C4ZNSD
+Starting with: EFB1C4ZNSF (207/399)
+Finished with: EFB1C4ZNSF
+Starting with: EFB1C4ZNSG (208/399)
+Finished with: EFB1C4ZNSG
+Starting with: EFB1C4ZNSH (209/399)
+Finished with: EFB1C4ZNSH
+Starting with: EFB1C4ZNSJ (210/399)
+Finished with: EFB1C4ZNSJ
+Starting with: EFB1C4ZNSK (211/399)
+Finished with: EFB1C4ZNSK
+Starting with: EFB1C4ZNSL (212/399)
+Finished with: EFB1C4ZNSL
+Starting with: EFB1C4ZNSM (213/399)
+Finished with: EFB1C4ZNSM
+Starting with: EFB1C4ZNSN (214/399)
+Finished with: EFB1C4ZNSN
+Starting with: EFB1C4ZNSP (215/399)
+Finished with: EFB1C4ZNSP
+Starting with: EFB1C4ZNSQ (216/399)
+Finished with: EFB1C4ZNSQ
+Starting with: EFB1C4ZNSR (217/399)
+Finished with: EFB1C4ZNSR
+Starting with: EFB1C4ZNSS (218/399)
+Finished with: EFB1C4ZNSS
+Starting with: EFB1C4ZNST (219/399)
+Finished with: EFB1C4ZNST
+Starting with: EFB1C4ZNSV (220/399)
+Finished with: EFB1C4ZNSV
+Starting with: EFB1C4ZNSW (221/399)
+Finished with: EFB1C4ZNSW
+Starting with: EFB1C4ZNSX (222/399)
+Finished with: EFB1C4ZNSX
+Starting with: EFB1C4ZNSZ (223/399)
+Finished with: EFB1C4ZNSZ
+Starting with: EFB1C4ZNT0 (224/399)
+Finished with: EFB1C4ZNT0
+Starting with: EFB1C4ZNT1 (225/399)
+Finished with: EFB1C4ZNT1
+Starting with: EFB1C4ZNT2 (226/399)
+Finished with: EFB1C4ZNT2
+Starting with: EFB1C4ZNT3 (227/399)
+Finished with: EFB1C4ZNT3
+Starting with: EFB1C4ZNT4 (228/399)
+Finished with: EFB1C4ZNT4
+Starting with: EFB1C4ZNT5 (229/399)
+Finished with: EFB1C4ZNT5
+Starting with: EFB1C4ZNT6 (230/399)
+Finished with: EFB1C4ZNT6
+Starting with: EFB1C4ZNT7 (231/399)
+Finished with: EFB1C4ZNT7
+Starting with: EFB1C4ZNT8 (232/399)
+Finished with: EFB1C4ZNT8
+Starting with: EFB1C4ZNT9 (233/399)
+Finished with: EFB1C4ZNT9
+Starting with: EFB1C4ZNTB (234/399)
+Finished with: EFB1C4ZNTB
+Starting with: EFB1C4ZNTC (235/399)
+Finished with: EFB1C4ZNTC
+Starting with: EFB1C4ZNTD (236/399)
+Finished with: EFB1C4ZNTD
+Starting with: EFB1C4ZNTF (237/399)
+Finished with: EFB1C4ZNTF
+Starting with: EFB1C4ZNTG (238/399)
+Finished with: EFB1C4ZNTG
+Starting with: EFB1C4ZNTH (239/399)
+Finished with: EFB1C4ZNTH
+Starting with: EFB1C4ZNTJ (240/399)
+Finished with: EFB1C4ZNTJ
+Starting with: EFB1C4ZNTK (241/399)
+Finished with: EFB1C4ZNTK
+Starting with: EFB1C4ZNTL (242/399)
+Finished with: EFB1C4ZNTL
+Starting with: EFB1C4ZNTM (243/399)
+Finished with: EFB1C4ZNTM
+Starting with: EFB1C4ZNTP (244/399)
+Finished with: EFB1C4ZNTP
+Starting with: EFB1C4ZNTQ (245/399)
+Finished with: EFB1C4ZNTQ
+Starting with: EFB1C4ZNTR (246/399)
+Finished with: EFB1C4ZNTR
+Starting with: EFB1C4ZNTS (247/399)
+Finished with: EFB1C4ZNTS
+Starting with: EFB1C4ZNTT (248/399)
+Finished with: EFB1C4ZNTT
+Starting with: EFB1C4ZNTV (249/399)
+Finished with: EFB1C4ZNTV
+Starting with: EFB1C4ZNTW (250/399)
+Finished with: EFB1C4ZNTW
+Starting with: EFB1C4ZNTX (251/399)
+Finished with: EFB1C4ZNTX
+Starting with: EFB1C4ZNTZ (252/399)
+Finished with: EFB1C4ZNTZ
+Starting with: EFB1C4ZNV0 (253/399)
+Finished with: EFB1C4ZNV0
+Starting with: EFB1C4ZNV2 (254/399)
+Finished with: EFB1C4ZNV2
+Starting with: EFB1C4ZNV3 (255/399)
+Finished with: EFB1C4ZNV3
+Starting with: EFB1C4ZNV4 (256/399)
+Finished with: EFB1C4ZNV4
+Starting with: EFB1C4ZNV5 (257/399)
+Finished with: EFB1C4ZNV5
+Starting with: EFB1C4ZNV7 (258/399)
+Finished with: EFB1C4ZNV7
+Starting with: EFB1C4ZNV8 (259/399)
+Finished with: EFB1C4ZNV8
+Starting with: EFB1C4ZNV9 (260/399)
+Finished with: EFB1C4ZNV9
+Starting with: EFB1C4ZNVB (261/399)
+Finished with: EFB1C4ZNVB
+Starting with: EFB1C4ZNVD (262/399)
+Finished with: EFB1C4ZNVD
+Starting with: EFB1C4ZNVF (263/399)
+Finished with: EFB1C4ZNVF
+Starting with: EFB1C4ZNVJ (264/399)
+Finished with: EFB1C4ZNVJ
+Starting with: EFB1C4ZNVK (265/399)
+Finished with: EFB1C4ZNVK
+Starting with: EFB1C4ZNVL (266/399)
+Finished with: EFB1C4ZNVL
+Starting with: EFB1C4ZNVM (267/399)
+Finished with: EFB1C4ZNVM
+Starting with: EFB1C4ZNVN (268/399)
+Finished with: EFB1C4ZNVN
+Starting with: EFB1C4ZNVP (269/399)
+Finished with: EFB1C4ZNVP
+Starting with: EFB1C4ZNVQ (270/399)
+Finished with: EFB1C4ZNVQ
+Starting with: EFB1C4ZNVR (271/399)
+Finished with: EFB1C4ZNVR
+Starting with: EFB1C4ZNVS (272/399)
+Finished with: EFB1C4ZNVS
+Starting with: EFB1C4ZNVT (273/399)
+Finished with: EFB1C4ZNVT
+Starting with: EFB1C4ZNVV (274/399)
+Finished with: EFB1C4ZNVV
+Starting with: EFB1C4ZNVW (275/399)
+Finished with: EFB1C4ZNVW
+Starting with: EFB1C4ZNVX (276/399)
+Finished with: EFB1C4ZNVX
+Starting with: EFB1C4ZNVZ (277/399)
+Finished with: EFB1C4ZNVZ
+Starting with: EFB1C4ZNW0 (278/399)
+Finished with: EFB1C4ZNW0
+Starting with: EFB1C4ZNW1 (279/399)
+Finished with: EFB1C4ZNW1
+Starting with: EFB1C4ZNW2 (280/399)
+Finished with: EFB1C4ZNW2
+Starting with: EFB1C4ZNW3 (281/399)
+Finished with: EFB1C4ZNW3
+Starting with: EFB1C4ZNW4 (282/399)
+Finished with: EFB1C4ZNW4
+Starting with: EFB1C4ZNW6 (283/399)
+Finished with: EFB1C4ZNW6
+Starting with: EFB1C4ZNW7 (284/399)
+Finished with: EFB1C4ZNW7
+Starting with: EFB1C4ZNW8 (285/399)
+Finished with: EFB1C4ZNW8
+Starting with: EFB1C4ZNW9 (286/399)
+Finished with: EFB1C4ZNW9
+Starting with: EFB1C4ZNWB (287/399)
+Finished with: EFB1C4ZNWB
+Starting with: EFB1C4ZNWC (288/399)
+Finished with: EFB1C4ZNWC
+Starting with: EFB1C4ZNWD (289/399)
+Finished with: EFB1C4ZNWD
+Starting with: EFB1C4ZNWF (290/399)
+Finished with: EFB1C4ZNWF
+Starting with: EFB1C4ZNWH (291/399)
+Finished with: EFB1C4ZNWH
+Starting with: EFB1C4ZNWJ (292/399)
+Finished with: EFB1C4ZNWJ
+Starting with: EFB1C4ZNWK (293/399)
+Finished with: EFB1C4ZNWK
+Starting with: EFB1C4ZNWL (294/399)
+Finished with: EFB1C4ZNWL
+Starting with: EFB1C4ZNWM (295/399)
+Finished with: EFB1C4ZNWM
+Starting with: EFB1C4ZNWN (296/399)
+Finished with: EFB1C4ZNWN
+Starting with: EFB1C4ZNWP (297/399)
+Finished with: EFB1C4ZNWP
+Starting with: EFB1C4ZNWQ (298/399)
+Finished with: EFB1C4ZNWQ
+Starting with: EFB1C4ZNWR (299/399)
+Finished with: EFB1C4ZNWR
+Starting with: EFB1C4ZNWT (300/399)
+Finished with: EFB1C4ZNWT
+Starting with: EFB1C4ZNWV (301/399)
+Finished with: EFB1C4ZNWV
+Starting with: EFB1C4ZNWW (302/399)
+Finished with: EFB1C4ZNWW
+Starting with: EFB1C4ZNWZ (303/399)
+Finished with: EFB1C4ZNWZ
+Starting with: EFB1C4ZNX0 (304/399)
+Finished with: EFB1C4ZNX0
+Starting with: EFB1C4ZNX1 (305/399)
+Finished with: EFB1C4ZNX1
+Starting with: EFB1C4ZNX2 (306/399)
+Finished with: EFB1C4ZNX2
+Starting with: EFB1C4ZNX6 (307/399)
+Finished with: EFB1C4ZNX6
+Starting with: EFB1C4ZNX9 (308/399)
+Finished with: EFB1C4ZNX9
+Starting with: EFB1C4ZNXB (309/399)
+Finished with: EFB1C4ZNXB
+Starting with: EFB1C4ZNXC (310/399)
+Finished with: EFB1C4ZNXC
+Starting with: EFB1C4ZNXD (311/399)
+Finished with: EFB1C4ZNXD
+Starting with: EFB1C4ZNXF (312/399)
+Finished with: EFB1C4ZNXF
+Starting with: EFB1C4ZNXG (313/399)
+Finished with: EFB1C4ZNXG
+Starting with: EFB1C4ZNXK (314/399)
+Finished with: EFB1C4ZNXK
+Starting with: EFB1C4ZNXL (315/399)
+Finished with: EFB1C4ZNXL
+Starting with: EFB1C4ZNXM (316/399)
+Finished with: EFB1C4ZNXM
+Starting with: EFB1C4ZNXN (317/399)
+Finished with: EFB1C4ZNXN
+Starting with: EFB1C4ZNXP (318/399)
+Finished with: EFB1C4ZNXP
+Starting with: EFB1C4ZNXQ (319/399)
+Finished with: EFB1C4ZNXQ
+Starting with: EFB1C4ZNXT (320/399)
+Finished with: EFB1C4ZNXT
+Starting with: EFB1C4ZNXW (321/399)
+Finished with: EFB1C4ZNXW
+Starting with: EFB1C4ZNXX (322/399)
+Finished with: EFB1C4ZNXX
+Starting with: EFB1C4ZNXZ (323/399)
+Finished with: EFB1C4ZNXZ
+Starting with: EFB1C4ZNZ2 (324/399)
+Finished with: EFB1C4ZNZ2
+Starting with: EFB1C4ZNZ3 (325/399)
+Finished with: EFB1C4ZNZ3
+Starting with: EFB1C4ZNZ5 (326/399)
+Finished with: EFB1C4ZNZ5
+Starting with: EFB1C4ZNZ6 (327/399)
+Finished with: EFB1C4ZNZ6
+Starting with: EFB1C4ZNZ8 (328/399)
+Finished with: EFB1C4ZNZ8
+Starting with: EFB1C4ZNZ9 (329/399)
+Finished with: EFB1C4ZNZ9
+Starting with: EFB1C4ZNZB (330/399)
+Finished with: EFB1C4ZNZB
+Starting with: EFB1C4ZNZD (331/399)
+Finished with: EFB1C4ZNZD
+Starting with: EFB1C4ZNZH (332/399)
+Finished with: EFB1C4ZNZH
+Starting with: EFB1C4ZNZK (333/399)
+Finished with: EFB1C4ZNZK
+Starting with: EFB1C4ZNZL (334/399)
+Finished with: EFB1C4ZNZL
+Starting with: EFB1C4ZNZM (335/399)
+Finished with: EFB1C4ZNZM
+Starting with: EFB1C4ZNZN (336/399)
+Finished with: EFB1C4ZNZN
+Starting with: EFB1C4ZNZP (337/399)
+Finished with: EFB1C4ZNZP
+Starting with: EFB1C4ZNZT (338/399)
+Finished with: EFB1C4ZNZT
+Starting with: EFB1C4ZNZV (339/399)
+Finished with: EFB1C4ZNZV
+Starting with: EFB1C4ZNZW (340/399)
+Finished with: EFB1C4ZNZW
+Starting with: EFB1C4ZNZZ (341/399)
+Finished with: EFB1C4ZNZZ
+Starting with: EFB1C4ZP00 (342/399)
+Finished with: EFB1C4ZP00
+Starting with: EFB1C4ZP01 (343/399)
+Finished with: EFB1C4ZP01
+Starting with: EFB1C4ZP02 (344/399)
+Finished with: EFB1C4ZP02
+Starting with: EFB1C4ZP03 (345/399)
+Finished with: EFB1C4ZP03
+Starting with: EFB1C4ZP04 (346/399)
+Finished with: EFB1C4ZP04
+Starting with: EFB1C4ZP05 (347/399)
+Finished with: EFB1C4ZP05
+Starting with: EFB1C4ZP06 (348/399)
+Finished with: EFB1C4ZP06
+Starting with: EFB1C4ZP07 (349/399)
+Finished with: EFB1C4ZP07
+Starting with: EFB1C4ZP08 (350/399)
+Finished with: EFB1C4ZP08
+Starting with: EFB1C4ZP09 (351/399)
+Finished with: EFB1C4ZP09
+Starting with: EFB1C4ZP0B (352/399)
+Finished with: EFB1C4ZP0B
+Starting with: EFB1C4ZP0D (353/399)
+Finished with: EFB1C4ZP0D
+Starting with: EFB1C4ZP0F (354/399)
+Finished with: EFB1C4ZP0F
+Starting with: EFB1C4ZP0G (355/399)
+Finished with: EFB1C4ZP0G
+Starting with: EFB1C4ZP0H (356/399)
+Finished with: EFB1C4ZP0H
+Starting with: EFB1C4ZP0J (357/399)
+Finished with: EFB1C4ZP0J
+Starting with: EFB1C4ZP0K (358/399)
+Finished with: EFB1C4ZP0K
+Starting with: EFB1C4ZP0L (359/399)
+Finished with: EFB1C4ZP0L
+Starting with: EFB1C4ZP0M (360/399)
+Finished with: EFB1C4ZP0M
+Starting with: EFB1C4ZP0N (361/399)
+Finished with: EFB1C4ZP0N
+Starting with: EFB1C4ZP0P (362/399)
+Finished with: EFB1C4ZP0P
+Starting with: EFB1C4ZP0Q (363/399)
+Finished with: EFB1C4ZP0Q
+Starting with: EFB1C4ZP0R (364/399)
+Finished with: EFB1C4ZP0R
+Starting with: EFB1C4ZP0S (365/399)
+Finished with: EFB1C4ZP0S
+Starting with: EFB1C4ZP0T (366/399)
+Finished with: EFB1C4ZP0T
+Starting with: EFB1C4ZP0V (367/399)
+Finished with: EFB1C4ZP0V
+Starting with: EFB1C4ZP0W (368/399)
+Finished with: EFB1C4ZP0W
+Starting with: EFB1C4ZP0Z (369/399)
+Finished with: EFB1C4ZP0Z
+Starting with: EFB1C4ZP10 (370/399)
+Finished with: EFB1C4ZP10
+Starting with: EFB1C4ZP11 (371/399)
+Finished with: EFB1C4ZP11
+Starting with: EFB1C4ZP12 (372/399)
+Finished with: EFB1C4ZP12
+Starting with: EFB1C4ZP13 (373/399)
+Finished with: EFB1C4ZP13
+Starting with: EFB1C4ZP14 (374/399)
+Finished with: EFB1C4ZP14
+Starting with: EFB1C4ZP15 (375/399)
+Finished with: EFB1C4ZP15
+Starting with: EFB1C4ZP16 (376/399)
+Finished with: EFB1C4ZP16
+Starting with: EFB1C4ZP17 (377/399)
+Finished with: EFB1C4ZP17
+Starting with: EFB1C4ZP18 (378/399)
+Finished with: EFB1C4ZP18
+Starting with: EFB1C4ZP19 (379/399)
+Finished with: EFB1C4ZP19
+Starting with: EFB1C4ZP1B (380/399)
+Finished with: EFB1C4ZP1B
+Starting with: EFB1C4ZP1C (381/399)
+Finished with: EFB1C4ZP1C
+Starting with: EFB1C4ZP1D (382/399)
+Finished with: EFB1C4ZP1D
+Starting with: EFB1C4ZP1F (383/399)
+Finished with: EFB1C4ZP1F
+Starting with: EFB1C4ZP1G (384/399)
+Finished with: EFB1C4ZP1G
+Starting with: EFB1C4ZP1H (385/399)
+Finished with: EFB1C4ZP1H
+Starting with: EFB1C4ZP1J (386/399)
+Finished with: EFB1C4ZP1J
+Starting with: EFB1C4ZP1K (387/399)
+Finished with: EFB1C4ZP1K
+Starting with: EFB1C4ZP1L (388/399)
+Finished with: EFB1C4ZP1L
+Starting with: EFB1C4ZP1N (389/399)
+Finished with: EFB1C4ZP1N
+Starting with: EFB1C4ZP1P (390/399)
+Finished with: EFB1C4ZP1P
+Starting with: EFB1C4ZP1Q (391/399)
+Finished with: EFB1C4ZP1Q
+Starting with: EFB1C4ZP1R (392/399)
+Finished with: EFB1C4ZP1R
+Starting with: EFB1C4ZP1S (393/399)
+Finished with: EFB1C4ZP1S
+Starting with: EFB1C4ZP1T (394/399)
+Finished with: EFB1C4ZP1T
+Starting with: EFB1C4ZP1V (395/399)
+Finished with: EFB1C4ZP1V
+Starting with: EFB1C4ZP1W (396/399)
+Finished with: EFB1C4ZP1W
+Starting with: EFB1C4ZP1X (397/399)
+Finished with: EFB1C4ZP1X
+Starting with: EFB1C4ZP1Z (398/399)
+Finished with: EFB1C4ZP1Z
+Starting with: EFB1C4ZP20 (399/399)
+Finished with: EFB1C4ZP20
+Results of tool were succesfully made.
+Time stamp: 84 seconds.
+Starting run_mydbfinder.sh (2020-10-19 18:22:38)
+--------------------------------------------------------------------------------
+Path used is: /home/projects/cge/people/cathom
+Results will be saved: DTU_LAB_20200825_110300
+Database used is: /home/projects/cge/people/cathom/data/db/probiotics
+Time stamp: 0 seconds.
+
+Starting STEP 1: Run MyDbFinder
+Output directory: /home/projects/cge/people/cathom/results/DTU_LAB_20200825_110300/mydbfinder/probiotics already exists. Files will be overwritten.
+Starting with: EFB1C4ZNK7 (1/399)
+Finished with: EFB1C4ZNK7
+Starting with: EFB1C4ZNK8 (2/399)
+Finished with: EFB1C4ZNK8
+Starting with: EFB1C4ZNK9 (3/399)
+Finished with: EFB1C4ZNK9
+Starting with: EFB1C4ZNKB (4/399)
+Finished with: EFB1C4ZNKB
+Starting with: EFB1C4ZNKD (5/399)
+Finished with: EFB1C4ZNKD
+Starting with: EFB1C4ZNKF (6/399)
+Finished with: EFB1C4ZNKF
+Starting with: EFB1C4ZNKG (7/399)
+Finished with: EFB1C4ZNKG
+Starting with: EFB1C4ZNKH (8/399)
+Finished with: EFB1C4ZNKH
+Starting with: EFB1C4ZNKJ (9/399)
+Finished with: EFB1C4ZNKJ
+Starting with: EFB1C4ZNKK (10/399)
+Finished with: EFB1C4ZNKK
+Starting with: EFB1C4ZNKM (11/399)
+Finished with: EFB1C4ZNKM
+Starting with: EFB1C4ZNKN (12/399)
+Finished with: EFB1C4ZNKN
+Starting with: EFB1C4ZNKP (13/399)
+Finished with: EFB1C4ZNKP
+Starting with: EFB1C4ZNKQ (14/399)
+Finished with: EFB1C4ZNKQ
+Starting with: EFB1C4ZNKS (15/399)
+Finished with: EFB1C4ZNKS
+Starting with: EFB1C4ZNKT (16/399)
+Finished with: EFB1C4ZNKT
+Starting with: EFB1C4ZNKV (17/399)
+Finished with: EFB1C4ZNKV
+Starting with: EFB1C4ZNKW (18/399)
+Finished with: EFB1C4ZNKW
+Starting with: EFB1C4ZNKX (19/399)
+Finished with: EFB1C4ZNKX
+Starting with: EFB1C4ZNKZ (20/399)
+Finished with: EFB1C4ZNKZ
+Starting with: EFB1C4ZNL0 (21/399)
+Finished with: EFB1C4ZNL0
+Starting with: EFB1C4ZNL1 (22/399)
+Finished with: EFB1C4ZNL1
+Starting with: EFB1C4ZNL2 (23/399)
+Finished with: EFB1C4ZNL2
+Starting with: EFB1C4ZNL3 (24/399)
+Finished with: EFB1C4ZNL3
+Starting with: EFB1C4ZNL4 (25/399)
+Finished with: EFB1C4ZNL4
+Starting with: EFB1C4ZNL6 (26/399)
+Finished with: EFB1C4ZNL6
+Starting with: EFB1C4ZNL7 (27/399)
+Finished with: EFB1C4ZNL7
+Starting with: EFB1C4ZNL8 (28/399)
+Finished with: EFB1C4ZNL8
+Starting with: EFB1C4ZNL9 (29/399)
+Finished with: EFB1C4ZNL9
+Starting with: EFB1C4ZNLB (30/399)
+Finished with: EFB1C4ZNLB
+Starting with: EFB1C4ZNLC (31/399)
+Finished with: EFB1C4ZNLC
+Starting with: EFB1C4ZNLD (32/399)
+Finished with: EFB1C4ZNLD
+Starting with: EFB1C4ZNLF (33/399)
+Finished with: EFB1C4ZNLF
+Starting with: EFB1C4ZNLG (34/399)
+Finished with: EFB1C4ZNLG
+Starting with: EFB1C4ZNLH (35/399)
+Finished with: EFB1C4ZNLH
+Starting with: EFB1C4ZNLJ (36/399)
+Finished with: EFB1C4ZNLJ
+Starting with: EFB1C4ZNLK (37/399)
+Finished with: EFB1C4ZNLK
+Starting with: EFB1C4ZNLL (38/399)
+Finished with: EFB1C4ZNLL
+Starting with: EFB1C4ZNLM (39/399)
+Finished with: EFB1C4ZNLM
+Starting with: EFB1C4ZNLN (40/399)
+Finished with: EFB1C4ZNLN
+Starting with: EFB1C4ZNLP (41/399)
+Finished with: EFB1C4ZNLP
+Starting with: EFB1C4ZNLQ (42/399)
+Finished with: EFB1C4ZNLQ
+Starting with: EFB1C4ZNLR (43/399)
+Finished with: EFB1C4ZNLR
+Starting with: EFB1C4ZNLS (44/399)
+Finished with: EFB1C4ZNLS
+Starting with: EFB1C4ZNLT (45/399)
+Finished with: EFB1C4ZNLT
+Starting with: EFB1C4ZNLV (46/399)
+Finished with: EFB1C4ZNLV
+Starting with: EFB1C4ZNLW (47/399)
+Finished with: EFB1C4ZNLW
+Starting with: EFB1C4ZNLX (48/399)
+Finished with: EFB1C4ZNLX
+Starting with: EFB1C4ZNLZ (49/399)
+Finished with: EFB1C4ZNLZ
+Starting with: EFB1C4ZNM0 (50/399)
+Finished with: EFB1C4ZNM0
+Starting with: EFB1C4ZNM1 (51/399)
+Finished with: EFB1C4ZNM1
+Starting with: EFB1C4ZNM2 (52/399)
+Finished with: EFB1C4ZNM2
+Starting with: EFB1C4ZNM3 (53/399)
+Finished with: EFB1C4ZNM3
+Starting with: EFB1C4ZNM4 (54/399)
+Finished with: EFB1C4ZNM4
+Starting with: EFB1C4ZNM5 (55/399)
+Finished with: EFB1C4ZNM5
+Starting with: EFB1C4ZNM6 (56/399)
+Finished with: EFB1C4ZNM6
+Starting with: EFB1C4ZNM7 (57/399)
+Finished with: EFB1C4ZNM7
+Starting with: EFB1C4ZNM8 (58/399)
+Finished with: EFB1C4ZNM8
+Starting with: EFB1C4ZNM9 (59/399)
+Finished with: EFB1C4ZNM9
+Starting with: EFB1C4ZNMB (60/399)
+Finished with: EFB1C4ZNMB
+Starting with: EFB1C4ZNMC (61/399)
+Finished with: EFB1C4ZNMC
+Starting with: EFB1C4ZNMD (62/399)
+Finished with: EFB1C4ZNMD
+Starting with: EFB1C4ZNMF (63/399)
+Finished with: EFB1C4ZNMF
+Starting with: EFB1C4ZNMG (64/399)
+Finished with: EFB1C4ZNMG
+Starting with: EFB1C4ZNMH (65/399)
+Finished with: EFB1C4ZNMH
+Starting with: EFB1C4ZNMJ (66/399)
+Finished with: EFB1C4ZNMJ
+Starting with: EFB1C4ZNMK (67/399)
+Finished with: EFB1C4ZNMK
+Starting with: EFB1C4ZNML (68/399)
+Finished with: EFB1C4ZNML
+Starting with: EFB1C4ZNMM (69/399)
+Finished with: EFB1C4ZNMM
+Starting with: EFB1C4ZNMN (70/399)
+Finished with: EFB1C4ZNMN
+Starting with: EFB1C4ZNMP (71/399)
+Finished with: EFB1C4ZNMP
+Starting with: EFB1C4ZNMQ (72/399)
+Finished with: EFB1C4ZNMQ
+Starting with: EFB1C4ZNMR (73/399)
+Finished with: EFB1C4ZNMR
+Starting with: EFB1C4ZNMS (74/399)
+Finished with: EFB1C4ZNMS
+Starting with: EFB1C4ZNMT (75/399)
+Finished with: EFB1C4ZNMT
+Starting with: EFB1C4ZNMV (76/399)
+Finished with: EFB1C4ZNMV
+Starting with: EFB1C4ZNMW (77/399)
+Finished with: EFB1C4ZNMW
+Starting with: EFB1C4ZNMX (78/399)
+Finished with: EFB1C4ZNMX
+Starting with: EFB1C4ZNMZ (79/399)
+Finished with: EFB1C4ZNMZ
+Starting with: EFB1C4ZNN0 (80/399)
+Finished with: EFB1C4ZNN0
+Starting with: EFB1C4ZNN1 (81/399)
+Finished with: EFB1C4ZNN1
+Starting with: EFB1C4ZNN2 (82/399)
+Finished with: EFB1C4ZNN2
+Starting with: EFB1C4ZNN3 (83/399)
+Finished with: EFB1C4ZNN3
+Starting with: EFB1C4ZNN5 (84/399)
+Finished with: EFB1C4ZNN5
+Starting with: EFB1C4ZNN6 (85/399)
+Finished with: EFB1C4ZNN6
+Starting with: EFB1C4ZNN7 (86/399)
+Finished with: EFB1C4ZNN7
+Starting with: EFB1C4ZNN8 (87/399)
+Finished with: EFB1C4ZNN8
+Starting with: EFB1C4ZNN9 (88/399)
+Finished with: EFB1C4ZNN9
+Starting with: EFB1C4ZNNB (89/399)
+Finished with: EFB1C4ZNNB
+Starting with: EFB1C4ZNNC (90/399)
+Finished with: EFB1C4ZNNC
+Starting with: EFB1C4ZNND (91/399)
+Finished with: EFB1C4ZNND
+Starting with: EFB1C4ZNNF (92/399)
+Finished with: EFB1C4ZNNF
+Starting with: EFB1C4ZNNG (93/399)
+Finished with: EFB1C4ZNNG
+Starting with: EFB1C4ZNNH (94/399)
+Finished with: EFB1C4ZNNH
+Starting with: EFB1C4ZNNJ (95/399)
+Finished with: EFB1C4ZNNJ
+Starting with: EFB1C4ZNNK (96/399)
+Finished with: EFB1C4ZNNK
+Starting with: EFB1C4ZNNL (97/399)
+Finished with: EFB1C4ZNNL
+Starting with: EFB1C4ZNNM (98/399)
+Finished with: EFB1C4ZNNM
+Starting with: EFB1C4ZNNN (99/399)
+Finished with: EFB1C4ZNNN
+Starting with: EFB1C4ZNNP (100/399)
+Finished with: EFB1C4ZNNP
+Starting with: EFB1C4ZNNQ (101/399)
+Finished with: EFB1C4ZNNQ
+Starting with: EFB1C4ZNNR (102/399)
+Finished with: EFB1C4ZNNR
+Starting with: EFB1C4ZNNS (103/399)
+Finished with: EFB1C4ZNNS
+Starting with: EFB1C4ZNNT (104/399)
+Finished with: EFB1C4ZNNT
+Starting with: EFB1C4ZNNV (105/399)
+Finished with: EFB1C4ZNNV
+Starting with: EFB1C4ZNNW (106/399)
+Finished with: EFB1C4ZNNW
+Starting with: EFB1C4ZNNX (107/399)
+Finished with: EFB1C4ZNNX
+Starting with: EFB1C4ZNNZ (108/399)
+Finished with: EFB1C4ZNNZ
+Starting with: EFB1C4ZNP0 (109/399)
+Finished with: EFB1C4ZNP0
+Starting with: EFB1C4ZNP1 (110/399)
+Finished with: EFB1C4ZNP1
+Starting with: EFB1C4ZNP2 (111/399)
+Finished with: EFB1C4ZNP2
+Starting with: EFB1C4ZNP3 (112/399)
+Finished with: EFB1C4ZNP3
+Starting with: EFB1C4ZNP4 (113/399)
+Finished with: EFB1C4ZNP4
+Starting with: EFB1C4ZNP5 (114/399)
+Finished with: EFB1C4ZNP5
+Starting with: EFB1C4ZNP6 (115/399)
+Finished with: EFB1C4ZNP6
+Starting with: EFB1C4ZNP7 (116/399)
+Finished with: EFB1C4ZNP7
+Starting with: EFB1C4ZNP8 (117/399)
+Finished with: EFB1C4ZNP8
+Starting with: EFB1C4ZNP9 (118/399)
+Finished with: EFB1C4ZNP9
+Starting with: EFB1C4ZNPB (119/399)
+Finished with: EFB1C4ZNPB
+Starting with: EFB1C4ZNPC (120/399)
+Finished with: EFB1C4ZNPC
+Starting with: EFB1C4ZNPD (121/399)
+Finished with: EFB1C4ZNPD
+Starting with: EFB1C4ZNPF (122/399)
+Finished with: EFB1C4ZNPF
+Starting with: EFB1C4ZNPG (123/399)
+Finished with: EFB1C4ZNPG
+Starting with: EFB1C4ZNPH (124/399)
+Finished with: EFB1C4ZNPH
+Starting with: EFB1C4ZNPJ (125/399)
+Finished with: EFB1C4ZNPJ
+Starting with: EFB1C4ZNPK (126/399)
+Finished with: EFB1C4ZNPK
+Starting with: EFB1C4ZNPL (127/399)
+Finished with: EFB1C4ZNPL
+Starting with: EFB1C4ZNPM (128/399)
+Finished with: EFB1C4ZNPM
+Starting with: EFB1C4ZNPN (129/399)
+Finished with: EFB1C4ZNPN
+Starting with: EFB1C4ZNPP (130/399)
+Finished with: EFB1C4ZNPP
+Starting with: EFB1C4ZNPQ (131/399)
+Finished with: EFB1C4ZNPQ
+Starting with: EFB1C4ZNPR (132/399)
+Finished with: EFB1C4ZNPR
+Starting with: EFB1C4ZNPS (133/399)
+Finished with: EFB1C4ZNPS
+Starting with: EFB1C4ZNPT (134/399)
+Finished with: EFB1C4ZNPT
+Starting with: EFB1C4ZNPV (135/399)
+Finished with: EFB1C4ZNPV
+Starting with: EFB1C4ZNPW (136/399)
+Finished with: EFB1C4ZNPW
+Starting with: EFB1C4ZNPX (137/399)
+Finished with: EFB1C4ZNPX
+Starting with: EFB1C4ZNPZ (138/399)
+Finished with: EFB1C4ZNPZ
+Starting with: EFB1C4ZNQ0 (139/399)
+Finished with: EFB1C4ZNQ0
+Starting with: EFB1C4ZNQ1 (140/399)
+Finished with: EFB1C4ZNQ1
+Starting with: EFB1C4ZNQ2 (141/399)
+Finished with: EFB1C4ZNQ2
+Starting with: EFB1C4ZNQ3 (142/399)
+Finished with: EFB1C4ZNQ3
+Starting with: EFB1C4ZNQ4 (143/399)
+Finished with: EFB1C4ZNQ4
+Starting with: EFB1C4ZNQ5 (144/399)
+Finished with: EFB1C4ZNQ5
+Starting with: EFB1C4ZNQ6 (145/399)
+Finished with: EFB1C4ZNQ6
+Starting with: EFB1C4ZNQ7 (146/399)
+Finished with: EFB1C4ZNQ7
+Starting with: EFB1C4ZNQ9 (147/399)
+Finished with: EFB1C4ZNQ9
+Starting with: EFB1C4ZNQB (148/399)
+Finished with: EFB1C4ZNQB
+Starting with: EFB1C4ZNQC (149/399)
+Finished with: EFB1C4ZNQC
+Starting with: EFB1C4ZNQD (150/399)
+Finished with: EFB1C4ZNQD
+Starting with: EFB1C4ZNQF (151/399)
+Finished with: EFB1C4ZNQF
+Starting with: EFB1C4ZNQG (152/399)
+Finished with: EFB1C4ZNQG
+Starting with: EFB1C4ZNQH (153/399)
+Finished with: EFB1C4ZNQH
+Starting with: EFB1C4ZNQJ (154/399)
+Finished with: EFB1C4ZNQJ
+Starting with: EFB1C4ZNQL (155/399)
+Finished with: EFB1C4ZNQL
+Starting with: EFB1C4ZNQM (156/399)
+Finished with: EFB1C4ZNQM
+Starting with: EFB1C4ZNQN (157/399)
+Finished with: EFB1C4ZNQN
+Starting with: EFB1C4ZNQP (158/399)
+Finished with: EFB1C4ZNQP
+Starting with: EFB1C4ZNQQ (159/399)
+Finished with: EFB1C4ZNQQ
+Starting with: EFB1C4ZNQR (160/399)
+Finished with: EFB1C4ZNQR
+Starting with: EFB1C4ZNQS (161/399)
+Finished with: EFB1C4ZNQS
+Starting with: EFB1C4ZNQT (162/399)
+Finished with: EFB1C4ZNQT
+Starting with: EFB1C4ZNQV (163/399)
+Finished with: EFB1C4ZNQV
+Starting with: EFB1C4ZNQW (164/399)
+Finished with: EFB1C4ZNQW
+Starting with: EFB1C4ZNQX (165/399)
+Finished with: EFB1C4ZNQX
+Starting with: EFB1C4ZNQZ (166/399)
+Finished with: EFB1C4ZNQZ
+Starting with: EFB1C4ZNR0 (167/399)
+Finished with: EFB1C4ZNR0
+Starting with: EFB1C4ZNR1 (168/399)
+Finished with: EFB1C4ZNR1
+Starting with: EFB1C4ZNR2 (169/399)
+Finished with: EFB1C4ZNR2
+Starting with: EFB1C4ZNR3 (170/399)
+Finished with: EFB1C4ZNR3
+Starting with: EFB1C4ZNR4 (171/399)
+Finished with: EFB1C4ZNR4
+Starting with: EFB1C4ZNR5 (172/399)
+Finished with: EFB1C4ZNR5
+Starting with: EFB1C4ZNR6 (173/399)
+Finished with: EFB1C4ZNR6
+Starting with: EFB1C4ZNR7 (174/399)
+Finished with: EFB1C4ZNR7
+Starting with: EFB1C4ZNR8 (175/399)
+Finished with: EFB1C4ZNR8
+Starting with: EFB1C4ZNR9 (176/399)
+Finished with: EFB1C4ZNR9
+Starting with: EFB1C4ZNRC (177/399)
+Finished with: EFB1C4ZNRC
+Starting with: EFB1C4ZNRD (178/399)
+Finished with: EFB1C4ZNRD
+Starting with: EFB1C4ZNRF (179/399)
+Finished with: EFB1C4ZNRF
+Starting with: EFB1C4ZNRG (180/399)
+Finished with: EFB1C4ZNRG
+Starting with: EFB1C4ZNRH (181/399)
+Finished with: EFB1C4ZNRH
+Starting with: EFB1C4ZNRJ (182/399)
+Finished with: EFB1C4ZNRJ
+Starting with: EFB1C4ZNRK (183/399)
+Finished with: EFB1C4ZNRK
+Starting with: EFB1C4ZNRL (184/399)
+Finished with: EFB1C4ZNRL
+Starting with: EFB1C4ZNRM (185/399)
+Finished with: EFB1C4ZNRM
+Starting with: EFB1C4ZNRN (186/399)
+Finished with: EFB1C4ZNRN
+Starting with: EFB1C4ZNRP (187/399)
+Finished with: EFB1C4ZNRP
+Starting with: EFB1C4ZNRQ (188/399)
+Finished with: EFB1C4ZNRQ
+Starting with: EFB1C4ZNRR (189/399)
+Finished with: EFB1C4ZNRR
+Starting with: EFB1C4ZNRS (190/399)
+Finished with: EFB1C4ZNRS
+Starting with: EFB1C4ZNRT (191/399)
+Finished with: EFB1C4ZNRT
+Starting with: EFB1C4ZNRV (192/399)
+Finished with: EFB1C4ZNRV
+Starting with: EFB1C4ZNRW (193/399)
+Finished with: EFB1C4ZNRW
+Starting with: EFB1C4ZNRX (194/399)
+Finished with: EFB1C4ZNRX
+Starting with: EFB1C4ZNS1 (195/399)
+Finished with: EFB1C4ZNS1
+Starting with: EFB1C4ZNS2 (196/399)
+Finished with: EFB1C4ZNS2
+Starting with: EFB1C4ZNS3 (197/399)
+Finished with: EFB1C4ZNS3
+Starting with: EFB1C4ZNS4 (198/399)
+Finished with: EFB1C4ZNS4
+Starting with: EFB1C4ZNS5 (199/399)
+Finished with: EFB1C4ZNS5
+Starting with: EFB1C4ZNS6 (200/399)
+Finished with: EFB1C4ZNS6
+Starting with: EFB1C4ZNS7 (201/399)
+Finished with: EFB1C4ZNS7
+Starting with: EFB1C4ZNS8 (202/399)
+Finished with: EFB1C4ZNS8
+Starting with: EFB1C4ZNS9 (203/399)
+Finished with: EFB1C4ZNS9
+Starting with: EFB1C4ZNSB (204/399)
+Finished with: EFB1C4ZNSB
+Starting with: EFB1C4ZNSC (205/399)
+Finished with: EFB1C4ZNSC
+Starting with: EFB1C4ZNSD (206/399)
+Finished with: EFB1C4ZNSD
+Starting with: EFB1C4ZNSF (207/399)
+Finished with: EFB1C4ZNSF
+Starting with: EFB1C4ZNSG (208/399)
+Finished with: EFB1C4ZNSG
+Starting with: EFB1C4ZNSH (209/399)
+Finished with: EFB1C4ZNSH
+Starting with: EFB1C4ZNSJ (210/399)
+Finished with: EFB1C4ZNSJ
+Starting with: EFB1C4ZNSK (211/399)
+Finished with: EFB1C4ZNSK
+Starting with: EFB1C4ZNSL (212/399)
+Finished with: EFB1C4ZNSL
+Starting with: EFB1C4ZNSM (213/399)
+Finished with: EFB1C4ZNSM
+Starting with: EFB1C4ZNSN (214/399)
+Finished with: EFB1C4ZNSN
+Starting with: EFB1C4ZNSP (215/399)
+Finished with: EFB1C4ZNSP
+Starting with: EFB1C4ZNSQ (216/399)
+Finished with: EFB1C4ZNSQ
+Starting with: EFB1C4ZNSR (217/399)
+Finished with: EFB1C4ZNSR
+Starting with: EFB1C4ZNSS (218/399)
+Finished with: EFB1C4ZNSS
+Starting with: EFB1C4ZNST (219/399)
+Finished with: EFB1C4ZNST
+Starting with: EFB1C4ZNSV (220/399)
+Finished with: EFB1C4ZNSV
+Starting with: EFB1C4ZNSW (221/399)
+Finished with: EFB1C4ZNSW
+Starting with: EFB1C4ZNSX (222/399)
+Finished with: EFB1C4ZNSX
+Starting with: EFB1C4ZNSZ (223/399)
+Finished with: EFB1C4ZNSZ
+Starting with: EFB1C4ZNT0 (224/399)
+Finished with: EFB1C4ZNT0
+Starting with: EFB1C4ZNT1 (225/399)
+Finished with: EFB1C4ZNT1
+Starting with: EFB1C4ZNT2 (226/399)
+Finished with: EFB1C4ZNT2
+Starting with: EFB1C4ZNT3 (227/399)
+Finished with: EFB1C4ZNT3
+Starting with: EFB1C4ZNT4 (228/399)
+Finished with: EFB1C4ZNT4
+Starting with: EFB1C4ZNT5 (229/399)
+Finished with: EFB1C4ZNT5
+Starting with: EFB1C4ZNT6 (230/399)
+Finished with: EFB1C4ZNT6
+Starting with: EFB1C4ZNT7 (231/399)
+Finished with: EFB1C4ZNT7
+Starting with: EFB1C4ZNT8 (232/399)
+Finished with: EFB1C4ZNT8
+Starting with: EFB1C4ZNT9 (233/399)
+Finished with: EFB1C4ZNT9
+Starting with: EFB1C4ZNTB (234/399)
+Finished with: EFB1C4ZNTB
+Starting with: EFB1C4ZNTC (235/399)
+Finished with: EFB1C4ZNTC
+Starting with: EFB1C4ZNTD (236/399)
+Finished with: EFB1C4ZNTD
+Starting with: EFB1C4ZNTF (237/399)
+Finished with: EFB1C4ZNTF
+Starting with: EFB1C4ZNTG (238/399)
+Finished with: EFB1C4ZNTG
+Starting with: EFB1C4ZNTH (239/399)
+Finished with: EFB1C4ZNTH
+Starting with: EFB1C4ZNTJ (240/399)
+Finished with: EFB1C4ZNTJ
+Starting with: EFB1C4ZNTK (241/399)
+Finished with: EFB1C4ZNTK
+Starting with: EFB1C4ZNTL (242/399)
+Finished with: EFB1C4ZNTL
+Starting with: EFB1C4ZNTM (243/399)
+Finished with: EFB1C4ZNTM
+Starting with: EFB1C4ZNTP (244/399)
+Finished with: EFB1C4ZNTP
+Starting with: EFB1C4ZNTQ (245/399)
+Finished with: EFB1C4ZNTQ
+Starting with: EFB1C4ZNTR (246/399)
+Finished with: EFB1C4ZNTR
+Starting with: EFB1C4ZNTS (247/399)
+Finished with: EFB1C4ZNTS
+Starting with: EFB1C4ZNTT (248/399)
+Finished with: EFB1C4ZNTT
+Starting with: EFB1C4ZNTV (249/399)
+Finished with: EFB1C4ZNTV
+Starting with: EFB1C4ZNTW (250/399)
+Finished with: EFB1C4ZNTW
+Starting with: EFB1C4ZNTX (251/399)
+Finished with: EFB1C4ZNTX
+Starting with: EFB1C4ZNTZ (252/399)
+Finished with: EFB1C4ZNTZ
+Starting with: EFB1C4ZNV0 (253/399)
+Finished with: EFB1C4ZNV0
+Starting with: EFB1C4ZNV2 (254/399)
+Finished with: EFB1C4ZNV2
+Starting with: EFB1C4ZNV3 (255/399)
+Finished with: EFB1C4ZNV3
+Starting with: EFB1C4ZNV4 (256/399)
+Finished with: EFB1C4ZNV4
+Starting with: EFB1C4ZNV5 (257/399)
+Finished with: EFB1C4ZNV5
+Starting with: EFB1C4ZNV7 (258/399)
+Finished with: EFB1C4ZNV7
+Starting with: EFB1C4ZNV8 (259/399)
+Finished with: EFB1C4ZNV8
+Starting with: EFB1C4ZNV9 (260/399)
+Finished with: EFB1C4ZNV9
+Starting with: EFB1C4ZNVB (261/399)
+Finished with: EFB1C4ZNVB
+Starting with: EFB1C4ZNVD (262/399)
+Finished with: EFB1C4ZNVD
+Starting with: EFB1C4ZNVF (263/399)
+Finished with: EFB1C4ZNVF
+Starting with: EFB1C4ZNVJ (264/399)
+Finished with: EFB1C4ZNVJ
+Starting with: EFB1C4ZNVK (265/399)
+Finished with: EFB1C4ZNVK
+Starting with: EFB1C4ZNVL (266/399)
+Finished with: EFB1C4ZNVL
+Starting with: EFB1C4ZNVM (267/399)
+Finished with: EFB1C4ZNVM
+Starting with: EFB1C4ZNVN (268/399)
+Finished with: EFB1C4ZNVN
+Starting with: EFB1C4ZNVP (269/399)
+Finished with: EFB1C4ZNVP
+Starting with: EFB1C4ZNVQ (270/399)
+Finished with: EFB1C4ZNVQ
+Starting with: EFB1C4ZNVR (271/399)
+Finished with: EFB1C4ZNVR
+Starting with: EFB1C4ZNVS (272/399)
+Finished with: EFB1C4ZNVS
+Starting with: EFB1C4ZNVT (273/399)
+Finished with: EFB1C4ZNVT
+Starting with: EFB1C4ZNVV (274/399)
+Finished with: EFB1C4ZNVV
+Starting with: EFB1C4ZNVW (275/399)
+Finished with: EFB1C4ZNVW
+Starting with: EFB1C4ZNVX (276/399)
+Finished with: EFB1C4ZNVX
+Starting with: EFB1C4ZNVZ (277/399)
+Finished with: EFB1C4ZNVZ
+Starting with: EFB1C4ZNW0 (278/399)
+Finished with: EFB1C4ZNW0
+Starting with: EFB1C4ZNW1 (279/399)
+Finished with: EFB1C4ZNW1
+Starting with: EFB1C4ZNW2 (280/399)
+Finished with: EFB1C4ZNW2
+Starting with: EFB1C4ZNW3 (281/399)
+Finished with: EFB1C4ZNW3
+Starting with: EFB1C4ZNW4 (282/399)
+Finished with: EFB1C4ZNW4
+Starting with: EFB1C4ZNW6 (283/399)
+Finished with: EFB1C4ZNW6
+Starting with: EFB1C4ZNW7 (284/399)
+Finished with: EFB1C4ZNW7
+Starting with: EFB1C4ZNW8 (285/399)
+Finished with: EFB1C4ZNW8
+Starting with: EFB1C4ZNW9 (286/399)
+Finished with: EFB1C4ZNW9
+Starting with: EFB1C4ZNWB (287/399)
+Finished with: EFB1C4ZNWB
+Starting with: EFB1C4ZNWC (288/399)
+Finished with: EFB1C4ZNWC
+Starting with: EFB1C4ZNWD (289/399)
+Finished with: EFB1C4ZNWD
+Starting with: EFB1C4ZNWF (290/399)
+Finished with: EFB1C4ZNWF
+Starting with: EFB1C4ZNWH (291/399)
+Finished with: EFB1C4ZNWH
+Starting with: EFB1C4ZNWJ (292/399)
+Finished with: EFB1C4ZNWJ
+Starting with: EFB1C4ZNWK (293/399)
+Finished with: EFB1C4ZNWK
+Starting with: EFB1C4ZNWL (294/399)
+Finished with: EFB1C4ZNWL
+Starting with: EFB1C4ZNWM (295/399)
+Finished with: EFB1C4ZNWM
+Starting with: EFB1C4ZNWN (296/399)
+Finished with: EFB1C4ZNWN
+Starting with: EFB1C4ZNWP (297/399)
+Finished with: EFB1C4ZNWP
+Starting with: EFB1C4ZNWQ (298/399)
+Finished with: EFB1C4ZNWQ
+Starting with: EFB1C4ZNWR (299/399)
+Finished with: EFB1C4ZNWR
+Starting with: EFB1C4ZNWT (300/399)
+Finished with: EFB1C4ZNWT
+Starting with: EFB1C4ZNWV (301/399)
+Finished with: EFB1C4ZNWV
+Starting with: EFB1C4ZNWW (302/399)
+Finished with: EFB1C4ZNWW
+Starting with: EFB1C4ZNWZ (303/399)
+Finished with: EFB1C4ZNWZ
+Starting with: EFB1C4ZNX0 (304/399)
+Finished with: EFB1C4ZNX0
+Starting with: EFB1C4ZNX1 (305/399)
+Finished with: EFB1C4ZNX1
+Starting with: EFB1C4ZNX2 (306/399)
+Finished with: EFB1C4ZNX2
+Starting with: EFB1C4ZNX6 (307/399)
+Finished with: EFB1C4ZNX6
+Starting with: EFB1C4ZNX9 (308/399)
+Finished with: EFB1C4ZNX9
+Starting with: EFB1C4ZNXB (309/399)
+Finished with: EFB1C4ZNXB
+Starting with: EFB1C4ZNXC (310/399)
+Finished with: EFB1C4ZNXC
+Starting with: EFB1C4ZNXD (311/399)
+Finished with: EFB1C4ZNXD
+Starting with: EFB1C4ZNXF (312/399)
+Finished with: EFB1C4ZNXF
+Starting with: EFB1C4ZNXG (313/399)
+Finished with: EFB1C4ZNXG
+Starting with: EFB1C4ZNXK (314/399)
+Finished with: EFB1C4ZNXK
+Starting with: EFB1C4ZNXL (315/399)
+Finished with: EFB1C4ZNXL
+Starting with: EFB1C4ZNXM (316/399)
+Finished with: EFB1C4ZNXM
+Starting with: EFB1C4ZNXN (317/399)
+Finished with: EFB1C4ZNXN
+Starting with: EFB1C4ZNXP (318/399)
+Finished with: EFB1C4ZNXP
+Starting with: EFB1C4ZNXQ (319/399)
+Finished with: EFB1C4ZNXQ
+Starting with: EFB1C4ZNXT (320/399)
+Finished with: EFB1C4ZNXT
+Starting with: EFB1C4ZNXW (321/399)
+Finished with: EFB1C4ZNXW
+Starting with: EFB1C4ZNXX (322/399)
+Finished with: EFB1C4ZNXX
+Starting with: EFB1C4ZNXZ (323/399)
+Finished with: EFB1C4ZNXZ
+Starting with: EFB1C4ZNZ2 (324/399)
+Finished with: EFB1C4ZNZ2
+Starting with: EFB1C4ZNZ3 (325/399)
+Finished with: EFB1C4ZNZ3
+Starting with: EFB1C4ZNZ5 (326/399)
+Finished with: EFB1C4ZNZ5
+Starting with: EFB1C4ZNZ6 (327/399)
+Finished with: EFB1C4ZNZ6
+Starting with: EFB1C4ZNZ8 (328/399)
+Finished with: EFB1C4ZNZ8
+Starting with: EFB1C4ZNZ9 (329/399)
+Finished with: EFB1C4ZNZ9
+Starting with: EFB1C4ZNZB (330/399)
+Finished with: EFB1C4ZNZB
+Starting with: EFB1C4ZNZD (331/399)
+Finished with: EFB1C4ZNZD
+Starting with: EFB1C4ZNZH (332/399)
+Finished with: EFB1C4ZNZH
+Starting with: EFB1C4ZNZK (333/399)
+Finished with: EFB1C4ZNZK
+Starting with: EFB1C4ZNZL (334/399)
+Finished with: EFB1C4ZNZL
+Starting with: EFB1C4ZNZM (335/399)
+Finished with: EFB1C4ZNZM
+Starting with: EFB1C4ZNZN (336/399)
+Finished with: EFB1C4ZNZN
+Starting with: EFB1C4ZNZP (337/399)
+Finished with: EFB1C4ZNZP
+Starting with: EFB1C4ZNZT (338/399)
+Finished with: EFB1C4ZNZT
+Starting with: EFB1C4ZNZV (339/399)
+Finished with: EFB1C4ZNZV
+Starting with: EFB1C4ZNZW (340/399)
+Finished with: EFB1C4ZNZW
+Starting with: EFB1C4ZNZZ (341/399)
+Finished with: EFB1C4ZNZZ
+Starting with: EFB1C4ZP00 (342/399)
+Finished with: EFB1C4ZP00
+Starting with: EFB1C4ZP01 (343/399)
+Finished with: EFB1C4ZP01
+Starting with: EFB1C4ZP02 (344/399)
+Finished with: EFB1C4ZP02
+Starting with: EFB1C4ZP03 (345/399)
+Finished with: EFB1C4ZP03
+Starting with: EFB1C4ZP04 (346/399)
+Finished with: EFB1C4ZP04
+Starting with: EFB1C4ZP05 (347/399)
+Finished with: EFB1C4ZP05
+Starting with: EFB1C4ZP06 (348/399)
+Finished with: EFB1C4ZP06
+Starting with: EFB1C4ZP07 (349/399)
+Finished with: EFB1C4ZP07
+Starting with: EFB1C4ZP08 (350/399)
+Finished with: EFB1C4ZP08
+Starting with: EFB1C4ZP09 (351/399)
+Finished with: EFB1C4ZP09
+Starting with: EFB1C4ZP0B (352/399)
+Finished with: EFB1C4ZP0B
+Starting with: EFB1C4ZP0D (353/399)
+Finished with: EFB1C4ZP0D
+Starting with: EFB1C4ZP0F (354/399)
+Finished with: EFB1C4ZP0F
+Starting with: EFB1C4ZP0G (355/399)
+Finished with: EFB1C4ZP0G
+Starting with: EFB1C4ZP0H (356/399)
+Finished with: EFB1C4ZP0H
+Starting with: EFB1C4ZP0J (357/399)
+Finished with: EFB1C4ZP0J
+Starting with: EFB1C4ZP0K (358/399)
+Finished with: EFB1C4ZP0K
+Starting with: EFB1C4ZP0L (359/399)
+Finished with: EFB1C4ZP0L
+Starting with: EFB1C4ZP0M (360/399)
+Finished with: EFB1C4ZP0M
+Starting with: EFB1C4ZP0N (361/399)
+Finished with: EFB1C4ZP0N
+Starting with: EFB1C4ZP0P (362/399)
+Finished with: EFB1C4ZP0P
+Starting with: EFB1C4ZP0Q (363/399)
+Finished with: EFB1C4ZP0Q
+Starting with: EFB1C4ZP0R (364/399)
+Finished with: EFB1C4ZP0R
+Starting with: EFB1C4ZP0S (365/399)
+Finished with: EFB1C4ZP0S
+Starting with: EFB1C4ZP0T (366/399)
+Finished with: EFB1C4ZP0T
+Starting with: EFB1C4ZP0V (367/399)
+Finished with: EFB1C4ZP0V
+Starting with: EFB1C4ZP0W (368/399)
+Finished with: EFB1C4ZP0W
+Starting with: EFB1C4ZP0Z (369/399)
+Finished with: EFB1C4ZP0Z
+Starting with: EFB1C4ZP10 (370/399)
+Finished with: EFB1C4ZP10
+Starting with: EFB1C4ZP11 (371/399)
+Finished with: EFB1C4ZP11
+Starting with: EFB1C4ZP12 (372/399)
+Finished with: EFB1C4ZP12
+Starting with: EFB1C4ZP13 (373/399)
+Finished with: EFB1C4ZP13
+Starting with: EFB1C4ZP14 (374/399)
+Finished with: EFB1C4ZP14
+Starting with: EFB1C4ZP15 (375/399)
+Finished with: EFB1C4ZP15
+Starting with: EFB1C4ZP16 (376/399)
+Finished with: EFB1C4ZP16
+Starting with: EFB1C4ZP17 (377/399)
+Finished with: EFB1C4ZP17
+Starting with: EFB1C4ZP18 (378/399)
+Finished with: EFB1C4ZP18
+Starting with: EFB1C4ZP19 (379/399)
+Finished with: EFB1C4ZP19
+Starting with: EFB1C4ZP1B (380/399)
+Finished with: EFB1C4ZP1B
+Starting with: EFB1C4ZP1C (381/399)
+Finished with: EFB1C4ZP1C
+Starting with: EFB1C4ZP1D (382/399)
+Finished with: EFB1C4ZP1D
+Starting with: EFB1C4ZP1F (383/399)
+Finished with: EFB1C4ZP1F
+Starting with: EFB1C4ZP1G (384/399)
+Finished with: EFB1C4ZP1G
+Starting with: EFB1C4ZP1H (385/399)
+Finished with: EFB1C4ZP1H
+Starting with: EFB1C4ZP1J (386/399)
+Finished with: EFB1C4ZP1J
+Starting with: EFB1C4ZP1K (387/399)
+Finished with: EFB1C4ZP1K
+Starting with: EFB1C4ZP1L (388/399)
+Finished with: EFB1C4ZP1L
+Starting with: EFB1C4ZP1N (389/399)
+Finished with: EFB1C4ZP1N
+Starting with: EFB1C4ZP1P (390/399)
+Finished with: EFB1C4ZP1P
+Starting with: EFB1C4ZP1Q (391/399)
+Finished with: EFB1C4ZP1Q
+Starting with: EFB1C4ZP1R (392/399)
+Finished with: EFB1C4ZP1R
+Starting with: EFB1C4ZP1S (393/399)
+Finished with: EFB1C4ZP1S
+Starting with: EFB1C4ZP1T (394/399)
+Finished with: EFB1C4ZP1T
+Starting with: EFB1C4ZP1V (395/399)
+Finished with: EFB1C4ZP1V
+Starting with: EFB1C4ZP1W (396/399)
+Finished with: EFB1C4ZP1W
+Starting with: EFB1C4ZP1X (397/399)
+Finished with: EFB1C4ZP1X
+Starting with: EFB1C4ZP1Z (398/399)
+Finished with: EFB1C4ZP1Z
+Starting with: EFB1C4ZP20 (399/399)
+Finished with: EFB1C4ZP20
+Results of tool were succesfully made.
+Time stamp: 74 seconds.

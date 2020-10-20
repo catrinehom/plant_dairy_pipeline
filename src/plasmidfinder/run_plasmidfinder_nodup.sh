@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
 
 # Program: run_resfinder.sh
-# Description: This program run ResFinder which is a part of the dairy pipeline
-# Version: 1.1
+# Description: This program run PlasmidFinder which is a part of the dairy pipeline
+# Version: 1.0
 # Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## run_resfinder.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run (optional)>]
+    ## run_plasmidfinder.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run (optional)>]
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
     ## -d, date of run (str or int)
@@ -24,14 +24,10 @@
 ################################################################################
 
 # Load all required modules for the job
-module purge
 module load tools
 module load anaconda3/4.4.0
 module load anaconda2/2.2.0
 module load kma/1.2.11
-source /home/projects/cge/apps/env/rf4_env/bin/activate
-module load perl
-module load ncbi-blast/2.8.1+
 
 # Start timer for logfile
 SECONDS=0
@@ -68,7 +64,7 @@ if [ -z "${p}" ] || [ -z "${n}" ]; then
 fi
 
 date=$(date "+%Y-%m-%d %H:%M:%S")
-echo "Starting run_resfinder.sh ($date)"
+echo "Starting run_plasmidfinder.sh ($date)"
 echo "--------------------------------------------------------------------------------"
 
 # Print files used
@@ -78,16 +74,16 @@ echo "Results will be saved: ${n}${d}"
 echo -e "Time stamp: $SECONDS seconds.\n"
 
 ################################################################################
-# STEP 1: RUN RESFINDER
+# STEP 1: RUN PLASMIDFINDER
 ################################################################################
 
-echo "Starting STEP 1: Run ResFinder"
+echo "Starting STEP 1: Run PlasmidFinder"
 
 # Define variables
-tool_name=resfinder
+tool_name=plasmidfinder
 #tool=${p}/tools/${tool_name}/run_resfinder.py
-tool=/home/projects/cge/apps/resfinder/resfinder/run_resfinder.py
-db=${p}/data/db/resfinder
+tool=/home/projects/cge/apps/plasmidfinder/plasmidfinder.py
+db=${p}/data/db/${tool_name}/
 outputfolder=${p}/results/${n}${d}/${tool_name}
 
 # Make output directory
@@ -99,24 +95,30 @@ count=$((1)) #First sample
 total=$(wc -w <<<$samples) #Total number of samples
 
 # Run tool on all samples
-for sample in $samples; do
-  echo  "Starting with: $sample ($count/$total)"
+for sample in $samples;
+  do
+    sample_path=${outputfolder}/${sample}
+    if [ -d $sample_path ]
+      then
+        echo "Directory exists."
+      else
+        echo  "Starting with: $sample ($count/$total)"
 
-  # Create sample output folder
-  sample_path=${outputfolder}/${sample}
-  [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
+        # Create sample output folder
+        sample_path=${outputfolder}/${sample}
+        [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
 
-  # Define tool inputs
-  ifq=$p/results/${n}${d}/foodqcpipeline/${sample}/Assemblies/*_trimmed/*.gfa
-  #ifa=${sample_path}/Assemblies/*.fa
+        # Define tool inputs
+        i=$p/results/${n}${d}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
 
-  # Run tool
-  $tool -ifq $ifq -o $sample_path -db_res $db -acq
+        # Run tool
+        $tool -i $i -o $sample_path -p $db
 
-  echo -e "Finished with $sample.\n"
-  count=$(($count+1))
+        echo -e "Finished with $sample.\n"
+    count=$(($count+1))
+    fi
   done
 
-echo "Results of ResFinder were succesfully made."
+echo "Results of PlasmidFinder were succesfully made."
 echo "Time stamp: $SECONDS seconds."
 

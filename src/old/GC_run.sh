@@ -5,18 +5,27 @@
 ### Number of nodes
 #PBS -l nodes=1:ppn=1
 ### Memory
-#PBS -l mem=6gb
+#PBS -l mem=12gb
 ### Requesting time - format is <days>:<hours>:<minutes>:<seconds> (here, 12 hours)
-#PBS -l walltime=02:00:00
-
+#PBS -l walltime=01:00:00
+ 
 # Load all required modules for the job
 module load tools
+module load python36 
 module load anaconda3/4.4.0
-module load anaconda2/2.2.0
-module load kma/1.2.11
 
 # This is where the work is done
 # Make sure that this script is not bigger than 64kb ~ 150 lines, otherwise put in seperat script and execute from here
 
-/home/projects/cge/people/cathom/src/mydbfinder/run_mydbfinder.sh -p /home/projects/cge/people/cathom -d 20200825_110300 -n DTU_LAB -b adhesins
-/home/projects/cge/people/cathom/src/mydbfinder/run_mydbfinder.sh -p /home/projects/cge/people/cathom -d 20200825_110300 -n DTU_LAB -b probiotics
+
+Samples=$(ls /home/projects/cge/people/cathom/data/prepros)
+###sample=/home/projects/cge/people/cathom/data/prepros/EFB1C4ZNR2
+
+for sample in $Samples
+do
+/home/projects/cge/people/cathom/scripts/GC_content_calculate.py /home/projects/cge/people/cathom/data/prepros/$sample/Assemblies/*.fa $sample /home/projects/cge/people/cathom/results/GC_content.txt
+echo "Finished with $sample"
+done
+
+module load shared moab
+checkjob -v $PBS_JOBID

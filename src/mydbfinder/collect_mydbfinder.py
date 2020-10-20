@@ -7,11 +7,11 @@ Version: 1.0
 Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## collect_mydbfinder.py [-p <path to dairy pipeline>] [-n <name of project>]  [-d <date of run>] [-b <database name (common name for pathway/gene-set with "_db", e.g. "b12_db")>]
+    ## collect_mydbfinder.py [-p <path to dairy pipeline>] [-n <name of project>]  [-d <date of run>] [-b <database name (common name for pathway/gene-set)>]
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
     ## -d, date of run
-    ## -b, database name (common name for pathway/gene-set with "_db", e.g. "b12_db") (str)
+    ## -b, database name (common name for pathway/gene-set) (str)
 
 # Output:
     ## XXXOutputfile 1
@@ -37,7 +37,7 @@ if __name__ == "__main__":
     parser.add_argument("-p", dest="p", help="path to main folder", required=True, type=str)
     parser.add_argument("-n", dest="n", help="name of project", required=True, type=str)
     parser.add_argument("-d", dest="d", help="date of run", required=True)
-    parser.add_argument("-b", dest="b", help="database name (common name for pathway/gene-set with '_db', e.g. 'b12_db')", required=True, type=str)
+    parser.add_argument("-b", dest="b", help="database name (common name for pathway/gene-set)", required=True, type=str)
     args = parser.parse_args()
 
     # Define input as variables
@@ -154,5 +154,4 @@ if __name__ == "__main__":
 
     print("Transformed results can be found in: {}.".format(transformed_results_outfile))
     print("If a gene is not found in any of the samples, it will not be added as a column to this file.")
-
 

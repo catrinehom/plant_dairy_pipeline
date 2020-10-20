@@ -87,7 +87,7 @@ outputfolder=${p}/data/db/${tool_name}/${b}
 e=s136574@student.dtu.dk
 
 # Download genes
-${p}/src/misc/download_genes.py -p $p -b $b -e $e
+#${p}/src/misc/download_genes.py -p $p -b $b -e $e
 
 ################################################################################
 # STEP 2: MAKE DATABASE

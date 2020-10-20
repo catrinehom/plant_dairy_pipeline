@@ -18,5 +18,8 @@ module load kma/1.2.11
 # This is where the work is done
 # Make sure that this script is not bigger than 64kb ~ 150 lines, otherwise put in seperat script and execute from here
 
-/home/projects/cge/people/cathom/src/mydbfinder/run_mydbfinder.sh -p /home/projects/cge/people/cathom -d 20200825_110300 -n DTU_LAB -b adhesins
-/home/projects/cge/people/cathom/src/mydbfinder/run_mydbfinder.sh -p /home/projects/cge/people/cathom -d 20200825_110300 -n DTU_LAB -b probiotics
+
+./myglutamatefinder_make_db.sh
+./myglutamatefinder_run.sh
+./myglutamatefinder_collect.sh
+./myglutamatefinder_transform.sh

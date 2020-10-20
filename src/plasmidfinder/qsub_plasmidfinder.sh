@@ -6,8 +6,10 @@
 #PBS -l nodes=1:ppn=1
 ### Memory
 #PBS -l mem=6gb
-### Requesting time - format is <days>:<hours>:<minutes>:<seconds> (here, 12 hours)
-#PBS -l walltime=02:00:00
+### Requesting time - format is <days>:<hours>:<minutes>:<seconds>
+#PBS -l walltime=48:00:00
+#PBS -e /home/projects/cge/people/cathom/results/DTU_LAB_20200825_110300/plasmidfinder/plasmidfinder.err
+#PBS -o /home/projects/cge/people/cathom/results/DTU_LAB_20200825_110300/plasmidfinder/plasmidfinder.log
 
 # Load all required modules for the job
 module load tools
@@ -18,5 +20,9 @@ module load kma/1.2.11
 # This is where the work is done
 # Make sure that this script is not bigger than 64kb ~ 150 lines, otherwise put in seperat script and execute from here
 
-/home/projects/cge/people/cathom/src/mydbfinder/run_mydbfinder.sh -p /home/projects/cge/people/cathom -d 20200825_110300 -n DTU_LAB -b adhesins
-/home/projects/cge/people/cathom/src/mydbfinder/run_mydbfinder.sh -p /home/projects/cge/people/cathom -d 20200825_110300 -n DTU_LAB -b probiotics
+path=/home/projects/cge/people/cathom
+n=DTU_LAB
+date=20200825_110300
+
+${path}/src/plasmidfinder/run_plasmidfinder.sh -p ${path} -n ${n} -d ${date}
+

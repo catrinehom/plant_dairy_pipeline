@@ -5,18 +5,25 @@
 ### Number of nodes
 #PBS -l nodes=1:ppn=1
 ### Memory
-#PBS -l mem=6gb
+#PBS -l mem=12gb
 ### Requesting time - format is <days>:<hours>:<minutes>:<seconds> (here, 12 hours)
-#PBS -l walltime=02:00:00
+#PBS -l walltime=00:20:00
+#PBS -m n
+#PBS -e /home/projects/cge/people/cathom/results/speciesfinder/speciesfinder.err
+#PBS -o /home/projects/cge/people/cathom/results/speciesfinder/speciesfinder.log
 
+ 
 # Load all required modules for the job
 module load tools
+module load python36
 module load anaconda3/4.4.0
-module load anaconda2/2.2.0
 module load kma/1.2.11
+module load perl
+module load ncbi-blast/2.2.26
 
 # This is where the work is done
 # Make sure that this script is not bigger than 64kb ~ 150 lines, otherwise put in seperat script and execute from here
 
-/home/projects/cge/people/cathom/src/mydbfinder/run_mydbfinder.sh -p /home/projects/cge/people/cathom -d 20200825_110300 -n DTU_LAB -b adhesins
-/home/projects/cge/people/cathom/src/mydbfinder/run_mydbfinder.sh -p /home/projects/cge/people/cathom -d 20200825_110300 -n DTU_LAB -b probiotics
+./speciesfinder_make_db.sh
+./speciesfinder_run.sh
+./species_collect.py

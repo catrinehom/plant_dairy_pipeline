@@ -8,6 +8,11 @@
 #PBS -l mem=6gb
 ### Requesting time - format is <days>:<hours>:<minutes>:<seconds> (here, 12 hours)
 #PBS -l walltime=02:00:00
+### Only send mail when job is aborted or terminates abnormally
+#PBS -m n
+#PBS -e /home/projects/cge/people/cathom/results/kmerfinder/kmerfinder.err
+#PBS -o /home/projects/cge/people/cathom/results/kmerfinder/kmerfinder.log
+
 
 # Load all required modules for the job
 module load tools
@@ -18,5 +23,8 @@ module load kma/1.2.11
 # This is where the work is done
 # Make sure that this script is not bigger than 64kb ~ 150 lines, otherwise put in seperat script and execute from here
 
-/home/projects/cge/people/cathom/src/mydbfinder/run_mydbfinder.sh -p /home/projects/cge/people/cathom -d 20200825_110300 -n DTU_LAB -b adhesins
-/home/projects/cge/people/cathom/src/mydbfinder/run_mydbfinder.sh -p /home/projects/cge/people/cathom -d 20200825_110300 -n DTU_LAB -b probiotics
+
+./myb12finder_make_db.sh
+./myb12finder_run.sh
+./myb12finder_collect.py
+./myb12finder_transform.py

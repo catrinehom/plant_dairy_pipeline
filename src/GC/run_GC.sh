@@ -23,6 +23,7 @@
 ################################################################################
 
 # Load all required modules for the job
+module purge
 module load tools
 module load python36
 module load anaconda3/4.4.0
@@ -34,7 +35,7 @@ SECONDS=0
 usage() { echo "Usage: $0 [-p <path to main>] [-n <name of project>] [-d <date of run (optional)>]"; exit 1; }
 
 # Parse flags
-while getopts ":p:n:h" opt; do
+while getopts ":p:n:d:h" opt; do
     case "${opt}" in
         p)
             p=${OPTARG}
@@ -61,7 +62,7 @@ if [ -z "${p}" ] || [ -z "${n}" ]; then
     usage
 fi
 
-date=$(date "+%Y-%m-%d %H:%M:%S")
+date=$(date "+_%Y-%m-%d %H:%M:%S")
 echo "Starting run_GC.sh ($date)"
 echo "--------------------------------------------------------------------------------"
 
@@ -79,17 +80,16 @@ echo "Starting STEP 1: Run GC"
 
 # Define variables
 tool_name=GC
-outputfolder=${p}/results/${n}${d}/${tool_name}
+outputfolder=${p}/results/${n}_${d}/${tool_name}
 
 # Make output directory
 [ -d $outputfolder ] && echo "Output directory: ${outputfolder} already exists. Files will be overwritten." || mkdir $outputfolder
 
 # Define variables
-samples=$(ls ${p}/results/${n}${d}/foodqcpipeline)
+samples=$(ls ${p}/results/${n}_${d}/foodqcpipeline)
 count=$((1))
 total=$(wc -w <<<$samples)
 tool=${p}/src/misc/calculate_GC_content.py
-databases=$(ls ${p}/data/db/tool_db/*/* | grep .name | sed -e "s/\.name$//")
 
 for sample in $samples
   do
@@ -97,7 +97,7 @@ for sample in $samples
     cd ${outputfolder}
 
     # Define tool inputs
-    i=${p}/results/${n}${d}/foodqcpipeline/${sample}/Assemblies/*.fa
+    i=${p}/results/${n}_${d}/foodqcpipeline/${sample}/Assemblies/*.fa
     s=$sample
     o=${outputfolder}/GC_content.txt
 

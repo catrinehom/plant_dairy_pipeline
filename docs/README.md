@@ -35,7 +35,7 @@ Structure and files
 ## Run pipeline ##
 
 ```
-/src/main.sh -p [path] -n [n]
+/src/main.sh -n [n]
 ```
 
 Detailed arguments:

@@ -1,6 +1,6 @@
-# Catrine and Lines plant_dairy_pipeline #
+# plant_dairy_pipeline #
 
-:warning: **UNDER CONSTRUCTION **
+:warning: **UNDER CONSTRUCTION ** :warning:
 
 
 ## Introduction ##

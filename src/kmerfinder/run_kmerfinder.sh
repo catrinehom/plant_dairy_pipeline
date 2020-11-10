@@ -38,19 +38,19 @@ SECONDS=0
 usage() { echo "Usage: $0 [-p <path to main>] [-n <name of project>] [-d <date of run>]"; exit 1; }
 
 # Default values
-d=$(date "+_%Y%m%d_%H%M%S")
+date=$(date "+%Y%m%d_%H%M%S")
 
 # Parse flags
 while getopts ":p:n:d:h" opt; do
     case "${opt}" in
         p)
-            p=${OPTARG}
+            path=${OPTARG}
             ;;
         n)
-            n=${OPTARG}
+            name=${OPTARG}
             ;;
         d)
-            d=_${OPTARG}
+            date=${OPTARG}
             ;;
         h)
             usage
@@ -63,21 +63,18 @@ while getopts ":p:n:d:h" opt; do
 done
 
 # Check if required flags are empty
-if [ -z "${p}" ] || [ -z "${n}" ]; then
+if [ -z "${path}" ] || [ -z "${name}" ]; then
     echo "p and n are required flags"
     usage
 fi
 
-date=$(date "+%Y-%m-%d %H:%M:%S")
-echo "Starting kmerfinder_run.sh ($date)"
+datestamp=$(date "+%Y-%m-%d %H:%M:%S")
+echo "Starting kmerfinder_run.sh ($datestamp)"
 echo "--------------------------------------------------------------------------------"
 
 # Print files used
-echo "Path used is: ${p}"
-echo "Results will be saved: ${n}${d}"
-
-echo -e "Time stamp: $SECONDS seconds.\n"
-
+echo "Path used is: ${path}"
+echo "Results will be saved: ${name}_${date}"
 
 ################################################################################
 # STEP 1: Run KmerFinder
@@ -87,17 +84,17 @@ echo "Starting STEP 1: Run KmerFinder"
 
 # Define variables
 tool_name=kmerfinder
-outputfolder=${p}/results/${n}${d}/${tool_name}
+outputfolder=${path}/results/${name}_${date}/${tool_name}
 
 # Make output directory
 [ -d $outputfolder ] && echo "Output directory: ${outputfolder} already exists. Files will be overwritten." || mkdir $outputfolder
 
 # Define variables
-samples=$(ls ${p}/results/${n}${d}/foodqcpipeline)
+samples=$(cat ${path}/results/${name}_${date}/tmp/fastq_approved.txt)
 count=$((1))
 total=$(wc -w <<<$samples)
-tool=${p}/tools/${tool_name}/kmerfinder.py
-databases=$(ls ${p}/data/db/${tool_name}/*/* | grep .name | sed -e 's/\.name$//')
+tool=${path}/tools/${tool_name}/kmerfinder.py
+databases=$(ls ${path}/data/db/${tool_name}/*/* | grep .name | sed -e 's/\.name$//')
 
 # Run tool on all samples
 for sample in $samples
@@ -111,8 +108,8 @@ for sample in $samples
   for database in $databases
     do
       # Define tool inputs
-      i=$p/results/${n}${d}/foodqcpipeline/${sample}/Assemblies/*_trimmed/*.fa
-      t=$(echo $database | cut -f1 -d'.')
+      i=${path}/results/${name}_${date}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
+      t=$(echo ${database} | cut -f1 -d'.')
       tax=${t}.tax
 
       # Run tool
@@ -126,5 +123,12 @@ for sample in $samples
   done
 
 echo "Results of KmerFinder were succesfully made."
-echo "Time stamp: $SECONDS seconds."
+
+# Run collect script
+module purge
+module load tools
+module load anaconda3/4.0.0
+${path}/src/${tool_name}/collect_${tool_name}.py -p ${path} -n ${name} -d ${date}
+
+echo -e "${tool_name} finished in $SECONDS seconds.\n"
 

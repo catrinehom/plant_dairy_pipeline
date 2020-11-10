@@ -2,7 +2,7 @@
 
 # Program: run_mydbfinder.sh
 # Description: This program run MyDbFinder which is a part of the dairy pipeline
-# Version: 1.1
+# Version: 1.0
 # Author: Catrine Høm and Line Andresen
 
 # Usage:
@@ -38,22 +38,22 @@ SECONDS=0
 usage() { echo "Usage: $0 [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run>] [-b <database name (common name for pathway/gene-set)>]"; exit 1; }
 
 # Default values
-d=$(date "+_%Y%m%d_%H%M%S")
+date=$(date "+%Y%m%d_%H%M%S")
 
 # Parse flags
 while getopts ":p:n:d:b:h" opt; do
     case "${opt}" in
         p)
-            p=${OPTARG}
+            path=${OPTARG}
             ;;
         n)
-            n=${OPTARG}
+            name=${OPTARG}
             ;;
         d)
-            d=_${OPTARG}
+            date=${OPTARG}
             ;;
         b)
-            b=${OPTARG}
+            database=${OPTARG}
             ;;
         h)
             usage
@@ -66,21 +66,19 @@ while getopts ":p:n:d:b:h" opt; do
 done
 
 # Check if required flags are empty
-if [ -z "${p}" ] || [ -z "${n}" ]|| [ -z "${b}" ]; then
+if [ -z "${path}" ] || [ -z "${name}" ]|| [ -z "${database}" ]; then
     echo "p, n and b are required flags"
     usage
 fi
 
-date=$(date "+%Y-%m-%d %H:%M:%S")
-echo "Starting run_mydbfinder.sh ($date)"
+datestamp=$(date "+%Y-%m-%d %H:%M:%S")
+echo "Starting run_mydbfinder.sh ($datestamp)"
 echo "--------------------------------------------------------------------------------"
 
 # Print files used
-echo "Path used is: ${p}"
-echo "Results will be saved: ${n}${d}"
-echo "Database used is: ${p}/data/db/$b"
-
-echo -e "Time stamp: $SECONDS seconds.\n"
+echo "Path used is: ${path}"
+echo "Results will be saved: ${name}_${date}"
+echo "Database used is: ${path}/data/db/${database}"
 
 ################################################################################
 # STEP 1: RUN TOOL
@@ -92,18 +90,18 @@ echo "Starting STEP 1: Run MyDbFinder"
 tool_name=mydbfinder
 
 # Create mydbfinder folder if it doesnt already exists
-mydbfolder=${p}/results/${n}${d}/${tool_name}
+mydbfolder=${path}/results/${name}_${date}/${tool_name}
 mkdir -p $mydbfolder
 
 # Make output directory
-outputfolder=${mydbfolder}/${b}
+outputfolder=${mydbfolder}/${database}
 [ -d $outputfolder ] && echo "Output directory: ${outputfolder} already exists. Files will be overwritten." || mkdir -p $outputfolder
 
 # Define variables
-samples=$(ls ${p}/results/${n}${d}/foodqcpipeline)
+samples=$(cat ${path}/results/${name}_${date}/tmp/fasta_approved.txt)
 count=$((1))
 total=$(wc -w <<<$samples)
-tool=${p}/tools/${tool_name}/mydbfinder.py
+tool=${path}/tools/${tool_name}/mydbfinder.py
 
 # Run tool on all samples
 for sample in $samples
@@ -115,16 +113,21 @@ for sample in $samples
     [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
 
     # Define tool inputs
-    i=$p/results/${n}${d}/foodqcpipeline/${sample}/Assemblies/*_trimmed/*.fa
+    i=${path}/results/${name}_${date}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
     o=${outputfolder}/${sample}
-    database=${p}/data/db/${tool_name}/$b
+    db=${path}/data/db/${tool_name}/${database}/
 
     # Run tool
-    $tool -i $i -o $o -p $database
+    $tool -i $i -o $o -p $db --min_cov 0.5 --threshold 0.5
     echo "Finished with: $sample"
     count=$(($count+1))
   done
 
-echo "Results of tool were succesfully made."
-echo "Time stamp: $SECONDS seconds."
+# Run collect script
+module purge
+module load tools
+module load anaconda3/4.0.0
+${path}/src/${tool_name}/collect_${tool_name}.py -p ${path} -n ${name} -d ${date} -b ${database}
+
+echo -e "${tool_name} finished in $SECONDS seconds.\n"
 

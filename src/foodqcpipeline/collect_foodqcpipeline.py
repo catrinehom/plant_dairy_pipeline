@@ -40,17 +40,17 @@ if __name__ == "__main__":
     # Define input as variables
     main_path = args.p
     project_name = args.n
-    date = "_" + str(args.d)
+    date = str(args.d)
 
 ################################################################################
 # STEP 1:  COLLECT RESULTS
 ################################################################################
 
     # Define variables
-    foodqcpipeline_path = main_path + "/results/" + project_name + date + "/foodqcpipeline"
+    foodqcpipeline_path = main_path + "/results/" + project_name + "_" + date + "/foodqcpipeline"
     samples = [f for f in os.listdir(foodqcpipeline_path)]
-    raw_results_outfolder = main_path + "/results/" + project_name + date + "/summary/"
-    raw_results_outfile = raw_results_outfolder + "QC_results.txt"
+    raw_results_outfolder = main_path + "/results/" + project_name + "_" + date + "/summary/"
+    raw_results_outfile = raw_results_outfolder + "foodqcpipeline_results.txt"
     lines = list()
     header_made = False
 
@@ -78,18 +78,16 @@ if __name__ == "__main__":
             with open(sample_result, "r") as f:
                 # If this is the first sample, we want to create a header
                 if header_made == False:
-                        lines.append(f.readline())
+                        lines.append("Sample_name\tRead_name\tBases_(MB)\tQual_Bases(MB)\tQual_bases(%)\tReads\tQual_reads(no)\tQual_reads(%)\tMost_common_adapter_(count)\t2._Most_common_adapter_(count)\tOther_adapters_(count)\tinsert_size\tN50\tno_ctgs\tlongest_size(bp)\ttotal_bps")
                         header_made = True
 
                         # Collect results in first sample
                         for line in f:
-                                lines.append(line)
+                                lines.append(sample + '\t' + line)
                 else:
-                    # Skip header in rest of the samples
-                    next(f)
                     # Collect results
                     for line in f:
-                            lines.append(line)
+                            lines.append(sample + '\t' + line)
 
     print("Done")
 

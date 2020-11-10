@@ -2,7 +2,7 @@
 
 # Program: run_bandage.sh
 # Description: This program run Bandage which is a part of the dairy pipeline
-# Version: 1.0
+# Version: 1.1
 # Author: Catrine Høm and Line Andresen
 
 # Usage:
@@ -12,7 +12,7 @@
     ## -d, date of run (str)
 
 # Output:
-    ## .png images of all assemblies
+    ## .svg images of all assemblies
 
 # This pipeline consists of 1 steps:
     ## STEP 1:  Run Bandage
@@ -28,19 +28,19 @@ SECONDS=0
 usage() { echo "Usage: $0 [-p <path to main>] [-n <name of project>] [-d <date of run>]"; exit 1; }
 
 # Default values
-d=$(date "+_%Y%m%d_%H%M%S")
+date=$(date "+%Y%m%d_%H%M%S")
 
 # Parse flags
 while getopts ":p:n:d:h" opt; do
     case "${opt}" in
         p)
-            p=${OPTARG}
+            path=${OPTARG}
             ;;
         n)
-            n=${OPTARG}
+            name=${OPTARG}
             ;;
         d)
-            d=_${OPTARG}
+            date=${OPTARG}
             ;;
         h)
             usage
@@ -53,21 +53,18 @@ while getopts ":p:n:d:h" opt; do
 done
 
 # Check if required flags are empty
-if [ -z "${p}" ] || [ -z "${n}" ]; then
+if [ -z "${path}" ] || [ -z "${name}" ]; then
     echo "p and n are required flags"
     usage
 fi
 
-date=$(date "+%Y-%m-%d %H:%M:%S")
-echo "Starting run_bandage.sh ($date)"
+datestamp=$(date "+%Y-%m-%d %H:%M:%S")
+echo "Starting run_bandage.sh ($datestamp)"
 echo "--------------------------------------------------------------------------------"
 
 # Print files used
-echo "Path used is: ${p}"
-echo "Results will be saved in: ${n}${d}"
-
-echo -e "Time stamp: $SECONDS seconds.\n"
-
+echo "Path used is: ${path}"
+echo "Results will be saved in: ${name}_${date}"
 
 ################################################################################
 # STEP 1: RUN BANDAGE
@@ -82,15 +79,14 @@ echo "Starting STEP 1: Run Bandage"
 
 # Define variables
 tool_name=bandage
-outputfolder=${p}/results/${n}${d}/summary/$tool_name
+outputfolder=${path}/results/${name}_${date}/summary/$tool_name
 
 # Make output directory
 [ -d $outputfolder ] && echo "Output directory: $outputfolder already exists. Files will be overwritten." || mkdir -p $outputfolder
 
-
 # Define variables
-samples_path=${p}/results/${n}${d}/foodqcpipeline
-samples=$(ls $samples_path)
+samples_path=${path}/results/${name}_${date}/foodqcpipeline
+samples=$(cat ${path}/results/${name}_${date}/tmp/gfa_approved.txt)
 count=$((1))
 total=$(wc -w <<<$samples)
 
@@ -100,7 +96,7 @@ for sample in $samples
     echo "Starting with: $sample ($count/$total)"
 
     # Define tool inputs
-    input_gfa=${samples_path}/${sample}/Assemblies/*_trimmed/assembly_graph_with_scaffolds.gfa
+    input_gfa=${samples_path}/${sample}/Assemblies/*/assembly_graph_with_scaffolds.gfa
     output_png=$outputfolder/${sample}.png
 
     # Run tool
@@ -109,6 +105,5 @@ for sample in $samples
     count=$(($count+1))
   done
 
-echo "Images of assemblies were succesfully made."
-echo "Time stamp: $SECONDS seconds."
+echo "$tool_name finished in $SECONDS seconds."
 

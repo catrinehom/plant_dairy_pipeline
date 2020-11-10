@@ -26,7 +26,6 @@
 module purge
 module load tools
 module load python36
-module load anaconda3/4.4.0
 
 # Start timer for logfile
 SECONDS=0
@@ -34,17 +33,20 @@ SECONDS=0
 # How to use program
 usage() { echo "Usage: $0 [-p <path to main>] [-n <name of project>] [-d <date of run (optional)>]"; exit 1; }
 
+# Default values
+date=$(date "+%Y%m%d_%H%M%S")
+
 # Parse flags
 while getopts ":p:n:d:h" opt; do
     case "${opt}" in
         p)
-            p=${OPTARG}
+            path=${OPTARG}
             ;;
         n)
-            n=${OPTARG}
+            name=${OPTARG}
             ;;
         d)
-            d=${OPTARG}
+            date=${OPTARG}
             ;;
         h)
             usage
@@ -57,20 +59,18 @@ while getopts ":p:n:d:h" opt; do
 done
 
 # Check if required flags are empty
-if [ -z "${p}" ] || [ -z "${n}" ]; then
+if [ -z "${path}" ] || [ -z "${name}" ]; then
     echo "p and n are required flags"
     usage
 fi
 
-date=$(date "+_%Y-%m-%d %H:%M:%S")
-echo "Starting run_GC.sh ($date)"
+datestamp=$(date "+_%Y-%m-%d %H:%M:%S")
+echo "Starting run_GC.sh (${datestamp})"
 echo "--------------------------------------------------------------------------------"
 
 # Print files used
-echo "Name of project used is: ${n}"
-echo "Path used is: ${p}"
-
-echo -e "Time stamp: $SECONDS seconds.\n"
+echo "Name of project used is: ${name}"
+echo "Path used is: ${path}"
 
 ################################################################################
 # STEP 1: RUN TOOL
@@ -80,16 +80,16 @@ echo "Starting STEP 1: Run GC"
 
 # Define variables
 tool_name=GC
-outputfolder=${p}/results/${n}_${d}/${tool_name}
+outputfolder=${path}/results/${name}_${date}/summary
 
 # Make output directory
 [ -d $outputfolder ] && echo "Output directory: ${outputfolder} already exists. Files will be overwritten." || mkdir $outputfolder
 
 # Define variables
-samples=$(ls ${p}/results/${n}_${d}/foodqcpipeline)
+samples=$(cat ${path}/results/${name}_${date}/tmp/fasta_approved.txt)
 count=$((1))
 total=$(wc -w <<<$samples)
-tool=${p}/src/misc/calculate_GC_content.py
+tool=${path}/src/misc/calculate_GC_content.py
 
 for sample in $samples
   do
@@ -97,7 +97,7 @@ for sample in $samples
     cd ${outputfolder}
 
     # Define tool inputs
-    i=${p}/results/${n}_${d}/foodqcpipeline/${sample}/Assemblies/*.fa
+    i=${path}/results/${name}_${date}/foodqcpipeline/${sample}/Assemblies/*.fa
     s=$sample
     o=${outputfolder}/GC_content.txt
 
@@ -107,6 +107,5 @@ for sample in $samples
     count=$(($count+1))
   done
 
-echo "Results of GC content were succesfully made."
-echo "Time stamp: $SECONDS seconds."
+echo "${tool_name} finished in $SECONDS seconds."
 

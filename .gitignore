@@ -1,8 +1,7 @@
 /home/projects/cge/people/cathom/data/
-/home/projects/cge/people/cathom/data/results/
+/home/projects/cge/people/cathom/docs/test2/
+/home/projects/cge/people/cathom/results/
 /home/projects/cge/people/cathom/src/old/
 /home/projects/cge/people/cathom/src/templates/
-/home/projects/cge/people/cathom/src/*/qsub_*.sh
-
-src/templates
-src/foodqcpipeline/qsub_foodqcpipeline.sh src/kmerfinder/qsub_kmerfinder.sh src/mydbfinder/qsub_mydbfinder.sh src/plasmidfinder/qsub_plasmidfinder.sh src/prokka/qsub_prokka.sh src/templates/qsub_template.sh
+/home/projects/cge/people/cathom/src/*/qsub_*.sh 
+/home/projects/cge/people/cathom/tools/

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 """
 Program: error_handling.py
-Description: This program checks
+Description: This program checks the input format of the files neccesary for a tool to run.
 Version: 1.0
 Author: Catrine Høm and Line Andresen
 
@@ -11,7 +11,7 @@ Author: Catrine Høm and Line Andresen
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
     ## -d, date of run (str)
-    ## -i, input file type for your tool (fastq, fasta, gfa, or gff) (str)
+    ## -i, input file type for your tool (raw, fastq, fasta, gfa, or gff) (str)
 
 
 # This pipeline consists of 1 steps:
@@ -58,7 +58,7 @@ def OpenFile(filename,mode):
 def CheckFastq(filenames):
     """
     This function checks if all input files (list) are in fastq format.
-    Outputs a list of True/False for each file.
+    Outputs a dict of True/False for each file.
     """
     fastq_status = dict()
     fastq_type = b"@"
@@ -78,7 +78,7 @@ def CheckFastq(filenames):
 def CheckFasta(filenames):
     """
     This function checks if all the input files (list) are in fasta format.
-    Outputs a list of True/False for each file.
+    Outputs a dict of True/False for each file.
     """
     fasta_status = dict()
     fasta_type = b">"
@@ -92,13 +92,13 @@ def CheckFasta(filenames):
         if first_char == fasta_type:
             fasta_status[infile] = True
         else:
-            fasta_status[infile] = True
+            fasta_status[infile] = False
     return fasta_status
 
 def CheckGfa(filenames):
     """
     This function checks if all the input files (list) are in fasta format.
-    Outputs a list of True/False for each file.
+    Outputs a dict of True/False for each file.
     """
     gfa_status = dict()
     gfa_type = b"S"
@@ -112,13 +112,13 @@ def CheckGfa(filenames):
         if first_char == gfa_type:
             gfa_status[infile] = True
         else:
-            gfa_status[infile] = True
+            gfa_status[infile] = False
     return gfa_status
 
 def CheckGff(filenames):
     """
     This function checks if all the input files (list) are in fasta format.
-    Outputs a list of True/False for each file.
+    Outputs a dict of True/False for each file.
     """
     gff_status = dict()
     gff_type = b"##"
@@ -132,7 +132,7 @@ def CheckGff(filenames):
         if first_char == gff_type:
             gff_status[infile] = True
         else:
-            gff_status[infile] = True
+            gff_status[infile] = False
     return gff_status
 
 ################################################################################
@@ -145,161 +145,233 @@ if __name__ == "__main__":
     parser.add_argument("-p", dest="p", help="path to main folder", required=True, type=str)
     parser.add_argument("-n", dest="n", help="name of project", required=True, type=str)
     parser.add_argument("-d", dest="d", help="date of run", required=True)
-    parser.add_argument("-i", dest="i", help="input file type for your tool (fastq, fasta, gfa, or gff)", required=True, type=str))
+    parser.add_argument("-i", dest="i", help="input file type for your tool (fastq, fasta, gfa, or gff)", required=True, type=str)
     args = parser.parse_args()
 
     # Define input as variables
     main_path = args.p
     project_name = args.n
-    date = "_" + str(args.d)
+    date = str(args.d)
     input_type = args.i.lower()
+
+    # Check input type
+    accepted_input_types = ["raw","fastq", "fasta", "gfa", "gff"]
+    if input_type not in accepted_input_types:
+        print("Error! Uknown input file format. Should be fastq, fasta, gfa, or gff.")
+        sys.exit()
 
 ################################################################################
 # STEP 1:  ERROR HANDLING
 ################################################################################
 
-# Make tmp DIR
-tmp_path = main_path + "/results/" + project_name + date + "/tmp/"
+# Make tmp directory for output file
+tmp_path = main_path + "/results/" + project_name + "_" + date + "/tmp/"
 if not os.path.exists(tmp_path):
     os.mkdir(tmp_path)
 
-# Define tmp file
+# Define tmp output file
 tmp_filename = tmp_path + "{}_approved.txt".format(input_type)
 
-if not os.path.exists(tmp_filename):
-    tmp_outfile = open(tmp_filename, "w")
+# Open file to write output
+tmp_outfile = open(tmp_filename, "w")
 
-    ### For fastq files
-    if input_type == "fastq":
+### For fastq format files
+if input_type == "raw":
 
-        # Define fastq folder path
-        fastq_folders_path = main_path + "/data/" + project_name + "/raw/"
+    # Define raw folder path
+    raw_path = main_path + "/data/" + project_name + "/raw/"
 
-        # Find all fastq folders
-        fastq_folders = [f for f in os.listdir(fastq_folders_path) if os.path.isdir(os.path.join(fastq_folders_path,f))]
+    # Find all sample folders
+    samples_folders = [folder for folder in os.listdir(raw_path) if os.path.isdir(os.path.join(raw_path,folder))]
 
-        for folder in fastq_folders:
-            fastq_files = [f for f in os.listdir(fastq_folders_path + folder)]
+    # For every sample
+    for sample in samples_folders:
 
-            # Add full path
-            fastq_files = [fastq_folders_path + folder + "/" + file for file in fastq_files]
+        # Define sample path
+        sample_path = raw_path + sample + "/"
 
-            fastq_status = CheckFastq(fastq_files)
+        # Get files of each sample folder (exclude folders)
+        potential_fastq = [file for file in os.listdir(sample_path) if not os.path.isdir(os.path.join(sample_path, file))]
 
-            no_fastq = sum(1 for condition_true in fastq_status.values() if condition_true)
+        # Add full path to content of sample folder
+        potential_fastqs = [sample_path + file for file in potential_fastq]
 
-            # Print error messages
-            if no_fastq == 1:
-                print("{} only has one fastq file! However, the pipeline will continue with this sample anyway.".format(folder))
-            elif no_fastq == 0:
-                print("{} has no fastq file! This sample will not be included in any further analysis.".format(folder))
+        # Check if the content of the folder is fastq
+        fastq_status = CheckFastq(potential_fastqs)
 
-            # Write accepted samples to file
-            if no_fastq > 0:
-                tmp_outfile.write(folder+"\n")
+        # Count how many fastq files there is for this sample
+        no_fastq = sum(1 for condition_true in fastq_status.values() if condition_true)
 
-        ### For fastq files
-        if input_type == "fasta":
-            # Define sample folder path
-            sample_folders_path = main_path + "/results/" + project_name + date + "/foodqcpipeline/"
+        # Print error messages
+        if no_fastq > 2:
+            print("{} has more than two files that evaluate true for fastq format: {}! However, the pipeline will continue with this sample anyway.".format(sample, fastq_status))
+        elif no_fastq == 1:
+            print("{} only has one fastq file! However, the pipeline will continue with this sample anyway.".format(sample))
+        elif no_fastq == 0:
+            print("{} has no fastq file! This sample will not be included in any further analysis.".format(sample))
 
-            # Find all sample folders
-            sample_folders = [f for f in os.listdir(fastq_folders_path) if os.path.isdir(os.path.join(sample_folders_path,f))]
+        # Write accepted samples to file
+        if no_fastq > 0:
+            tmp_outfile.write(sample+"\n")
+### For fasta format files
+elif input_type == "fastq":
 
-            # Check all samples if they have assemblies
-            for sample in sample_folders:
-                # Define assembly folder for each sample
-                sample_folder = sample_folders_path + sample + "/Assembly/"
+    # Define samples path
+    samples_path = main_path + "/results/" + project_name + "_" + date + "/foodqcpipeline/"
 
-                # List content of assembly
-                potential_fastas = [f for f in os.listdir(sample_folder)]
+    # Find all sample folders
+    samples_folders = [folder for folder in os.listdir(samples_path) if os.path.isdir(os.path.join(samples_path, folder))]
 
-                # Check of the content of the assembly folder is fasta
-                fasta_status = CheckFasta(potential_fastas)
+    # For all samples
+    for sample in samples_folders:
 
-                # Count how many fasta was found
-                no_fasta = sum(1 for condition_true in fastq_status.values() if condition_true)
+        # Define assembly folder for each sample
+        assembly_folder = samples_path + sample + "/Trimmed/"
+
+        # List files of assemblies
+        potential_fastqs = [file for file in os.listdir(assembly_folder) if not os.path.isdir(os.path.join(assembly_folder, file)) if file.endswith(".trim.fq.gz")]
+
+        # Add full path
+        potential_fastqs = [assembly_folder + "/" + file for file in potential_fastqs]
+
+        # Check of the content of the assembly folder is fasta
+        fastq_status = CheckFastq(potential_fastqs)
+
+        # Count how many fasta was found
+        no_fastq = sum(1 for condition_true in fastq_status.values() if condition_true)
+
+        # Print error messages
+        if no_fastq > 2:
+            print("{} has more than one file that evaluate as true for fastq format: {}! This sample will not be included in the following analysis.".format(sample, fastq_status))
+        elif no_fastq == 0:
+            print("{} has no fastq file! This sample will not be included in the following analysis.".format(sample))
+
+        # Write accepted samples to file
+        if no_fastq > 1:
+            tmp_outfile.write(sample+"\n")
+
+### For fasta format files
+elif input_type == "fasta":
+
+    # Define samples path
+    samples_path = main_path + "/results/" + project_name + "_" + date + "/foodqcpipeline/"
+
+    # Find all sample folders
+    samples_folders = [folder for folder in os.listdir(samples_path) if os.path.isdir(os.path.join(samples_path, folder))]
+
+    # For all samples
+    for sample in samples_folders:
+
+        # Define assembly folder for each sample
+        assembly_folder = samples_path + sample + "/Assemblies/"
+
+        # List files of assemblies
+        potential_fastas = [file for file in os.listdir(assembly_folder) if not os.path.isdir(os.path.join(assembly_folder, file))]
+
+        # Add full path
+        potential_fastas = [assembly_folder + "/" + file for file in potential_fastas]
+
+        # Check of the content of the assembly folder is fasta
+        fasta_status = CheckFasta(potential_fastas)
+
+        # Count how many fasta was found
+        no_fasta = sum(1 for condition_true in fasta_status.values() if condition_true)
+
+        # Print error messages
+        if no_fasta > 1:
+            print("{} has more than one file that evaluate as true for fasta format: {}! This sample will not be included in the following analysis.".format(sample, fasta_status))
+        elif no_fasta == 0:
+            print("{} has no fasta file! This sample will not be included in the following analysis.".format(sample))
+
+        # Write accepted samples to file
+        if no_fasta == 1:
+            tmp_outfile.write(sample+"\n")
+
+### For gfa files
+elif input_type == "gfa":
+
+    # Define sample folder path
+    samples_path = main_path + "/results/" + project_name + "_" + date + "/foodqcpipeline/"
+
+    # Find all sample folders
+    samples_folders = [folder for folder in os.listdir(samples_path) if os.path.isdir(os.path.join(samples_path, folder))]
+
+
+    # Check all samples if they have assemblies
+    for sample in samples_folders:
+
+        # Define assembly folder for each sample
+        assembly_folder = samples_path + sample + "/Assemblies/"
+
+        # List folders of assembly (exclude files)
+        potential_folders = [folder for folder in os.listdir(assembly_folder) if os.path.isdir(os.path.join(assembly_folder, folder))]
+
+        # Find the "_trimmed folder"
+        for folder in potential_folders:
+            if not folder.endswith("corrected_reads"):
+
+                # Add full path
+                trimmed_folder = assembly_folder + "/" + folder
+
+                # Find files in _trimmed folder (exclude folders)
+                potential_gfa = [file for file in os.listdir(trimmed_folder) if not os.path.isdir(os.path.join(trimmed_folder, file))]
+
+                # Add full path
+                potential_gfa = [trimmed_folder + "/" + file for file in potential_gfa]
+
+                # Check of the content of the trimmed_folder is gff
+                gfa_status = CheckGfa(potential_gfa)
+
+                # Count how many gff was found
+                no_gfa = sum(1 for condition_true in gfa_status.values() if condition_true)
 
                 # Print error messages
-                if no_fasta > 1:
-                    print("{} only has more than one fasta file as assembly! This sample will not be included in the following analysis.".format(folder))
-                elif no_fasta == 0:
-                    print("{} has no fasta file! This sample will not be included in the following analysis.".format(folder))
+                if no_gfa > 1:
+                    print("{} has more than one file that evaluate as true for gfa format: {}! This sample will not be included in the following analysis.".format(sample, gfa_status))
+                elif no_gfa == 0:
+                    print("{} has no gfa file! This sample will not be included in the following analysis.".format(sample))
 
                 # Write accepted samples to file
-                if no_fasta == 1:
-                    tmp_outfile.write(folder+"\n")
-
-        ### For gfa files
-        if input_type == "gfa":
-            # Define sample folder path
-            sample_folders_path = main_path + "/results/" + project_name + date + "/foodqcpipeline/"
-
-            # Find all sample folders
-            sample_folders = [f for f in os.listdir(sample_folders_path) if os.path.isdir(os.path.join(sample_folders_path,f))]
-
-            # Check all samples if they have assemblies
-            for sample in sample_folders:
-                # Define assembly folder for each sample
-                sample_folder = sample_folders_path + sample + "/Assembly/"
-
-                # List content of assembly
-                potential_folders = [f for f in os.listdir(sample_folder)]
-
-                # Find the "_trimmed folder"
-                for folder in potential_folders:
-                    if folder.endswith("_trimmed"):
-                        # Check of the content of the assembly folder is gff
-                        gfa_status = CheckGfa(potential_fastas)
-
-                        # Count how many gff was found
-                        no_gfa = sum(1 for condition_true in gfa_status.values() if condition_true)
-
-                        # Print error messages
-                        if no_gfa > 1:
-                            print("{} only has more than one gfa file as assembly! This sample will not be included in the following analysis.".format(folder))
-                        elif no_gfa == 0:
-                            print("{} has no gfa file! This sample will not be included in the following analysis.".format(folder))
-
-                        # Write accepted samples to file
-                        if no_gfa == 1:
-                            tmp_outfile.write(folder+"\n")
+                if no_gfa == 1:
+                    tmp_outfile.write(sample+"\n")
 
 
-        ### For gff files
-        if input_type == "gff":
-            # Define sample folder path
-            sample_folders_path = main_path + "/results/" + project_name + date + "/prokka/"
+### For gff files
+elif input_type == "gff":
+    # Define sample folder path
+    samples_path = main_path + "/results/" + project_name + "_" + date + "/prokka/"
 
-            # Find all sample folders
-            sample_folders = [f for f in os.listdir(sample_folders_path) if os.path.isdir(os.path.join(sample_folders_path,f))]
+    # Find all sample folders
+    samples_folders = [folder for folder in os.listdir(samples_path) if os.path.isdir(os.path.join(samples_path, folder))]
 
-            # Check all samples if they have assemblies
-            for sample in sample_folders:
-                # Define assembly folder for each sample
-                sample_folder = sample_folders_path + sample
+    # Check all samples if they have assemblies
+    for sample in samples_folders:
 
-                # List content of assembly
-                potential_gff = [f for f in os.listdir(sample_folder)]
+        # Add full path to sample folder
+        sample_folder = samples_path + sample
 
-                gff_status = CheckGff(potential_gff)
+        # List content of assembly (exclude folders)
+        potential_gff = [file for file in os.listdir(sample_folder) if not os.path.isdir(os.path.join(sample_folder, file))]
 
-                # Count how many fasta was found
-                no_gff = sum(1 for condition_true in fastq_status.values() if condition_true)
+        # Add full path to files
+        potential_gff = [sample_folder + "/" + file for file in potential_gff]
 
-                # Print error messages
-                if no_gff > 1:
-                    print("{} has {} gff files! This sample will not be included in the following analysis.".format(folder, no_gff))
-                elif no_gff == 0:
-                    print("{} has no gfa file! This sample will not be included in the following analysis.".format(folder))
+        # Check of the content of the sample_folder is gff
+        gff_status = CheckGff(potential_gff)
 
-                # Write accepted samples to file
-                if no_gff == 1:
-                    tmp_outfile.write(folder+"\n")
+        # Count how many gff was found
+        no_gff = sum(1 for condition_true in gff_status.values() if condition_true)
 
-        else:
-            print("Error! Uknown input file format. Should be fastq, fasta, gfa, or gff.")
-            sys.exit()
+        # Print error messages
+        if no_gff > 1:
+            print("{} has more than one file that evaluate as true for gff format: {}! This sample will not be included in the following analysis.".format(sample, gff_status))
+
+        elif no_gff == 0:
+            print("{} has no gff file! This sample will not be included in the following analysis.".format(sample))
+
+        # Write accepted samples to file
+        if no_gff == 1:
+            tmp_outfile.write(sample+"\n")
 
 # Close output file
 tmp_outfile.close()

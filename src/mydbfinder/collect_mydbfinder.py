@@ -3,7 +3,7 @@
 """
 Program: collect_mydbfinder.py
 Description: This program collect the results from all samples made from MyDbFinder
-Version: 1.0
+Version: 1.1
 Author: Catrine Høm and Line Andresen
 
 # Usage:
@@ -43,7 +43,7 @@ if __name__ == "__main__":
     # Define input as variables
     main_path = args.p
     project_name = args.n
-    date = "_" + str(args.d)
+    date = str(args.d)
     database_name = args.b
 
 
@@ -52,8 +52,8 @@ if __name__ == "__main__":
 ################################################################################
 
     # Define variables
-    samples = [f for f in os.listdir(main_path + "/results/" + project_name + date + "/foodqcpipeline")]
-    raw_results_outfolder = main_path + "/results/" + project_name + date + "/summary/"
+    samples = [f for f in os.listdir(main_path + "/results/" + project_name + "_" + date + "/foodqcpipeline")]
+    raw_results_outfolder = main_path + "/results/" + project_name + "_" + date + "/summary/"
     raw_results_outfile = raw_results_outfolder + database_name + "_results.txt"
     raw_results_lines = list()
     header_made = False
@@ -66,7 +66,7 @@ if __name__ == "__main__":
     print("Start collecting results in one common file for all samples...")
     for sample in samples:
             # Define path for each sample
-            sample_path = main_path + "/results/" + project_name + date  + "/mydbfinder/" + database_name + "/" + sample + "/"
+            sample_path = main_path + "/results/" + project_name + "_" + date  + "/mydbfinder/" + database_name + "/" + sample + "/"
 
             # Find file in path
             tool_files = [f for f in os.listdir(sample_path) if os.path.isfile(os.path.join(sample_path, f))]
@@ -113,7 +113,7 @@ if __name__ == "__main__":
 ################################################################################
     print("Starting transformation of results...")
 
-    transformed_results_outfile = raw_results_outfolder + "/" + database_name + "_results_transformed.txt"
+    transformed_results_outfile = raw_results_outfolder + database_name + "_results_transformed.txt"
 
     # Find all genes in raw results (but skip header with [1:])
     genes = set()
@@ -132,7 +132,7 @@ if __name__ == "__main__":
     # Find gene hits for each sample (but skip header with [1:])
     for line in raw_results_lines[1:]:
         sample = line.split("\t")[0]
-        gene = line.split("\t")[1].split(".")[0]
+        gene = line.split("\t")[1].split(".")[0].strip()
         index = genes.index(gene)
         genes_matrix[sample][index] += 1
 

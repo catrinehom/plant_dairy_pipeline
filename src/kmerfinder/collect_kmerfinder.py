@@ -48,98 +48,111 @@ if __name__ == "__main__":
 # STEP 1:  COLLECT RESULTS
 ################################################################################
 
-    # Define variables
-    samples = [f for f in os.listdir(main_path + "/results/" + project_name + date + "/foodqcpipeline")]
-    raw_results_outfolder = main_path + "/results/" + project_name + date + "/summary/"
-    raw_results_outfile = raw_results_outfolder + "kmerfinder_results.txt"
-    lines = list()
-    header_made = False
+# Define variables
+samples = [f for f in os.listdir(main_path + "/results/" + project_name + date + "/foodqcpipeline")]
+raw_results_outfolder = main_path + "/results/" + project_name + date + "/summary/"
+raw_results_outfile = raw_results_outfolder + "kmerfinder_results.txt"
+lines = list()
+header_made = False
 
-    # Create outputfolder if it doesn't exist
-    if not os.path.exists(raw_results_outfolder):
-        os.makedirs(raw_results_outfolder)
+# Create outputfolder if it doesn't exist
+if not os.path.exists(raw_results_outfolder):
+    os.makedirs(raw_results_outfolder)
 
-    # Loop through samples
-    print("Start collecting results in one common file for all samples...")
-    for sample in samples:
-        # Define path for each sample
-        sample_path = main_path + "/results/" + project_name + date + "/kmerfinder/" + sample + "/"
+# Loop through samples
+print("Start collecting results in one common file for all samples...")
+for sample in samples:
+    # Define path for each sample
+    sample_path = main_path + "/results/" + project_name + date + "/kmerfinder/" + sample + "/"
 
-        # Find file in path
-        kmerfinder_files = [f for f in os.listdir(sample_path) if os.path.isfile(os.path.join(sample_path, f))]
+    # Find file in path
+    kmerfinder_files = [f for f in os.listdir(sample_path) if os.path.isfile(os.path.join(sample_path, f))]
 
-        # Find kmerfinder result files
-        for file in kmerfinder_files:
-            if file.endswith("_results.txt"):
+    # Find kmerfinder result files
+    for file in kmerfinder_files:
+        if file.endswith("_results.txt"):
 
-                # Define path for each sample
-                sample_result = sample_path + file
+            # Define path for each sample
+            sample_result = sample_path + file
 
-                # Open file
-                with open(sample_result, "r") as f:
-                    # If this is the first sample, we want to create a header
-                    if header_made == False:
-                            header = "Sample_name\t"+f.readline()
-                            lines.append(header)
-                            header_made = True
+            # Open file
+            with open(sample_result, "r") as f:
+                # If this is the first sample, we want to create a header
+                if header_made == False:
+                        header = "Sample_name\t"+f.readline()
+                        lines.append(header)
+                        header_made = True
 
-                            # Collect results in first sample
-                            for line in f:
-                                    lines.append(sample+"\t"+line)
-                    else:
-                        # Skip header in rest of the samples
-                        next(f)
-                        # Collect results
+                        # Collect results in first sample
                         for line in f:
                                 lines.append(sample+"\t"+line)
-    print("Done")
+                else:
+                    # Skip header in rest of the samples
+                    next(f)
+                    # Collect results
+                    for line in f:
+                            lines.append(sample+"\t"+line)
+print("Done")
 
-    # Write raw results to file
-    try:
-        outfile = open(raw_results_outfile, "w")
-        for line in lines:
-                outfile.write(line)
-        outfile.close()
-    except IOError as error:
-            sys.exit("Can't write to file: {}".format(error))
+# Write raw results to file
+try:
+    outfile = open(raw_results_outfile, "w")
+    for line in lines:
+            outfile.write(line)
+    outfile.close()
+except IOError as error:
+        sys.exit("Can't write to file: {}".format(error))
 
-    print("Results can be found in: {}.".format(raw_results_outfile))
+print("Results can be found in: {}.".format(raw_results_outfile))
 
 ################################################################################
 # STEP 2:  TRANSFORM RESULTS
 ################################################################################
-    print("Starting transformation of results...")
+print("Starting transformation of results...")
 
-    transformed_results_outfile = raw_results_outfolder + "kmerfinder_results_transformed.txt"
+top1_results_outfile = raw_results_outfolder + "kmerfinder_results_top1.txt"
+top10_results_outfile = raw_results_outfolder + "kmerfinder_results_top10.txt"
 
-    df = pd.read_csv(raw_results_outfile, sep="\t") # make into pandas
-    data = df.values  # make into numpy
+df = pd.read_csv(raw_results_outfile, sep="\t") # make into pandas
+data = df.values  # make into numpy
 
-    # Get unique list of sample names
-    samples = np.unique(data[:,0])
+# Get unique list of sample names
+samples = np.unique(data[:,0])
 
-    tophits = list()
+tophits = list()
+tophits10 = list()
 
-    # collect tophit for each sample
-    for sample in samples:
-        sample_m = data[data[:,0]==sample]
+# collect tophit for each sample
+for sample in samples:
+    sample_m = data[data[:,0]==sample]
+    tophit = sample_m[sample_m[:,3].argsort()[::-1]][0]
+    tophits.append(tophit)
+    top10hit = sample_m[sample_m[:,3].argsort()[::-1]][0:9]
+    for hit in top10hit:
+        tophits10.append(hit)
 
-        tophit = sample_m[sample_m[:,3].argsort()[::-1]][0]
-        tophits.append(tophit)
 
 
+print("Transformation is done.")
 
-    print("Transformation is done.")
+# Write transformed result file
+try:
+        outfile = open(top1_results_outfile, "w")
+        outfile.write(header)
+        for record in tophits:
+            outfile.write('\t'.join([str(elem) for elem in record.tolist()]) + '\n')
+        outfile.close()
+except IOError as error:
+        sys.exit("Can't write to file: {}".format(error))
 
-    # Write transformed result file
-    try:
-            outfile = open(transformed_results_outfile, "w")
-            outfile.write(header)
-            for record in tophits:
-                outfile.write('\t'.join([str(elem) for elem in record.tolist()]) + '\n')
-            outfile.close()
-    except IOError as error:
-            sys.exit("Can't write to file: {}".format(error))
+try:
+        outfile = open(top10_results_outfile, "w")
+        outfile.write(header)
+        for record in tophits10:
+            outfile.write('\t'.join([str(elem) for elem in record.tolist()]) + '\n')
+        outfile.close()
+except IOError as error:
+        sys.exit("Can't write to file: {}".format(error))
 
-    print("Transformed results can be found in: {}.".format(transformed_results_outfile))
+print("Transformed results can be found in: {} and {}.".format(top1_results_outfile, top10_results_outfile))
 

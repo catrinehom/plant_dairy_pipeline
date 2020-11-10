@@ -2,7 +2,7 @@
 
 # Program: run_prokka.sh
 # Description: This program run PROKKA which is a part of the dairy pipeline
-# Version: 1.0
+# Version: 1.1
 # Author: Catrine Høm and Line Andresen
 
 # Usage:
@@ -28,19 +28,19 @@ SECONDS=0
 usage() { echo "Usage: $0 [-p <path to main>] [-n <name of project>] [-d <date of run>]"; exit 1; }
 
 # Default values
-d=$(date "+_%Y%m%d_%H%M%S")
+date=$(date "+%Y%m%d_%H%M%S")
 
 # Parse flags
 while getopts ":p:n:d:h" opt; do
     case "${opt}" in
         p)
-            p=${OPTARG}
+            path=${OPTARG}
             ;;
         n)
-            n=${OPTARG}
+            name=${OPTARG}
             ;;
         d)
-            d=_${OPTARG}
+            date=${OPTARG}
             ;;
         h)
             usage
@@ -53,20 +53,18 @@ while getopts ":p:n:d:h" opt; do
 done
 
 # Check if required flags are empty
-if [ -z "${p}" ] || [ -z "${n}" ]; then
+if [ -z "${path}" ] || [ -z "${name}" ]; then
     echo "p and n are required flags"
     usage
 fi
 
-date=$(date "+%Y-%m-%d %H:%M:%S")
-echo "Starting run_bandage.sh ($date)"
+datestamp=$(date "+%Y-%m-%d %H:%M:%S")
+echo "Starting run_prokka.sh ($datestamp)"
 echo "--------------------------------------------------------------------------------"
 
 # Print files used
-echo "Path used is: ${p}"
-echo "Results will be saved in: ${n}${d}"
-
-echo -e "Time stamp: $SECONDS seconds.\n"
+echo "Path used is: ${path}"
+echo "Results will be saved in: ${name}_${date}"
 
 
 ################################################################################
@@ -74,34 +72,35 @@ echo -e "Time stamp: $SECONDS seconds.\n"
 ################################################################################
 
 # Load modules
+module purge
 module load tools
 module load perl
 module load ncbi-blast/2.8.1+
-module load hmmer/3.2.1 
+module load hmmer/3.2.1
 module load aragorn/1.2.36
 module load tbl2asn/20191211
 module load prodigal/2.6.3
-module load infernal/1.1.2  
-module load barrnap/0.7 
-module load jdk/15 
+module load infernal/1.1.2
+module load barrnap/0.7
+module load jdk/15
 module load minced/0.2.0
-module load rnammer/1.2 
-module load signalp/4.1c 
+module load rnammer/1.2
+module load signalp/4.1c
 module load prokka/1.14.0
 
 echo "Starting STEP 1: Run PROKKA"
 
 # Define variables
 tool_name=prokka
-outputfolder=${p}/results/${n}${d}/$tool_name
+outputfolder=${path}/results/${name}_${date}/$tool_name
 
 # Make output directory
 [ -d $outputfolder ] && echo "Output directory: $outputfolder already exists. Files will be overwritten." || mkdir -p $outputfolder
 
 
 # Define variables
-samples_path=${p}/results/${n}${d}/foodqcpipeline
-samples=$(ls $samples_path)
+samples_path=${path}/results/${name}_${date}/foodqcpipeline/
+samples=$(cat ${path}/results/${name}_${date}/tmp/fasta_approved.txt)
 count=$((1))
 total=$(wc -w <<<$samples)
 
@@ -112,10 +111,11 @@ for sample in $samples
 
     # Create sample output folder
     sample_path=${outputfolder}/${sample}
+    echo sample_path
     [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
 
     # Define tool inputs
-    input_fasta=${samples_path}/$sample/Assemblies/*_trimmed.fa
+    input_fasta=${samples_path}/${sample}/Assemblies/*.fa
 
     # Run tool
     prokka --outdir $sample_path --prefix $sample $input_fasta --force
@@ -123,6 +123,11 @@ for sample in $samples
     count=$(($count+1))
   done
 
-echo "Images of assemblies were succesfully made."
-echo "Time stamp: $SECONDS seconds."
+# Run collect script
+module purge
+module load tools
+module load anaconda3/4.0.0
+${path}/src/${tool_name}/collect_${tool_name}.py -p ${path} -n ${name} -d ${date}
+
+echo "${tool_name} finished in $SECONDS seconds."
 

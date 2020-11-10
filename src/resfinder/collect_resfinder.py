@@ -3,7 +3,7 @@
 """
 Program: collect_resfinder.py
 Description: This program collect the results from all samples made from ResFinder
-Version: 1.0
+Version: 1.2
 Author: Catrine Høm and Line Andresen
 
 # Usage:
@@ -40,15 +40,15 @@ if __name__ == "__main__":
     # Define input as variables
     main_path = args.p
     project_name = args.n
-    date = "_" + str(args.d)
+    date = str(args.d)
 
 ################################################################################
 # STEP 1:  COLLECT RESULTS
 ################################################################################
 
     # Define variables
-    samples = [f for f in os.listdir(main_path + "/results/" + project_name + date + "/foodqcpipeline")]
-    raw_results_outfolder = main_path + "/results/" + project_name + date + "/summary/"
+    samples = [f for f in os.listdir(main_path + "/results/" + project_name + "_" + date + "/foodqcpipeline")]
+    raw_results_outfolder = main_path + "/results/" + project_name + "_" + date + "/summary/"
     raw_results_outfile = raw_results_outfolder + "resfinder_results.txt"
     lines = list()
     header_made = False
@@ -61,14 +61,14 @@ if __name__ == "__main__":
     print("Start collecting results in one common file for all samples...")
     for sample in samples:
         # Define path for each sample
-        sample_path = main_path + "/results/" + project_name + date + "/resfinder/" + sample + "/"
+        sample_path = main_path + "/results/" + project_name + "_" + date + "/resfinder/" + sample + "/"
 
         # Find file in path
-        kmerfinder_files = [f for f in os.listdir(sample_path) if os.path.isfile(os.path.join(sample_path, f))]
+        resfinder_files = [f for f in os.listdir(sample_path) if os.path.isfile(os.path.join(sample_path, f))]
 
         # Find resfinder result files
-        for file in kmerfinder_files:
-            if file == ("results_tab.txt"):
+        for file in resfinder_files:
+            if file.endswith("results_tab.txt"):
 
                 # Define path for each sample
                 sample_result = sample_path + file
@@ -77,7 +77,7 @@ if __name__ == "__main__":
                 with open(sample_result, "r") as f:
                     # If this is the first sample, we want to create a header
                     if header_made == False:
-                            lines.append("Sample_name\t"+f.readline())
+                            lines.append("Sample_name\t" + f.readline())
                             header_made = True
 
                             # Collect results in first sample
@@ -101,5 +101,4 @@ if __name__ == "__main__":
             sys.exit("Can't write to file: {}".format(error))
 
     print("Results can be found in: {}.".format(raw_results_outfile))
-
 

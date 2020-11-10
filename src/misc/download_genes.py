@@ -24,6 +24,7 @@ Author: Catrine Høm and Line Andresen
 from Bio import Entrez
 import re
 import os
+import time
 from argparse import ArgumentParser
 
 ################################################################################
@@ -52,7 +53,7 @@ if __name__ == "__main__":
         os.makedirs(outdir)
 
     # Search term after gene for on NCBI (can be "").
-    search_info = "[gene name] AND (Fungi[Organism] OR Bacteria[Organism]) AND (alive[prop] OR replaced[Properties] OR discontinued[Properties]) "
+    search_info = " AND (Fungi[Organism] OR Bacteria[Organism]) AND (alive[prop] OR replaced[Properties] OR discontinued[Properties]) "
 
     # Max number of entries to retrieve
     retmax = 5000
@@ -74,6 +75,7 @@ if __name__ == "__main__":
 
     # For all genes in gene_list
     for gene in gene_list:
+        
         # Collect full search term:
         search_term = gene + search_info
 
@@ -148,6 +150,8 @@ if __name__ == "__main__":
 
         # Download fasta file from information found, and write to file
         for i in range(len(info)):
+            # Wait 10 seconds between each request, so NCBI dont block us out
+            time.sleep(10)
             handle = Entrez.efetch(db="nucleotide", id=info[i][0], rettype="fasta",
                                    retmode="text", seq_start=info[i][1], seq_stop=info[i][2],
                                    validate=False)

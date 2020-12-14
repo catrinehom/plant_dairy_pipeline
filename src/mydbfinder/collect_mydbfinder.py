@@ -14,12 +14,7 @@ Author: Catrine Høm and Line Andresen
     ## -b, database name (common name for pathway/gene-set) (str)
 
 # Output:
-    ## XXXOutputfile 1
-    ## XXXOutputfile 2
-
-# This pipeline consists of 1 steps:
-    ## STEP 1:  Collect results
-    ## STEP 2:  Transform results
+    ## One common file with summary of all results from samples
 """
 
 # Import libraries
@@ -52,9 +47,9 @@ if __name__ == "__main__":
 ################################################################################
 
     # Define variables
-    samples = [f for f in os.listdir(main_path + "/results/" + project_name + "_" + date + "/foodqcpipeline")]
+    samples = [f for f in os.listdir(main_path + "/results/" + project_name + "_" + date + "/mydbfinder/" + database_name)]
     raw_results_outfolder = main_path + "/results/" + project_name + "_" + date + "/summary/"
-    raw_results_outfile = raw_results_outfolder + database_name + "_results.txt"
+    raw_results_outfile = raw_results_outfolder + database_name + "_results_raw.txt"
     raw_results_lines = list()
     header_made = False
 
@@ -63,11 +58,10 @@ if __name__ == "__main__":
         os.makedirs(raw_results_outfolder)
 
     # Loop through samples
-    print("Start collecting results in one common file for all samples...")
+    print("Start collecting results...")
     for sample in samples:
             # Define path for each sample
             sample_path = main_path + "/results/" + project_name + "_" + date  + "/mydbfinder/" + database_name + "/" + sample + "/"
-
             # Find file in path
             tool_files = [f for f in os.listdir(sample_path) if os.path.isfile(os.path.join(sample_path, f))]
 
@@ -94,7 +88,6 @@ if __name__ == "__main__":
                             for line in f:
                                     raw_results_lines.append(sample+"\t"+line)
 
-    print("Result collection is done")
 
     # Write raw results to file
     try:
@@ -105,15 +98,13 @@ if __name__ == "__main__":
     except IOError as error:
             sys.exit("Can't write to file: {}".format(error))
 
-    print("Raw results can be found in: {}.".format(raw_results_outfile))
-
 
 ################################################################################
 # STEP 2:  TRANSFORM RESULTS (only for mydbfinder)
 ################################################################################
-    print("Starting transformation of results...")
+    print("Starting transformation results...")
 
-    transformed_results_outfile = raw_results_outfolder + database_name + "_results_transformed.txt"
+    transformed_results_outfile = raw_results_outfolder + database_name + "_results.txt"
 
     # Find all genes in raw results (but skip header with [1:])
     genes = set()
@@ -136,7 +127,7 @@ if __name__ == "__main__":
         index = genes.index(gene)
         genes_matrix[sample][index] += 1
 
-    print("Transformation is done.")
+    print("Collection of results completed")
 
     # Write transformed result file
     try:
@@ -152,6 +143,9 @@ if __name__ == "__main__":
     except IOError as error:
             sys.exit("Can't write to file: {}".format(error))
 
-    print("Transformed results can be found in: {}.".format(transformed_results_outfile))
-    print("If a gene is not found in any of the samples, it will not be added as a column to this file.")
+    # Cleaning up raw file
+    os.remove(raw_results_outfile)
+
+    print("Results can be found in: {}".format(transformed_results_outfile))
+    print("If a gene is not found in any of the samples, it will not be added as a column to this file\n")
 

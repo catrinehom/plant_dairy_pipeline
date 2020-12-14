@@ -13,12 +13,7 @@
     ## -b, database name (common name for pathway/gene-set") (str)
 
 # Output:
-    ## Outputfile 1
-    ## Outputfile 2
-
-# This pipeline consists of 1 steps:
-    ## STEP 1:  Run MyDbFinder
-
+    ## Database specific gene finder
 
 ################################################################################
 # GET INPUT
@@ -74,17 +69,11 @@ fi
 datestamp=$(date "+%Y-%m-%d %H:%M:%S")
 echo "Starting run_mydbfinder.sh ($datestamp)"
 echo "--------------------------------------------------------------------------------"
-
-# Print files used
-echo "Path used is: ${path}"
-echo "Results will be saved: ${name}_${date}"
-echo "Database used is: ${path}/data/db/${database}"
+echo -e "Database used is: ${path}/data/db/${database}\n"
 
 ################################################################################
-# STEP 1: RUN TOOL
+# STEP 1: RUN MYDBFINDER
 ################################################################################
-
-echo "Starting STEP 1: Run MyDbFinder"
 
 # Define variables
 tool_name=mydbfinder
@@ -95,10 +84,10 @@ mkdir -p $mydbfolder
 
 # Make output directory
 outputfolder=${mydbfolder}/${database}
-[ -d $outputfolder ] && echo "Output directory: ${outputfolder} already exists. Files will be overwritten." || mkdir -p $outputfolder
+[ -d $outputfolder ] || mkdir -p $outputfolder
 
 # Define variables
-samples=$(cat ${path}/results/${name}_${date}/tmp/fasta_approved.txt)
+samples=$(cat ${path}/results/${name}_${date}/tmp/species_approved.txt)
 count=$((1))
 total=$(wc -w <<<$samples)
 tool=${path}/tools/${tool_name}/mydbfinder.py
@@ -106,20 +95,19 @@ tool=${path}/tools/${tool_name}/mydbfinder.py
 # Run tool on all samples
 for sample in $samples
   do
-    echo "Starting with: $sample ($count/$total)"
+    echo "Running: $sample ($count/$total)"
 
     # Create sample output folder
     sample_path=${outputfolder}/${sample}
-    [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
+    [ -d $sample_path ] || mkdir $sample_path
 
     # Define tool inputs
     i=${path}/results/${name}_${date}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
-    o=${outputfolder}/${sample}
+    o=${sample_path}
     db=${path}/data/db/${tool_name}/${database}/
 
     # Run tool
-    $tool -i $i -o $o -p $db --min_cov 0.5 --threshold 0.5
-    echo "Finished with: $sample"
+    $tool -i $i -o $o -p $db > /dev/null 2>&1
     count=$(($count+1))
   done
 
@@ -129,5 +117,5 @@ module load tools
 module load anaconda3/4.0.0
 ${path}/src/${tool_name}/collect_${tool_name}.py -p ${path} -n ${name} -d ${date} -b ${database}
 
-echo -e "${tool_name} finished in $SECONDS seconds.\n"
+echo -e "The tool ${tool_name} with database ${database} finished in $SECONDS seconds.\n"
 

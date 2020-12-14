@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Program: collect_prokka.py
+Program: collect_all_prokka.py
 Description: This program collect the results from all samples made from PROKKA
 Version: 1.0
 Author: Catrine Høm and Line Andresen
@@ -10,14 +10,16 @@ Author: Catrine Høm and Line Andresen
     ## collect_prokka.py [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run>]
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
+    ## -d, date of run (str or int)
 
 # Output:
-    ## File with counts for all samples
+    ## One common file with summary of all results from samples
 """
 
 # Import libraries
 import sys
 import os
+import pandas as pd
 from argparse import ArgumentParser
 
 ################################################################################
@@ -43,16 +45,18 @@ if __name__ ==  "__main__":
 
 # Define variables
 samples = [f for f in os.listdir(main_path + "/results/" + project_name + "_" + date + "/prokka/")]
-raw_results_outfolder = main_path + "/results/" + project_name + "_" + date + "/summary/"
-raw_results_outfile = raw_results_outfolder + "prokka_results.txt"
+summary_outfolder = main_path + "/results/" + project_name + "_" + date + "/summary/"
+raw_results_outfile = summary_outfolder + "prokka_all_results.txt"
 lines = list()
+all_unique_genes = set()
+all_samples = dict()
 
 # Make header
-lines.append("Sample_name\tcontigs\tbases\tCRISPR\tCDS\trRNA\ttRNA\ttmRNA\n")
+#lines.append("Sample_name\tcontigs\tbases\tCRISPR\tCDS\trRNA\ttRNA\ttmRNA\n")
 
 # Create outputfolder if it doesn't exist
-if not os.path.exists(raw_results_outfolder):
-    os.makedirs(raw_results_outfolder)
+if not os.path.exists(summary_outfolder):
+    os.makedirs(summary_outfolder)
 
 # Loop through samples
 print("Start collecting results...")
@@ -65,50 +69,37 @@ for sample in samples:
 
     # Collect results
     for file in tool_files:
-        if file.endswith(".txt"):
+        sample_name = file.split(".")[0]
+        if file.endswith(".tsv"):
+            sample_unique_genes = dict()
             sample_result = sample_path + file
-            result = ""
 
             # Open file
             with open(sample_result, "r") as f:
 
-                ## Collect results in samples
-                contigs = 0
-                bases = 0
-                CRISPR = 0
-                CDS = 0
-                rRNA = 0
-                tRNA = 0
-                tmRNA = 0
+                # Skip header
+                f.readline()
 
                 for line in f:
-                    if line.split(":")[0].strip() == "contigs":
-                        contigs = line.split(":")[1].strip()
-                    if line.split(":")[0].strip() == "bases":
-                        bases = line.split(":")[1].strip()
-                    if line.split(":")[0].strip() == "CRISPR":
-                        CRISPR = line.split(":")[1].strip()
-                    if line.split(":")[0].strip() == "CDS":
-                        CDS = line.split(":")[1].strip()
-                    if line.split(":")[0].strip() == "rRNA":
-                        rRNA = line.split(":")[1].strip()
-                    if line.split(":")[0].strip() == "tRNA":
-                        tRNA = line.split(":")[1].strip()
-                    if line.split(":")[0].strip() == "tmRNA":
-                        tmRNA = line.split(":")[1].strip()
+                    if line.split("\t")[1].strip() == "CDS":
+                        gene = line.split("\t")[3].strip()
+
+                        if gene in sample_unique_genes:
+                            sample_unique_genes[gene] += 1
+                        else:
+                            sample_unique_genes[gene] = 1
+
+                        # Add to pan genome
+                        all_unique_genes.add(gene)
+
+            all_samples[sample_name] = sample_unique_genes
 
 
-            lines.append("{}\t{}\t{}\t{}\t{}\t{}\t{}\t{}\n".format(sample,contigs,bases,CRISPR,CDS,rRNA,tRNA,tmRNA))
-print("Collection completed")
+df = pd.DataFrame.from_dict(all_samples, orient='index')
+df = df.fillna(0)
 
 # Write raw results to file
-try:
-    outfile = open(raw_results_outfile, "w")
-    for line in lines:
-            outfile.write(line)
-    outfile.close()
-except IOError as error:
-        sys.exit("Can't write to file: {}".format(error))
+df.to_csv(raw_results_outfile, sep = '\t')
 
 print("Results can be found in: {}".format(raw_results_outfile))
 

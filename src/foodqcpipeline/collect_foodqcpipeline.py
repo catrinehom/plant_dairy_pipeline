@@ -13,11 +13,7 @@ Author: Catrine Høm and Line Andresen
     ## -d, date of run (str)
 
 # Output:
-    ## QC_results.txt, summary of QC for all samples
-
-# This pipeline consists of 1 steps:
-    ## STEP 1:  Collect results
-    ## STEP 2:  Transform results (only for mydbfinder)
+    ## database_results.txt, summary of database results for all samples
 """
 
 # Import libraries
@@ -46,59 +42,51 @@ if __name__ == "__main__":
 # STEP 1:  COLLECT RESULTS
 ################################################################################
 
-    # Define variables
-    foodqcpipeline_path = main_path + "/results/" + project_name + "_" + date + "/foodqcpipeline"
-    samples = [f for f in os.listdir(foodqcpipeline_path)]
-    raw_results_outfolder = main_path + "/results/" + project_name + "_" + date + "/summary/"
-    raw_results_outfile = raw_results_outfolder + "foodqcpipeline_results.txt"
-    lines = list()
-    header_made = False
+# Define variables
+foodqcpipeline_path = main_path + "/results/" + project_name + "_" + date + "/foodqcpipeline"
+samples = [f for f in os.listdir(foodqcpipeline_path)]
+raw_results_outfolder = main_path + "/results/" + project_name + "_" + date + "/summary/"
+raw_results_outfile = raw_results_outfolder + "foodqcpipeline_results.txt"
+lines = list()
+header = "Sample_name\tRead_name\tBases_(MB)\tQual_Bases(MB)\tQual_bases(%)\tReads\tQual_reads(no)\tQual_reads(%)\tMost_common_adapter_(count)\t2._Most_common_adapter_(count)\tOther_adapters_(count)\tinsert_size\tN50\tno_ctgs\tlongest_size(bp)\ttotal_bps\n"
 
-    # Create outputfolder if it doesn't exist
-    if not os.path.exists(raw_results_outfolder):
-        os.makedirs(raw_results_outfolder)
+# Create outputfolder if it doesn't exist
+if not os.path.exists(raw_results_outfolder):
+    os.makedirs(raw_results_outfolder)
 
-    # Loop through samples
-    print("Start collecting results in one common file for all samples...")
-    for sample in samples:
-            # Define path for each sample
-            sample_path = foodqcpipeline_path + "/" + sample + "/QC/"
+# Loop through samples
+print("Start collecting results...")
+for sample in samples:
+        # Define path for each sample
+        sample_path = foodqcpipeline_path + "/" + sample + "/QC/"
 
-            # Find files in path
-            qc_files = [f for f in os.listdir(sample_path) if os.path.isfile(os.path.join(sample_path, f))]
+        # Find files in path
+        potential_qc_files = [f for f in os.listdir(sample_path) if os.path.isfile(os.path.join(sample_path, f))]
 
-            # Find qc result files
-            for file in qc_files:
-                if file.endswith(".qc.txt"):
-                    sample_result = sample_path + file
-                else:
-                    print("Error: couldnt find qc file for {}.".format(sample))
+        # Find qc result files
+        for file in potential_qc_files:
+            if file.endswith(".qc.txt"):
+                sample_result = sample_path + file
+            else:
+                print("Error: couldnt find qc file for {}".format(sample))
 
-            # Open file
-            with open(sample_result, "r") as f:
-                # If this is the first sample, we want to create a header
-                if header_made == False:
-                        lines.append("Sample_name\tRead_name\tBases_(MB)\tQual_Bases(MB)\tQual_bases(%)\tReads\tQual_reads(no)\tQual_reads(%)\tMost_common_adapter_(count)\t2._Most_common_adapter_(count)\tOther_adapters_(count)\tinsert_size\tN50\tno_ctgs\tlongest_size(bp)\ttotal_bps")
-                        header_made = True
+        # Open file
+        with open(sample_result, "r") as f:
+            # Collect results
+            f.readline()
+            for line in f:
+                lines.append(line)
+print("Collection completed")
 
-                        # Collect results in first sample
-                        for line in f:
-                                lines.append(sample + '\t' + line)
-                else:
-                    # Collect results
-                    for line in f:
-                            lines.append(sample + '\t' + line)
+# Write raw results to file
+try:
+    outfile = open(raw_results_outfile, "w")
+    outfile.write(header)
+    for line in lines:
+            outfile.write(line)
+    outfile.close()
+except IOError as error:
+        sys.exit("Can't write to file: {}".format(error))
 
-    print("Done")
-
-    # Write raw results to file
-    try:
-        outfile = open(raw_results_outfile, "w")
-        for line in lines:
-                outfile.write(line)
-        outfile.close()
-    except IOError as error:
-            sys.exit("Can't write to file: {}".format(error))
-
-    print("Results can be found in: {}.".format(raw_results_outfile))
+print("Results can be found in: {}".format(raw_results_outfile))
 

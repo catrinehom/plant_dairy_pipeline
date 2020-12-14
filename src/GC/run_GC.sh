@@ -11,12 +11,7 @@
     ## -n, name of project (str)
 
 # Output:
-    ## Outputfile 1
-    ## Outputfile 2
-
-# This pipeline consists of 1 steps:
-    ## STEP 1:  Run GC
-
+    ## GC% of assemblies
 
 ################################################################################
 # GET INPUT
@@ -64,36 +59,30 @@ if [ -z "${path}" ] || [ -z "${name}" ]; then
     usage
 fi
 
-datestamp=$(date "+_%Y-%m-%d %H:%M:%S")
+datestamp=$(date "+%Y-%m-%d %H:%M:%S")
 echo "Starting run_GC.sh (${datestamp})"
 echo "--------------------------------------------------------------------------------"
-
-# Print files used
-echo "Name of project used is: ${name}"
-echo "Path used is: ${path}"
 
 ################################################################################
 # STEP 1: RUN TOOL
 ################################################################################
-
-echo "Starting STEP 1: Run GC"
 
 # Define variables
 tool_name=GC
 outputfolder=${path}/results/${name}_${date}/summary
 
 # Make output directory
-[ -d $outputfolder ] && echo "Output directory: ${outputfolder} already exists. Files will be overwritten." || mkdir $outputfolder
+[ -d $outputfolder ] || mkdir $outputfolder
 
 # Define variables
-samples=$(cat ${path}/results/${name}_${date}/tmp/fasta_approved.txt)
+samples=$(cat ${path}/results/${name}_${date}/tmp/qc_approved.txt)
 count=$((1))
 total=$(wc -w <<<$samples)
-tool=${path}/src/misc/calculate_GC_content.py
+tool=${path}/src/GC/calculate_GC_content.py
 
 for sample in $samples
   do
-    echo "Starting with: $sample ($count/$total)"
+    echo "Running: $sample ($count/$total)"
     cd ${outputfolder}
 
     # Define tool inputs
@@ -103,9 +92,10 @@ for sample in $samples
 
     # Run tool
     $tool $i $s $o
-    echo "Finished with: $sample"
     count=$(($count+1))
   done
 
-echo "${tool_name} finished in $SECONDS seconds."
+echo -e "Results can be found in: $o"
+
+echo -e "The tool ${tool_name} finished in $SECONDS seconds.\n"
 

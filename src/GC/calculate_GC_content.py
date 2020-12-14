@@ -22,8 +22,8 @@ IUPAC = str.maketrans("ACGTMRYKVHDBacgtmrykvhdbxnsw","TGCAKYRMBDHVTGCAKYRMBDHVXN
 # Make header for output file if its empty
 filesize = os.path.getsize(sys.argv[3])
 
-if filesize == 0:
-    print("Sample name \t GC content \t N content", file=outfile)
+#if filesize == 0:
+#    print("Sample name \t GC content \t N content", file=outfile)
 
 
 # collect sequence

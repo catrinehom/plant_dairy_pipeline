@@ -1,78 +1,134 @@
-module load tools
-module load anaconda2/4.0.0
-module load perl/5.30.2
-module load roary/3.13.0
+#!/usr/bin/env bash
 
+# Program: run_roary.sh
+# Description: This program run Roary which is a part of the dairy pipeline
+# Version: 1.1
+# Author: Catrine Høm and Line Andresen
+
+# Usage:
+    ## run_roary.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run (optional)>]
+    ## -p, path to dairy pipeline folder (str)
+    ## -n, name of project (str)
+    ## -d, date of run (str)
+
+# Output:
+    ## core and pan genome, and phylogeny for each genus and for each species. 
 
 ################################################################################
 # GET INPUT
 ################################################################################
 
+# Start timer for logfile
+SECONDS=0
 
-p=/home/projects/cge/people/cathom
-n=DTU_LAB
-d=20200825_110300
-o=clustered_proteins_all_species
-i1=${p}/results/${n}_${d}/prokka/*/*.gff  #—— KUN DE RIGTIGE SPECIES?? SÅ VI VIL HAVE EN LISTE AF SAMPLES ——
-i2=${p}/data/ref/Lactococcus_lactis/data/*/*.gff
+# How to use program
+usage() { echo "Usage: $0 [-p <path to main>] [-n <name of project>] [-d <date of run>]"; exit 1; }
 
+# Default values
+date=$(date "+%Y%m%d_%H%M%S")
+
+# Parse flags
+while getopts ":p:n:d:h" opt; do
+    case "${opt}" in
+        p)
+            path=${OPTARG}
+            ;;
+        n)
+            name=${OPTARG}
+            ;;
+        d)
+            date=${OPTARG}
+            ;;
+        h)
+            usage
+            ;;
+        *)
+            echo "Invalid option: ${OPTARG}"
+            usage
+            ;;
+    esac
+done
+
+# Check if required flags are empty
+if [ -z "${path}" ] || [ -z "${name}" ]; then
+    echo "p and n are required flags"
+    usage
+fi
+
+datestamp=$(date "+%Y-%m-%d %H:%M:%S")
+echo "Starting run_roary.sh ($datestamp)"
+echo "--------------------------------------------------------------------------------"
 
 ################################################################################
 # STEP 1: RUN ROARY
 ################################################################################
 
-### Rename reference .gff file, so they have an unique name
+# Load modules
+module purge
+module load tools
+module load anaconda2/4.0.0
+module load perl/5.30.2
+module load roary/3.13.0
+module load FastTree/2.1.11
 
-gffsamples=$(ls ${p}/data/ref/Lactococcus_lactis/data/*/*.gff)
+# Silence citation notice
+parallel --citation
 
-for gff in $gffsamples
-	do
-		path=$(dirname ${gff})
-		current_name=$(basename ${gff})
-		new_name=$(basename $(dirname $gff)).gff
+# Define variables
+tool_name=roary
+outputfolder=${path}/results/${name}_${date}/roary
 
-		mv ${path}/${current_name} ${path}/${new_name}
-	done
+# Make output directory
+[ -d $outputfolder ] || mkdir -p $outputfolder
 
-# Run roary
-roary -f ${p}/results/${n}_${d}/roary -o $o $i1
+# Find species to do Roary on
+roary_groups=$(ls ${path}/results/${name}_${date}/tmp/genus)
 
+for genus_file in $roary_groups
+  do
+    genus_name=$(echo "$genus_file" | cut -f 1 -d '.')
+    [ -d ${outputfolder}/${genus_name} ] || mkdir -p $outputfolder
+    echo -e "Roary started on $genus_name.\n"
 
-### ERROR MESSAGE for ref
-#2020/10/01 10:49:35 Input file contains duplicate gene IDs, attempting to fix by adding a unique suffix, new GFF in the fixed_input_files directory: /home/projects/cge/people/cathom/data/ref/Lactococcus_lactis/data/GCF_902364565.1/GCF_902364565.1.gff
-#All input files have been excluded from analysis. Please check you have valid GFF files, with annotation and a FASTA sequence at the end. Better still, reannotate your FASTA file with PROKKA. at /services/tools/roary/3.13.0/lib/site_perl/5.26.2/Bio/Roary/CommandLine/Roary.pm line 273.
+    # Define tool inputs
+    ref_path=${path}/results/references*/prokka/${genus_name}*/*.gff
+    samples=$(cat ${path}/results/${name}_${date}/tmp/genus/${genus_file})
+    sample_path=()
+    for sample in ${samples[@]}
+      do
+        sample_path+=(${path}/results/${name}_${date}/prokka/$sample/*.gff)
+      done
 
-## TEST AF REFSEQ
-roary GCF_002370415.1/*.gff GCF_003255835.1/*.gff GCF_003433375.1/*.gff GCF_004102585.1/*.gff
-roary GCF_002370415.1/*.gff GCF_003255835.1/*.gff GCF_003433375.1/*.gff GCF_004102585.1/*.gff GCF_004103675.1/*.gff GCF_004194375.1/*.gff GCF_007954745.1/*.gff GCF_009913915.1/*.gff GCF_009913935.1/*.gff
+    # Run Roary
+    roary -p 8 -r -o $genus_name -f ${outputfolder}/${genus_name} $ref_path $sample_path  > /dev/null 2>&1
 
-## TEST AF samples (Lactococcus_lactis)
+    # Run FastTree phylogeny
+    FastTree -nt -gtr ${outputfolder}/${genus_name}/core_gene_alignment.aln  > ${outputfolder}/${genus_name}/${genus_name}_tree.newick
+  done
 
-roary -r EFB1C4ZNK7/*.gff EFB1C4ZNL9/*.gff EFB1C4ZNLB/*.gff EFB1C4ZNLL/*.gff EFB1C4ZNLZ/*.gff EFB1C4ZNN2/*.gff EFB1C4ZNN3/*.gff EFB1C4ZNR8/*.gff EFB1C4ZNRH/*.gff EFB1C4ZNRJ/*.gff EFB1C4ZNRS/*.gff EFB1C4ZNS1/*.gff EFB1C4ZNS2/*.gff EFB1C4ZNS3/*.gff EFB1C4ZNS4/*.gff EFB1C4ZNS7/*.gff EFB1C4ZNS8/*.gff EFB1C4ZNSG/*.gff EFB1C4ZNSH/*.gff EFB1C4ZNSJ/*.gff EFB1C4ZNSK/*.gff EFB1C4ZNT1/*.gff EFB1C4ZNWD/*.gff EFB1C4ZNWT/*.gff EFB1C4ZNWV/*.gff
+# Find species to do Roary on
+roary_groups=$(ls ${path}/results/${name}_${date}/tmp/species)
 
-FastTree –nt –gtr core_gene_alignment.aln > my_tree.newick
+for species_file in $roary_groups
+  do
+    species_name=$(echo "$species_file" | cut -f 1 -d '.')
+    [ -d ${outputfolder}/${species_file} ] && echo "Output directory: ${outputfolder}/${species_file} already exists." || mkdir -p $outputfolder
+    echo -e "Roary started on $species_name.\n"
 
-/home/projects/cge/people/cathom/src/misc/roary_plots.py my_tree.newick gene_presence_absence.csv
+    # Define tool inputs
+    o=$species_name
+    samples=$(cat ${path}/results/${name}_${date}/tmp/species/${species_file})
+    sample_path=()
+    for sample in ${samples[@]}
+      do
+        sample_path+=(${path}/results/${name}_${date}/prokka/$sample/*.gff)
+      done
 
-### Receipe for using Roary
-# Lactococcus_lactis
-path=../../prokka
-roary -e -mafft -p 8 -r ${path}/EFB1C4ZNK7/*.gff ${path}/EFB1C4ZNL9/*.gff ${path}/EFB1C4ZNLB/*.gff ${path}/EFB1C4ZNLL/*.gff ${path}/EFB1C4ZNLZ/*.gff ${path}/EFB1C4ZNN2/*.gff ${path}/EFB1C4ZNN3/*.gff ${path}/EFB1C4ZNR8/*.gff ${path}/EFB1C4ZNRH/*.gff ${path}/EFB1C4ZNRJ/*.gff ${path}/EFB1C4ZNRS/*.gff ${path}/EFB1C4ZNS1/*.gff ${path}/EFB1C4ZNS2/*.gff ${path}/EFB1C4ZNS3/*.gff ${path}/EFB1C4ZNS4/*.gff ${path}/EFB1C4ZNS7/*.gff ${path}/EFB1C4ZNS8/*.gff ${path}/EFB1C4ZNSG/*.gff ${path}/EFB1C4ZNSH/*.gff ${path}/EFB1C4ZNSJ/*.gff ${path}/EFB1C4ZNSK/*.gff ${path}/EFB1C4ZNT1/*.gff ${path}/EFB1C4ZNWD/*.gff ${path}/EFB1C4ZNWT/*.gff ${path}/EFB1C4ZNWV/*.gff
+    # Run Roary
+    roary -e -mafft -p 8 -r -o $o -f $outputfolder $sample_path > /dev/null 2>&1
 
-FastTree –nt –gtr core_gene_alignment.aln > my_tree.newick
-
-module load pycharm/2019.3.2
-
-/home/projects/cge/people/cathom/src/misc/roary_plots.py my_tree.newick gene_presence_absence.csv
-
-# What are the pan genes?
-query_pan_genome -a union *.gff
-
-# What are the core genes?
-query_pan_genome -a intersection *.gff
-
-# Leuconostoc_mesenteroides
-path=/home/projects/cge/people/cathom/results/DTU_LAB_20200825_110300/prokka
-
-roary -e -mafft -p 28 -r -o Leuconostoc_mesenteroides -f /home/projects/cge/people/cathom/results/DTU_LAB_20200825_110300/roary/ /home/projects/cge/people/cathom/data/ref/prokka/Leuconostoc_mesenteroides_genomic.fna/*.gff ${path}/EFB1C4ZNN5/*.gff ${path}/EFB1C4ZNRW/*.gff ${path}/EFB1C4ZNV5/*.gff ${path}/EFB1C4ZNV8/*.gff ${path}/EFB1C4ZNVB/*.gff ${path}/EFB1C4ZNW3/*.gff ${path}/EFB1C4ZNW4/*.gff ${path}/EFB1C4ZNV7/*.gff ${path}/EFB1C4ZNV9/*.gff ${path}/EFB1C4ZNVF/*.gff ${path}/EFB1C4ZNVV/*.gff ${path}/EFB1C4ZNVW/*.gff ${path}/EFB1C4ZNW2/*.gff ${path}/EFB1C4ZNW8/*.gff ${path}/EFB1C4ZNVD/*.gff ${path}/EFB1C4ZNVT/*.gff ${path}/EFB1C4ZNWJ/*.gff ${path}/EFB1C4ZNWK/*.gff ${path}/EFB1C4ZNWL/*.gff ${path}/EFB1C4ZNVN/*.gff ${path}/EFB1C4ZNVM/*.gff ${path}/EFB1C4ZNW9/*.gff ${path}/EFB1C4ZNMZ/*.gff ${path}/EFB1C4ZNR0/*.gff ${path}/EFB1C4ZNRK/*.gff ${path}/EFB1C4ZNSC/*.gff ${path}/EFB1C4ZNT0/*.gff ${path}/EFB1C4ZNVX/*.gff ${path}/EFB1C4ZNMW/*.gff ${path}/EFB1C4ZNMX/*.gff ${path}/EFB1C4ZNRD/*.gff ${path}/EFB1C4ZNS5/*.gff ${path}/EFB1C4ZNSM/*.gff ${path}/EFB1C4ZNVQ/*.gff ${path}/EFB1C4ZNN0/*.gff ${path}/EFB1C4ZNQQ/*.gff ${path}/EFB1C4ZNRL/*.gff ${path}/EFB1C4ZNRM/*.gff ${path}/EFB1C4ZNSB/*.gff ${path}/EFB1C4ZNSL/*.gff ${path}/EFB1C4ZNT7/*.gff ${path}/EFB1C4ZNN1/*.gff ${path}/EFB1C4ZNSD/*.gff ${path}/EFB1C4ZNTD/*.gff ${path}/EFB1C4ZNTT/*.gff ${path}/EFB1C4ZNW7/*.gff ${path}/EFB1C4ZNVZ/*.gff ${path}/EFB1C4ZNQT/*.gff ${path}/EFB1C4ZNT6/*.gff ${path}/EFB1C4ZNTH/*.gff ${path}/EFB1C4ZNVS/*.gff ${path}/EFB1C4ZNPM/*.gff ${path}/EFB1C4ZNQR/*.gff ${path}/EFB1C4ZNTB/*.gff ${path}/EFB1C4ZNT4/*.gff ${path}/EFB1C4ZNQV/*.gff ${path}/EFB1C4ZNVL/*.gff ${path}/EFB1C4ZNPX/*.gff ${path}/EFB1C4ZNTS/*.gff ${path}/EFB1C4ZNQ3/*.gff ${path}/EFB1C4ZNRC/*.gff ${path}/EFB1C4ZNTC/*.gff ${path}/EFB1C4ZNW0/*.gff ${path}/EFB1C4ZNNF/*.gff ${path}/EFB1C4ZNT9/*.gff ${path}/EFB1C4ZNPN/*.gff ${path}/EFB1C4ZNPS/*.gff ${path}/EFB1C4ZNQL/*.gff ${path}/EFB1C4ZNQN/*.gff ${path}/EFB1C4ZNNB/*.gff ${path}/EFB1C4ZNPK/*.gff ${path}/EFB1C4ZNV0/*.gff ${path}/EFB1C4ZNTP/*.gff ${path}/EFB1C4ZNT3/*.gff ${path}/EFB1C4ZNN8/*.gff ${path}/EFB1C4ZNT2/*.gff ${path}/EFB1C4ZNKV/*.gff ${path}/EFB1C4ZNQM/*.gff ${path}/EFB1C4ZNRR/*.gff ${path}/EFB1C4ZNPT/*.gff ${path}/EFB1C4ZNN9/*.gff ${path}/EFB1C4ZNW1/*.gff ${path}/EFB1C4ZNS6/*.gff ${path}/EFB1C4ZNVJ/*.gff ${path}/EFB1C4ZNWH/*.gff ${path}/EFB1C4ZNPG/*.gff ${path}/EFB1C4ZNP9/*.gff ${path}/EFB1C4ZNVR/*.gff ${path}/EFB1C4ZNW6/*.gff ${path}/EFB1C4ZNSF/*.gff
+    # Run FastTree phylogeny
+    FastTree -nt -gtr ${outputfolder}/${species_name}/core_gene_alignment.aln  > ${outputfolder}/${species_name}/${species_name}_tree.newick
+  done
+echo -e "${tool_name} finished in $SECONDS seconds.\n"
 

@@ -1,33 +1,26 @@
 #!/usr/bin/env bash
 
-# Program: run_plasmidfinder.sh
-# Description: This program run PlasmidFinder which is a part of the dairy pipeline
+# Program: run_dbcan.sh
+# Description: This program run dbcan which is a part of the dairy pipeline
 # Version: 1.0
 # Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## run_plasmidfinder.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run (optional)>]
+    ## run_dbcan.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run (optional)>]
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
     ## -d, date of run (str or int)
 
 # Output:
-    ## Outputfile 1
-    ## Outputfile 2
-
-# This pipeline consists of 1 steps:
-    ## STEP 1:  Run ResFinder
-
+    ## GH families for all samples
 
 ################################################################################
 # GET INPUT
 ################################################################################
-
 # Load all required modules for the job
+module purge
 module load tools
 module load anaconda3/4.4.0
-module load anaconda2/2.2.0
-module load kma/1.2.11
 
 # Start timer for logfile
 SECONDS=0
@@ -35,17 +28,20 @@ SECONDS=0
 # How to use program
 usage() { echo "Usage: $0 [-p <path to main>] [-n <name of project>] [-d <date of run>]"; exit 1; }
 
+# Default values
+date=$(date "+%Y%m%d_%H%M%S")
+
 # Parse flags
 while getopts ":p:n:d:h" opt; do
     case "${opt}" in
         p)
-            p=${OPTARG}
+            path=${OPTARG}
             ;;
         n)
-            n=${OPTARG}
+            name=${OPTARG}
             ;;
         d)
-            d=_${OPTARG}
+            date=${OPTARG}
             ;;
         h)
             usage
@@ -58,60 +54,71 @@ while getopts ":p:n:d:h" opt; do
 done
 
 # Check if required flags are empty
-if [ -z "${p}" ] || [ -z "${n}" ]; then
+if [ -z "${path}" ] || [ -z "${name}" ]; then
     echo "p and n are required flags"
     usage
 fi
 
-date=$(date "+%Y-%m-%d %H:%M:%S")
-echo "Starting run_plasmidfinder.sh ($date)"
+datestamp=$(date "+%Y-%m-%d %H:%M:%S")
+echo "Starting run_dbcan.sh ($datestamp)"
 echo "--------------------------------------------------------------------------------"
 
-# Print files used
-echo "Path used is: ${p}"
-echo "Results will be saved: ${n}${d}"
-
-echo -e "Time stamp: $SECONDS seconds.\n"
-
 ################################################################################
-# STEP 1: RUN PLASMIDFINDER
+# STEP 1: RUN DBCAN
 ################################################################################
 
-echo "Starting STEP 1: Run PlasmidFinder"
+cd ${path}/tools/dbcan
+
+# Activate env
+source ${path}/tools/dbcan/dbcan_env/bin/activate
+
+# Load all required modules for the job
+module purge
+module load tools
+module load anaconda3/4.4.0
+module load diamond/0.9.29
+module load hmmer/3.2.1
+module load prodigal/2.6.3
+module load signalp/4.1c
 
 # Define variables
-tool_name=plasmidfinder
-tool=/home/projects/cge/apps/${tool_name}/plasmidfinder.py
-db=${p}/data/db/${tool_name}/
-outputfolder=${p}/results/${n}${d}/${tool_name}
+tool_name=dbcan
+tool=run_dbcan.py
+outputfolder=${path}/results/${name}_${date}/${tool_name}
 
 # Make output directory
-[ -d $outputfolder ] && echo "Output directory: ${outputfolder} already exists. Files will be overwritten." || mkdir $outputfolder
+[ -d $outputfolder ] || mkdir $outputfolder
 
 # Define variables
-samples=$(ls ${p}/results/${n}${d}/foodqcpipeline)
+samples=$(cat ${path}/results/${name}_${date}/tmp/species_approved.txt)
 count=$((1)) #First sample
 total=$(wc -w <<<$samples) #Total number of samples
 
 # Run tool on all samples
 for sample in $samples; do
-  echo  "Starting with: $sample ($count/$total)"
+  echo  "Running: $sample ($count/$total)"
 
   # Create sample output folder
   sample_path=${outputfolder}/${sample}
-  [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
+  [ -d $sample_path ] || mkdir $sample_path
 
   # Define tool inputs
-  #i=$p/results/${n}${d}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
-  i=$p/results/${n}${d}/foodqcpipeline/${sample}/Assemblies/*_trimmed.fa
+  inputFile=${path}/results/${name}_${date}/prokka/${sample}/${sample}.faa
+  inputType=protein
+  o=${sample_path}
+  gff=${path}/results/${name}_${date}/prokka/${sample}/${sample}.gff
 
   # Run tool
-  $tool -i $i -o $sample_path -p $db
+  $tool $inputFile $inputType --use_signalP=True --out_dir $o -c $gff  > /dev/null 2>&1
 
-  echo -e "Finished with $sample.\n"
   count=$(($count+1))
   done
 
-echo "Results of PlasmidFinder were succesfully made."
-echo "Time stamp: $SECONDS seconds."
+# Run collect script
+module purge
+module load tools
+module load anaconda3/4.0.0
+${path}/src/dbcan/collect_dbcan.py -p ${path} -n ${name} -d ${date}
+
+echo -e "The tool dbcan finished in $SECONDS seconds.\n"
 

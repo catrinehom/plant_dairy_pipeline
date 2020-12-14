@@ -1,28 +1,34 @@
 #!/usr/bin/env bash
 
-# Program: run_bandage.sh
-# Description: This program run Bandage which is a part of the dairy pipeline
-# Version: 1.1
+# Program: run_fastani.sh
+# Description: This program run fastANI which is a part of the dairy pipeline
+# Version: 1.0
 # Author: Catrine Høm and Line Andresen
 
 # Usage:
-    ## run_bandage.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run (optional)>]
+    ## run_mydbfinder.sh [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run (optional)>]]
     ## -p, path to dairy pipeline folder (str)
     ## -n, name of project (str)
     ## -d, date of run (str)
 
 # Output:
-    ## .png images of all assemblies
+    ## whole-genome Average Nucleotide Identity in matrix format
 
 ################################################################################
 # GET INPUT
 ################################################################################
 
+# Load all required modules for the job
+module purge
+module load tools
+module load anaconda3/4.4.0
+module load fastani/1.1
+
 # Start timer for logfile
 SECONDS=0
 
 # How to use program
-usage() { echo "Usage: $0 [-p <path to main>] [-n <name of project>] [-d <date of run>]"; exit 1; }
+usage() { echo "Usage: $0 [-p <path to dairy pipeline>] [-n <name of project>] [-d <date of run>]"; exit 1; }
 
 # Default values
 date=$(date "+%Y%m%d_%H%M%S")
@@ -56,47 +62,34 @@ if [ -z "${path}" ] || [ -z "${name}" ]; then
 fi
 
 datestamp=$(date "+%Y-%m-%d %H:%M:%S")
-echo "Starting run_bandage.sh ($datestamp)"
+echo "Starting run_fastani.sh ($datestamp)"
 echo "--------------------------------------------------------------------------------"
 
 ################################################################################
-# STEP 1: RUN BANDAGE
+# STEP 1: RUN fastANI
 ################################################################################
 
-# Load modules
-module purge
-module load tools
-module load bandage/0.8.1
-
 # Define variables
-tool_name=bandage
-outputfolder=${path}/results/${name}_${date}/plots/$tool_name
+tool_name=fastani
 
-# Make output directory
-[ -d $outputfolder ] || mkdir -p $outputfolder
+# Create ani_path folder if it doesnt already exists
+ani_path=${path}/results/${name}_${date}/${tool_name}
+mkdir -p $ani_path
 
-# Define variables
-samples_path=${path}/results/${name}_${date}/foodqcpipeline
-samples=$(cat ${path}/results/${name}_${date}/tmp/species_approved.txt)
-count=$((1))
-total=$(wc -w <<<$samples)
+# Define input files in txt
+echo ${path}/results/${name}_${date}/foodqcpipeline/*/Assemblies/*.fa > ${ani_path}/fastANI_inputfiles_first.txt
+echo ${path}/data/references/raw/*.fna >> ${ani_path}/fastANI_inputfiles_first.txt
+tr ' ' '\n' < ${ani_path}/fastANI_inputfiles_first.txt > ${ani_path}/fastANI_inputfiles.txt
+rm ${ani_path}/fastANI_inputfiles_first.txt
 
-# Run foodqcpipeline for all samples
-for sample in $samples
-  do
-    echo "Running: $sample ($count/$total)"
+# Define input
+i=${ani_path}/fastANI_inputfiles.txt
+o=${path}/results/${name}_${date}/fastani/fastani_results
 
-    # Define tool inputs
-    input_gfa=${samples_path}/${sample}/Assemblies/*/assembly_graph_with_scaffolds.gfa
-    output_png=$outputfolder/${sample}.png
+# Run fastANI
+fastANI --ql $i --rl $i -o $o --matrix > /dev/null 2>&1
 
-    # Run tool
-    Bandage image $input_gfa $output_png --colour depth --height 2000
-
-    count=$(($count+1))
-  done
-
-echo -e "Results can be found in: $outputfolder"
+echo -e "Results can be found in: $o"
 
 echo -e "The tool ${tool_name} finished in $SECONDS seconds.\n"
 

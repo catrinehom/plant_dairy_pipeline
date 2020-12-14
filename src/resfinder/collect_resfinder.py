@@ -13,17 +13,13 @@ Author: Catrine Høm and Line Andresen
     ## -d, date of run (str or int)
 
 # Output:
-    ## XXXOutputfile 1
-    ## XXXOutputfile 2
-
-# This pipeline consists of 1 steps:
-    ## STEP 1:  Collect results
+    ## One common file with summary of all results from samples
 """
+
 # Import libraries
 import sys
 import os
 from argparse import ArgumentParser
-
 
 ################################################################################
 # GET INPUT
@@ -47,7 +43,7 @@ if __name__ == "__main__":
 ################################################################################
 
     # Define variables
-    samples = [f for f in os.listdir(main_path + "/results/" + project_name + "_" + date + "/foodqcpipeline")]
+    samples = [f for f in os.listdir(main_path + "/results/" + project_name + "_" + date + "/resfinder")]
     raw_results_outfolder = main_path + "/results/" + project_name + "_" + date + "/summary/"
     raw_results_outfile = raw_results_outfolder + "resfinder_results.txt"
     lines = list()
@@ -58,7 +54,7 @@ if __name__ == "__main__":
         os.makedirs(raw_results_outfolder)
 
     # Loop through samples
-    print("Start collecting results in one common file for all samples...")
+    print("Start collecting results...")
     for sample in samples:
         # Define path for each sample
         sample_path = main_path + "/results/" + project_name + "_" + date + "/resfinder/" + sample + "/"
@@ -89,7 +85,7 @@ if __name__ == "__main__":
                         # Collect results
                         for line in f:
                                 lines.append(sample+"\t"+line)
-    print("Done")
+    print("Collection completed")
 
     # Write raw results to file
     try:
@@ -100,5 +96,5 @@ if __name__ == "__main__":
     except IOError as error:
             sys.exit("Can't write to file: {}".format(error))
 
-    print("Results can be found in: {}.".format(raw_results_outfile))
+    print("Results can be found in: {}".format(raw_results_outfile))
 

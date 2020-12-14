@@ -12,12 +12,7 @@
     ## -d, date of run (str or int)
 
 # Output:
-    ## Outputfile 1
-    ## Outputfile 2
-
-# This pipeline consists of 1 steps:
-    ## STEP 1:  Run ResFinder
-
+    ## Resistance genes found in each sample
 
 ################################################################################
 # GET INPUT
@@ -32,7 +27,7 @@ module load kma/1.2.11
 source /home/projects/cge/apps/env/rf4_env/bin/activate
 module load perl
 module load ncbi-blast/2.8.1+
- 
+
 # Start timer for logfile
 SECONDS=0
 
@@ -74,15 +69,9 @@ datestamp=$(date "+%Y-%m-%d %H:%M:%S")
 echo "Starting run_resfinder.sh ($date)"
 echo "--------------------------------------------------------------------------------"
 
-# Print files used
-echo "Path used is: ${path}"
-echo "Results will be saved: ${name}_${date}"
-
 ################################################################################
 # STEP 1: RUN RESFINDER
 ################################################################################
-
-echo "Starting STEP 1: Run ResFinder"
 
 # Define variables
 tool_name=resfinder
@@ -92,29 +81,28 @@ db=${path}/data/db/resfinder
 outputfolder=${path}/results/${name}_${date}/${tool_name}
 
 # Make output directory
-[ -d $outputfolder ] && echo "Output directory: ${outputfolder} already exists. Files will be overwritten." || mkdir $outputfolder
+[ -d $outputfolder ] || mkdir $outputfolder
 
 # Define variables
-samples=$(cat ${path}/results/${name}_${date}/tmp/fastq_approved.txt)
+samples=$(cat ${path}/results/${name}_${date}/tmp/species_approved.txt)
 count=$((1)) #First sample
 total=$(wc -w <<<$samples) #Total number of samples
 
 # Run tool on all samples
 for sample in $samples; do
-  echo  "Starting with: $sample ($count/$total)"
+  echo  "Running: $sample ($count/$total)"
 
   # Create sample output folder
   sample_path=${outputfolder}/${sample}
-  [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
+  [ -d $sample_path ] || mkdir $sample_path
 
   # Define tool inputs
   ifq=${path}/results/${name}_${date}/foodqcpipeline/${sample}/Trimmed/*.trim.fq.gz
   #ifa=${sample_path}/Assemblies/*.fa
 
   # Run tool
-  $tool -ifq $ifq -o $sample_path -db_res $db -acq
+  $tool -ifq $ifq -o $sample_path -db_res $db -acq > /dev/null 2>&1
 
-  echo -e "Finished with $sample.\n"
   count=$(($count+1))
   done
 
@@ -124,5 +112,5 @@ module load tools
 module load anaconda3/4.0.0
 ${path}/src/${tool_name}/collect_${tool_name}.py -p ${path} -n ${name} -d ${date}
 
-echo "${tool_name} finished in $SECONDS seconds."
+echo -e "The tool ${tool_name} finished in $SECONDS seconds\n"
 

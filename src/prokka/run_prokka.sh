@@ -12,10 +12,7 @@
     ## -d, date of run (str)
 
 # Output:
-    ## gene annotation files
-
-# This pipeline consists of 1 steps:
-    ## STEP 1:  Run PROKKA
+    ## gene annotation files for all samples
 
 ################################################################################
 # GET INPUT
@@ -62,11 +59,6 @@ datestamp=$(date "+%Y-%m-%d %H:%M:%S")
 echo "Starting run_prokka.sh ($datestamp)"
 echo "--------------------------------------------------------------------------------"
 
-# Print files used
-echo "Path used is: ${path}"
-echo "Results will be saved in: ${name}_${date}"
-
-
 ################################################################################
 # STEP 1: RUN PROKKA
 ################################################################################
@@ -88,37 +80,34 @@ module load rnammer/1.2
 module load signalp/4.1c
 module load prokka/1.14.0
 
-echo "Starting STEP 1: Run PROKKA"
-
 # Define variables
 tool_name=prokka
 outputfolder=${path}/results/${name}_${date}/$tool_name
 
 # Make output directory
-[ -d $outputfolder ] && echo "Output directory: $outputfolder already exists. Files will be overwritten." || mkdir -p $outputfolder
+[ -d $outputfolder ] || mkdir -p $outputfolder
 
 
 # Define variables
 samples_path=${path}/results/${name}_${date}/foodqcpipeline/
-samples=$(cat ${path}/results/${name}_${date}/tmp/fasta_approved.txt)
+samples=$(cat ${path}/results/${name}_${date}/tmp/species_approved.txt)
 count=$((1))
 total=$(wc -w <<<$samples)
 
-# Run foodqcpipeline for all samples
+# Run prokka for all samples
 for sample in $samples
   do
-    echo "Starting with: $sample ($count/$total)"
+    echo "Running: $sample ($count/$total)"
 
     # Create sample output folder
     sample_path=${outputfolder}/${sample}
-    echo sample_path
-    [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
+    [ -d $sample_path ] || mkdir $sample_path
 
     # Define tool inputs
     input_fasta=${samples_path}/${sample}/Assemblies/*.fa
 
     # Run tool
-    prokka --outdir $sample_path --prefix $sample $input_fasta --force
+    prokka --outdir $sample_path --prefix $sample $input_fasta --force > /dev/null 2>&1
 
     count=$(($count+1))
   done
@@ -128,6 +117,7 @@ module purge
 module load tools
 module load anaconda3/4.0.0
 ${path}/src/${tool_name}/collect_${tool_name}.py -p ${path} -n ${name} -d ${date}
+${path}/src/${tool_name}/collect_all_${tool_name}.py -p ${path} -n ${name} -d ${date}
 
-echo "${tool_name} finished in $SECONDS seconds."
+echo -e "The tool ${tool_name} finished in $SECONDS seconds\n"
 

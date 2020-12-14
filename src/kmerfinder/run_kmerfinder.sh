@@ -11,11 +11,7 @@
     ## -n, name of project (str)
 
 # Output:
-    ## Each sample will have results file under project_name/kmerfinder/sample_name
-    # the results are split in each database name
-
-# This pipeline consists of 1 steps:
-    ## STEP 1:  Run KmerFinder
+    ## species identification for each samples
 
 ###########################################################################
 # GET INPUT
@@ -69,28 +65,22 @@ if [ -z "${path}" ] || [ -z "${name}" ]; then
 fi
 
 datestamp=$(date "+%Y-%m-%d %H:%M:%S")
-echo "Starting kmerfinder_run.sh ($datestamp)"
+echo "Starting run_kmerfinder.sh ($datestamp)"
 echo "--------------------------------------------------------------------------------"
-
-# Print files used
-echo "Path used is: ${path}"
-echo "Results will be saved: ${name}_${date}"
 
 ################################################################################
 # STEP 1: Run KmerFinder
 ################################################################################
-
-echo "Starting STEP 1: Run KmerFinder"
 
 # Define variables
 tool_name=kmerfinder
 outputfolder=${path}/results/${name}_${date}/${tool_name}
 
 # Make output directory
-[ -d $outputfolder ] && echo "Output directory: ${outputfolder} already exists. Files will be overwritten." || mkdir $outputfolder
+[ -d $outputfolder ] || mkdir $outputfolder
 
 # Define variables
-samples=$(cat ${path}/results/${name}_${date}/tmp/fastq_approved.txt)
+samples=$(cat ${path}/results/${name}_${date}/tmp/qc_approved.txt)
 count=$((1))
 total=$(wc -w <<<$samples)
 tool=${path}/tools/${tool_name}/kmerfinder.py
@@ -99,11 +89,11 @@ databases=$(ls ${path}/data/db/${tool_name}/*/* | grep .name | sed -e 's/\.name$
 # Run tool on all samples
 for sample in $samples
   do
-  echo  "Starting with: $sample ($count/$total)"
+  echo  "Running: $sample ($count/$total)"
 
   # Create sample output folder
   sample_path=${outputfolder}/${sample}
-  [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
+  [ -d $sample_path ] || mkdir $sample_path
 
   for database in $databases
     do
@@ -113,16 +103,13 @@ for sample in $samples
       tax=${t}.tax
 
       # Run tool
-      $tool -db $database -i $i -o $sample_path -tax $tax -x -q
+      $tool -db $database -i $i -o $sample_path -tax $tax -x -q > /dev/null 2>&1
       db_name=$(basename $t)
       # Move result for each database, so it wont overwrite it
       mv ${sample_path}/results.txt ${sample_path}/${db_name}_results.txt
     done
-  echo -e "Finished with $sample.\n"
   count=$(($count+1))
   done
-
-echo "Results of KmerFinder were succesfully made."
 
 # Run collect script
 module purge
@@ -130,5 +117,5 @@ module load tools
 module load anaconda3/4.0.0
 ${path}/src/${tool_name}/collect_${tool_name}.py -p ${path} -n ${name} -d ${date}
 
-echo -e "${tool_name} finished in $SECONDS seconds.\n"
+echo -e "The tool ${tool_name} finished in $SECONDS seconds.\n"
 

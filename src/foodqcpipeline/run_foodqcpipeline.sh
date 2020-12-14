@@ -21,9 +21,6 @@
     ## QC directory: For each sample there exists a single line text file,
     # with all the QC information.
 
-# This pipeline consists of 1 steps:
-    ## STEP 1:  Run foodqcpipeline
-
 ################################################################################
 # GET INPUT
 ################################################################################
@@ -69,40 +66,33 @@ datestamp=$(date "+%Y-%m-%d %H:%M:%S")
 echo "Starting run_foodqcpipeline.sh ($datestamp)"
 echo "--------------------------------------------------------------------------------"
 
-# Print files used
-echo "Path used is: ${path}"
-echo "Results will be saved in: ${name}_${date}"
-
 ################################################################################
 # STEP 1: RUN FOODQCPIPELINE
 ################################################################################
-
-echo "Starting STEP 1: Run foodqcpipeline"
 
 # Define variables
 tool_name=foodqcpipeline
 outputfolder=${path}/results/${name}_${date}/${tool_name}
 
 # Make output directory
-[ -d $outputfolder ] && echo "Output directory: $outputfolder already exists. Files will be overwritten." || mkdir -p $outputfolder
+[ -d $outputfolder ] || mkdir -p $outputfolder
 
 # Define variables
 raw=${path}/data/${name}/raw
-samples=$(ls ${raw})
+samples=$(cat ${path}/results/${name}_${date}/tmp/raw_approved.txt)
 count=$((1))
 total=$(wc -w <<<$samples)
 
-#tool=/home/projects/cge/apps/foodqcpipeline/FoodQCPipeline.py
 tool=${path}/tools/${tool_name}/FoodQCPipeline.py
 
 # Run foodqcpipeline for all samples
 for sample in $samples
   do
-    echo "Starting with: $sample ($count/$total)"
+    echo "Running: $sample ($count/$total)"
 
     # Create sample output folder
     sample_path=${outputfolder}/${sample}
-    [ -d $sample_path ] && echo "Output directory: ${sample_path} already exists. Files will be overwritten." || mkdir $sample_path
+    [ -d $sample_path ] || mkdir $sample_path
 
     # Define tool inputs
     input=${raw}/${sample}/*.gz
@@ -112,7 +102,7 @@ for sample in $samples
     tmp_dir=${sample_path}/tmp
 
     # Run tool
-    python3 $tool $input --clean_tmp --assembly_output $assembly_output --qc_output $qc_output --trim_output $trim_output --tmp_dir $tmp_dir --spades --nextseq || 2>/dev/null
+    python3 $tool $input --clean_tmp --assembly_output $assembly_output --qc_output $qc_output --trim_output $trim_output --tmp_dir $tmp_dir --spades > /dev/null 2>&1
     count=$(($count+1))
   done
 
@@ -125,7 +115,7 @@ while [ $jobs_no -ne $files_no ]
     files_no=$(ls ${outputfolder}/*/QC/*.qc.txt  2> /dev/null  | wc -l)
     echo -ne "Finished with $files_no out of $jobs_no."\\r
   done
-echo -e "All QC-files are completed.\n"
+echo -e "All assembly and QC completed\n"
 
 # Insert header and sample name
 for sample in $samples
@@ -145,5 +135,5 @@ module load tools
 module load anaconda3/4.0.0
 ${path}/src/${tool_name}/collect_${tool_name}.py -p ${path} -n ${name} -d ${date}
 
-echo -e "${tool_name} finished in $SECONDS seconds.\n"
+echo -e "The tool ${tool_name} finished in $SECONDS seconds\n"
 

@@ -13,11 +13,7 @@ Author: Catrine Høm and Line Andresen
     ## -d, date of run (str)
 
 # Output:
-    ## XXXOutputfile 1
-    ## XXXOutputfile 2
-
-# This pipeline consists of 1 steps:
-    ## STEP 1:  Collect results
+    ## One common file with summary of all results from samples
 """
 # Import libraries
 import sys
@@ -42,15 +38,15 @@ if __name__ == "__main__":
     # Define input as variables
     main_path = args.p
     project_name = args.n
-    date = "_" + str(args.d)
+    date = str(args.d)
 
 ################################################################################
 # STEP 1:  COLLECT RESULTS
 ################################################################################
 
 # Define variables
-samples = [f for f in os.listdir(main_path + "/results/" + project_name + date + "/foodqcpipeline")]
-raw_results_outfolder = main_path + "/results/" + project_name + date + "/summary/"
+samples = [f for f in os.listdir(main_path + "/results/" + project_name + "_" + date + "/kmerfinder")]
+raw_results_outfolder = main_path + "/results/" + project_name + "_" + date + "/summary/"
 raw_results_outfile = raw_results_outfolder + "kmerfinder_results.txt"
 lines = list()
 header_made = False
@@ -60,10 +56,10 @@ if not os.path.exists(raw_results_outfolder):
     os.makedirs(raw_results_outfolder)
 
 # Loop through samples
-print("Start collecting results in one common file for all samples...")
+print("Start collecting results...")
 for sample in samples:
     # Define path for each sample
-    sample_path = main_path + "/results/" + project_name + date + "/kmerfinder/" + sample + "/"
+    sample_path = main_path + "/results/" + project_name + "_" + date + "/kmerfinder/" + sample + "/"
 
     # Find file in path
     kmerfinder_files = [f for f in os.listdir(sample_path) if os.path.isfile(os.path.join(sample_path, f))]
@@ -92,7 +88,7 @@ for sample in samples:
                     # Collect results
                     for line in f:
                             lines.append(sample+"\t"+line)
-print("Done")
+print("Collected completed")
 
 # Write raw results to file
 try:
@@ -103,7 +99,7 @@ try:
 except IOError as error:
         sys.exit("Can't write to file: {}".format(error))
 
-print("Results can be found in: {}.".format(raw_results_outfile))
+print("Results can be found in: {}".format(raw_results_outfile))
 
 ################################################################################
 # STEP 2:  TRANSFORM RESULTS
@@ -127,13 +123,12 @@ for sample in samples:
     sample_m = data[data[:,0]==sample]
     tophit = sample_m[sample_m[:,3].argsort()[::-1]][0]
     tophits.append(tophit)
-    top10hit = sample_m[sample_m[:,3].argsort()[::-1]][0:9]
+    top10hit = sample_m[sample_m[:,3].argsort()[::-1]][0:10]
     for hit in top10hit:
         tophits10.append(hit)
 
 
-
-print("Transformation is done.")
+print("Transformation completed")
 
 # Write transformed result file
 try:
@@ -154,5 +149,5 @@ try:
 except IOError as error:
         sys.exit("Can't write to file: {}".format(error))
 
-print("Transformed results can be found in: {} and {}.".format(top1_results_outfile, top10_results_outfile))
+print("Transformed results can be found in: {} and {}".format(top1_results_outfile, top10_results_outfile))
 

@@ -1,10 +1,5 @@
 # plant_dairy_pipeline #
 
-<div class="text-red">
-  UNDER CONSTRUCTION
-</div>
-
-
 ## Introduction ##
 This pipeline can screen large data-sets of genomic data from e.g. lactic acid bacteria (LAB). This will include phylogenic analysis, clustering and identification of genes and pathways of special interest to the food industry with a focus on plant-based dairy products. It comes with all 2019 QPS LAB references, which have been prerun through the pipeline.
 
@@ -24,8 +19,8 @@ The pipeline is written to be executed on Computerome at DTU. It could be modifi
 5. Average Nucleotide Identity (FastANI)
 6. Resistance genes (ResFinder)
 7. Pathways: b12, glutamate, iron transporters, exopolysaccharides (MyDbFinder)
-8. GH families (dbcan)
-9. Full annotation (PROKKA)
+8. Full annotation (PROKKA)
+9. GH families (dbcan)
 10. Core and pan genome, and Phylogeny (Roary)
 
 ## Pipeline details ##

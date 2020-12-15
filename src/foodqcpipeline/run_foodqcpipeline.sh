@@ -115,7 +115,7 @@ while [ $jobs_no -ne $files_no ]
     files_no=$(ls ${outputfolder}/*/QC/*.qc.txt  2> /dev/null  | wc -l)
     echo -ne "Finished with $files_no out of $jobs_no."\\r
   done
-echo -e "All assembly and QC completed\n"
+echo -e "\nAll assembly and QC completed\n"
 
 # Insert header and sample name
 for sample in $samples

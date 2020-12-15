@@ -69,7 +69,7 @@ fi
 datestamp=$(date "+%Y-%m-%d %H:%M:%S")
 echo "Starting run_mydbfinder.sh ($datestamp)"
 echo "--------------------------------------------------------------------------------"
-echo -e "Database used is: ${path}/data/db/${database}\n"
+echo -e "Database used is: ${path}/data/db/mydbfinder/${database}\n"
 
 ################################################################################
 # STEP 1: RUN MYDBFINDER
@@ -117,5 +117,5 @@ module load tools
 module load anaconda3/4.0.0
 ${path}/src/${tool_name}/collect_${tool_name}.py -p ${path} -n ${name} -d ${date} -b ${database}
 
-echo -e "The tool ${tool_name} with database ${database} finished in $SECONDS seconds.\n"
+echo -e "The tool ${tool_name} with database: ${database} finished in $SECONDS seconds.\n"
 

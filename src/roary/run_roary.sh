@@ -12,7 +12,7 @@
     ## -d, date of run (str)
 
 # Output:
-    ## core and pan genome, and phylogeny for each genus and for each species. 
+    ## core and pan genome, and phylogeny for each genus and for each species.
 
 ################################################################################
 # GET INPUT
@@ -72,7 +72,7 @@ module load roary/3.13.0
 module load FastTree/2.1.11
 
 # Silence citation notice
-parallel --citation
+parallel --citation > /dev/null 2>&1
 
 # Define variables
 tool_name=roary
@@ -100,7 +100,7 @@ for genus_file in $roary_groups
       done
 
     # Run Roary
-    roary -p 8 -r -o $genus_name -f ${outputfolder}/${genus_name} $ref_path $sample_path  > /dev/null 2>&1
+    roary -e -mafft -p 8 -r -o $genus_name -f ${outputfolder}/${genus_name} $ref_path $sample_path  > /dev/null 2>&1
 
     # Run FastTree phylogeny
     FastTree -nt -gtr ${outputfolder}/${genus_name}/core_gene_alignment.aln  > ${outputfolder}/${genus_name}/${genus_name}_tree.newick
@@ -112,8 +112,8 @@ roary_groups=$(ls ${path}/results/${name}_${date}/tmp/species)
 for species_file in $roary_groups
   do
     species_name=$(echo "$species_file" | cut -f 1 -d '.')
-    [ -d ${outputfolder}/${species_file} ] && echo "Output directory: ${outputfolder}/${species_file} already exists." || mkdir -p $outputfolder
-    echo -e "Roary started on $species_name.\n"
+    [ -d ${outputfolder}/${species_file} ] || mkdir -p $outputfolder
+    echo -e "Roary started on $species_name\n"
 
     # Define tool inputs
     o=$species_name
@@ -125,10 +125,10 @@ for species_file in $roary_groups
       done
 
     # Run Roary
-    roary -e -mafft -p 8 -r -o $o -f $outputfolder $sample_path > /dev/null 2>&1
+    roary -p 8 -r -o $o -f $outputfolder $sample_path > /dev/null 2>&1
 
     # Run FastTree phylogeny
     FastTree -nt -gtr ${outputfolder}/${species_name}/core_gene_alignment.aln  > ${outputfolder}/${species_name}/${species_name}_tree.newick
   done
-echo -e "${tool_name} finished in $SECONDS seconds.\n"
+echo -e "The tool ${tool_name} finished in $SECONDS seconds\n"
 

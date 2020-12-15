@@ -102,8 +102,6 @@ if __name__ == "__main__":
 ################################################################################
 # STEP 2:  TRANSFORM RESULTS (only for mydbfinder)
 ################################################################################
-    print("Starting transformation results...")
-
     transformed_results_outfile = raw_results_outfolder + database_name + "_results.txt"
 
     # Find all genes in raw results (but skip header with [1:])

@@ -44,16 +44,17 @@ if not os.path.exists(outputfolder):
 # QC plot
 ##############################################################################
 
-file = inputfolder + "QC_results.txt"
+file = inputfolder + "foodqcpipeline_results.txt"
 qc   = pd.read_csv(file, sep='\t', index_col=False)
 qc.set_index('Sample_name', inplace=True)
+qc['Qual_bases(%)']=qc['Qual_bases(%)'].str.split('%').str[0].astype(float)
 
 fig, axs = plt.subplots(2,1,figsize=(6.4,4))
 fig.subplots_adjust(hspace=0.5)
 
-sns.boxplot(data = qc, x='Reads', ax=axs[0], cut = 0).tick_params(left=False)
+sns.boxplot(data = qc, x='Reads', ax=axs[0]).tick_params(left=False)
 
-sns.boxplot(data = qc, x='Qual_bases(%)',ax=axs[1], cut = 0).tick_params(left=False)
+sns.boxplot(data = qc, x='Qual_bases(%)',ax=axs[1]).tick_params(left=False)
 axs[0].set(xlabel='Number of reads per sample after QC')
 axs[1].set(xlabel='Percentage of bases per sample after QC')
 sns.despine(left=True, right=True, top=True, bottom=False)

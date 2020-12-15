@@ -64,7 +64,7 @@ touch $log
 
 echo -e "\n"  | tee -a $log
 echo "Starting plant dairy pipeline ($datestamp)"  | tee -a $log
-echo -e "--------------------------------------------------------------------------------\n"  | tee -a $log
+echo -e "--------------------------------------------------------------------------------"  | tee -a $log
 
 #############################################################################
 # SETUP THE DIRECTORIES
@@ -130,9 +130,7 @@ ${path}/src/misc/criteria_check.py -p ${path} -n ${name} -d ${date} -t raw 2>&1 
 ${path}/src/foodqcpipeline/run_foodqcpipeline.sh -p ${path} -n ${name} -d ${date} 2>&1 | tee -a $log
 
 # Remove extracted raw data
-echo -e "Removing extracted data..." | tee -a $log
 rm -rf ${path}/data/${name}/raw
-echo -e "Extracted data removed\n" | tee -a $log
 
 ################################################################################
 # RUN CRITERIA CHECK
@@ -186,7 +184,7 @@ ${path}/src/resfinder/run_resfinder.sh -p ${path} -n ${name} -d ${date} 2>&1 | t
 # RUN MYDBFINDER
 ################################################################################
 
-databases="b12 glutamate iron_transporter"
+databases="b12 glutamate iron_transporter exopolysaccharides"
 
 for database in $databases
 do
@@ -213,7 +211,6 @@ module purge
 module load tools
 module load anaconda3/4.4.0
 ${path}/src/misc/criteria_check.py -p ${path} -n ${name} -d ${date} -t roary
-echo -e "Completed criteria check for Roary"
 
 ################################################################################
 # RUN ROARY

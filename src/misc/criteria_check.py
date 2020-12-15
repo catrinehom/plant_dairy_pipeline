@@ -13,7 +13,6 @@ Author: Catrine Høm and Line Andresen
     ## -d, date of run (str)
     ## -i, check type, qc, lab, roary (str)
 
-
 # This pipeline consists of 4 parts:
     ## PART 1:  Raw file check
     ## PART 2:  Quality Control
@@ -115,9 +114,10 @@ def CheckFastq(filenames):
 ################################################################################
 
 if check_type == "raw":
+    print("Start checking format of input files")
     approved_file = outfile_path + 'raw_approved.txt'
     outfile = open(approved_file, "w")
-    
+
     # Define raw folder path and find all sample folders
     raw_path = main_path + "/data/" + project_name + "/raw/"
     samples_folders = [folder for folder in os.listdir(raw_path) if os.path.isdir(os.path.join(raw_path,folder))]
@@ -153,11 +153,14 @@ if check_type == "raw":
             outfile.write(sample+"\n")
     outfile.close()
 
+    print("All input files checked\n")
+
 ################################################################################
 # PART 2:  Quality Control
 ################################################################################
 
 if check_type == "qc":
+    print("Starting criteria check for QC...")
     qc_file = summary_path + 'foodqcpipeline_results.txt'
     approved_file = outfile_path + 'qc_approved.txt'
 
@@ -166,72 +169,99 @@ if check_type == "qc":
     bases   = 50
     N50     = 50000
     contigs = 150
-    
+
+    print("Removing samples that does not comply with following criteria:")
+    print("Minimum reads: {}".format(reads))
+    print("Minimum quality bases: {}%".format(bases))
+    print("Minimum N50 of assembly: {}".format(N50))
+    print("Maximum number of contigs in assembly: {}\n".format(contigs))
+
     # Validate Reads, bases, N50 and contigs
-    df = (pd.read_csv(qc_file, sep='\t', index_col=False, usecols=['Sample_name', 'Qual_bases(%)', 'Reads', 'N50', 'no_ctgs', 'total_bps'])).set_index('Sample_name') 
+    df = (pd.read_csv(qc_file, sep='\t', index_col=False, usecols=['Sample_name', 'Qual_bases(%)', 'Reads', 'N50', 'no_ctgs', 'total_bps'])).set_index('Sample_name')
+    rows_all_samples = len(df.index)
     df['Qual_bases(%)']=df['Qual_bases(%)'].str.split('%').str[0].astype(float)
     df = df[df['Reads'] >= reads]
     df = df[df['Qual_bases(%)'] >= bases]
     df = df[df['N50'] >= N50]
     df = df[df['no_ctgs'] <= contigs]
-    
+
     approved = list(df.index)
+    rows_approved_samples = len(df.index)
 
     outfile = open(approved_file, "w")
     for sample in approved:
         outfile.write(sample+"\n")
     outfile.close()
-        
+
+    print("{} samples was discarded due to QC issues".format(rows_all_samples-rows_approved_samples))
+    print("{} samples remaining".format(rows_approved_samples))
+    print("Completed criteria check for QC\n")
+
 ################################################################################
 # PART 3:  Species selection
 ################################################################################
 
 if check_type == "lab":
+    print("Starting criteria check for QPS LAB...")
     kmerfinder_file = summary_path + "kmerfinder_results_top1.txt"
     approved_file = outfile_path + 'species_approved.txt'
-    
+
     # Criteria
     with open(LAB_file) as f:
         LAB = f.read().splitlines()
 
+    print("Removing samples that are not LAB QPS")
+    print("The LAB QPS species list is defined from EFSA 2019 list")
+    print("The list can be updated in the folling file: {}".format(LAB_file))
+
     # Validate correct species
-    df = (pd.read_csv(kmerfinder_file, sep='\t', index_col=False, usecols=['Sample_name',"Species"])).set_index('Sample_name') 
+    df = (pd.read_csv(kmerfinder_file, sep='\t', index_col=False, usecols=['Sample_name',"Species"])).set_index('Sample_name')
+    rows_all_samples = len(df.index)
     df = df[df['Species'].isin(LAB)]
-    
+
     approved = list(df.index)
+    rows_approved_samples = len(df.index)
 
     outfile = open(approved_file, "w")
     for sample in approved:
         outfile.write(sample+"\n")
     outfile.close()
-    
+
+    print("{} samples was discarded due to not having QPS LAB status".format(rows_all_samples-rows_approved_samples))
+    print("{} samples remaining".format(rows_approved_samples))
+    print("Completed criteria check for QPS LAB\n")
+
 ################################################################################
 # PART 4:  Species for Roary
 ################################################################################
 
 if check_type == "roary":
+    print("Sorting samples by genus and species...")
     kmerfinder_file = summary_path + "kmerfinder_results_top1.txt"
     approved_file = outfile_path + 'species_approved.txt'
 
     # Criteria
     with open(LAB_file) as f:
         LAB = f.read().splitlines()
-        
+
     # Validate correct species
-    df = (pd.read_csv(kmerfinder_file, sep='\t', index_col=False, usecols=['Sample_name',"Species"])).set_index('Sample_name') 
+    df = (pd.read_csv(kmerfinder_file, sep='\t', index_col=False, usecols=['Sample_name',"Species"])).set_index('Sample_name')
     df['Genus'] = df['Species'].str.split(' ').str[0]
     df = df[df['Species'].isin(LAB)]
-    
+
     os.mkdir(outfile_path + 'genus')
     os.mkdir(outfile_path + 'species')
-    
+
+    print("The sorting is based on the KmerFinder results, and used for input to Roary")
+    print("The sorting can be find in: {}".format(outfile_path))
+
     listofgenuses = df['Genus'].unique()
     for genus in listofgenuses:
         genusname = genus.replace(' ','_')
         approved_file = outfile_path + f'genus/{genusname}.txt'
         IDs = df[df['Genus']==genus]
         approved = list(IDs.index)
-        
+
         outfile = open(approved_file, 'w')
         for sample in approved:
             outfile.write(sample+"\n")
@@ -243,8 +273,10 @@ if check_type == "roary":
             approved_file = outfile_path + f'species/{speciesname}.txt'
             IDs = df[df['Species']==species]
             approved = list(IDs.index)
-            
+
             outfile = open(approved_file, 'w')
             for sample in approved:
                 outfile.write(sample+"\n")
             outfile.close()
+    print("Sorting of samples completed\n")
+

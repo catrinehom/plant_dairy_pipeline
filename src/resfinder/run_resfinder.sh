@@ -66,7 +66,7 @@ if [ -z "${path}" ] || [ -z "${name}" ]; then
 fi
 
 datestamp=$(date "+%Y-%m-%d %H:%M:%S")
-echo "Starting run_resfinder.sh ($date)"
+echo "Starting run_resfinder.sh ($datestamp)"
 echo "--------------------------------------------------------------------------------"
 
 ################################################################################
